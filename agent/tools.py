@@ -9,6 +9,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Callable
 
+from .llm import RAW_ARGS
+from .search import find_files as _find_files
+from .search import search as _search
 from .workspace import PathEscape, Workspace
 
 
@@ -25,6 +28,43 @@ class Tool:
 
 def _obj(props: dict[str, Any], required: list[str]) -> dict[str, Any]:
     return {"type": "object", "properties": props, "required": required}
+
+
+def check_arguments(tool: Tool, args: dict[str, Any]) -> str:
+    """Validate a call against the tool's schema. Returns "" when it is fine.
+
+    This runs before dispatch so that a bad call produces a message written in
+    terms the model can act on -- the names the schema declares -- instead of a
+    TypeError naming a closure it has never seen. The three failures below are
+    the ones that actually occur:
+
+      unparseable   the arguments were not JSON, usually truncated output
+      missing       a required field was omitted
+      unexpected    an invented field, often a plausible synonym
+
+    Types are deliberately not checked. Coercing "3" to 3 is the sort of
+    helpfulness that hides a real disagreement about the interface, and the
+    tools already handle their own inputs.
+    """
+    if RAW_ARGS in args:
+        return ("your tool arguments were not valid JSON, so the call could not be "
+                "made. This usually means the arguments were cut off. Re-send the "
+                "call, splitting a long `content` across several smaller edits if "
+                "needed.")
+    schema = tool.parameters
+    allowed = set(schema.get("properties", {}))
+    missing = [k for k in schema.get("required", []) if k not in args]
+    unexpected = [k for k in args if k not in allowed]
+    parts = []
+    if missing:
+        parts.append("missing required argument(s): " + ", ".join(sorted(missing)))
+    if unexpected:
+        parts.append("unexpected argument(s): " + ", ".join(sorted(unexpected)))
+    if not parts:
+        return ""
+    return (f"{tool.name} was called incorrectly -- " + "; ".join(parts)
+            + ". It accepts: " + ", ".join(sorted(allowed) or ["(no arguments)"])
+            + ". Required: " + (", ".join(sorted(schema.get("required", []))) or "(none)") + ".")
 
 
 class AskUser(Exception):
@@ -88,6 +128,13 @@ def build_toolset(ws: Workspace, *, allow_ask: bool = True) -> dict[str, Tool]:
         ws.write(path, content.replace(old, new))
         return f"edited {path}"
 
+    def search(pattern: str, path: str = ".", glob: str | None = None,
+               ignore_case: bool = False) -> str:
+        return _search(ws, pattern, path, glob, ignore_case)
+
+    def find_files(glob: str, path: str = ".") -> str:
+        return _find_files(ws, glob, path)
+
     def run(command: str) -> str:
         return ws.run(command).render()
 
@@ -109,6 +156,29 @@ def build_toolset(ws: Workspace, *, allow_ask: bool = True) -> dict[str, Tool]:
         Tool("edit_file", "Replace one unique occurrence of `old` with `new` in a file.",
              _obj({"path": {"type": "string"}, "old": {"type": "string"},
                    "new": {"type": "string"}}, ["path", "old", "new"]), edit_file),
+        # The descriptions are the whole interface for choosing between these
+        # two and read_file, so they say what question each answers rather than
+        # what each does. A model that cannot tell them apart falls back to
+        # opening files one at a time, which is the behaviour they exist to fix.
+        Tool("search",
+             "Search file contents with a regular expression across the workspace. "
+             "Use this to find where something is defined or used before opening "
+             "anything. Returns 'path:line: text' for each match, not whole files.",
+             _obj({"pattern": {"type": "string",
+                               "description": "Python regular expression."},
+                   "path": {"type": "string",
+                            "description": "Directory to search under, defaults to '.'"},
+                   "glob": {"type": "string",
+                            "description": "Restrict to matching paths, e.g. '*.py'."},
+                   "ignore_case": {"type": "boolean"}},
+                  ["pattern"]), search),
+        Tool("find_files",
+             "List files whose path or name matches a glob, e.g. 'test_*.py'. "
+             "Use this to locate a file when you know roughly what it is called.",
+             _obj({"glob": {"type": "string"},
+                   "path": {"type": "string",
+                            "description": "Directory to search under, defaults to '.'"}},
+                  ["glob"]), find_files),
         Tool("run", "Run a shell command in the workspace and return its output.",
              _obj({"command": {"type": "string"}}, ["command"]), run),
         Tool("finish", "Declare the task complete and summarise what was done.",
