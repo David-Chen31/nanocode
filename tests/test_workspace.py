@@ -69,3 +69,39 @@ def test_render_states_the_exit_code_even_when_silent(tmp_path):
     ws = Workspace(tmp_path)
     ws.write("quiet.py", "raise SystemExit(3)\n")
     assert "exit code: 3" in ws.python("quiet.py").render()
+
+
+def test_a_runaway_print_loop_is_killed_not_absorbed(tmp_path):
+    """The failure that killed a 432-run study, reproduced small.
+
+    Unbounded capture reads until memory runs out; the 30 second timeout never
+    gets a chance to fire because the process is doing exactly what it was
+    asked to. The volume bound is what stops it.
+    """
+    ws = Workspace(tmp_path)
+    ws.write("flood.py", "while True:\n    print('x' * 4096)\n")
+    res = ws.python("flood.py", timeout=30.0, max_output_bytes=200_000)
+
+    assert res.returncode == -1
+    assert not res.timed_out, "it was stopped on volume, not on the clock"
+    assert "looping" in res.stderr        # tells the agent what is wrong
+    assert len(res.stdout) < 1_000_000    # and did not absorb it all
+
+
+def test_the_volume_kill_is_fast(tmp_path):
+    """It must not wait out the timeout, or a study of many runs never ends."""
+    import time as _t
+    ws = Workspace(tmp_path)
+    ws.write("flood.py", "while True:\n    print('x' * 4096)\n")
+    t0 = _t.monotonic()
+    ws.python("flood.py", timeout=30.0, max_output_bytes=200_000)
+    assert _t.monotonic() - t0 < 10.0
+
+
+def test_normal_output_is_untouched_by_the_cap(tmp_path):
+    ws = Workspace(tmp_path)
+    ws.write("chatty.py", "for i in range(50):\n    print('line', i)\n")
+    res = ws.python("chatty.py")
+    assert "line 0" in res.stdout and "line 49" in res.stdout
+    assert "omitted" not in res.stdout and "looping" not in res.stderr
+    assert res.returncode == 0
