@@ -10,6 +10,7 @@ import uuid
 from dataclasses import dataclass, field
 from typing import Any, Callable, Protocol
 
+from .context import ContextPolicy, Conversation, clip_tool_output
 from .llm import LLMBackend, ToolCall, Usage
 from .tools import AskUser, Finish, Tool, build_toolset
 from .trace import Trace
@@ -50,6 +51,7 @@ class AgentConfig:
     allow_ask: bool = True
     max_tokens: int = 4096
     seed: int | None = 0
+    context: ContextPolicy = field(default_factory=ContextPolicy)
 
 
 @dataclass
@@ -87,14 +89,18 @@ class Agent:
                     "max_asks": self.cfg.max_asks, "allow_ask": self.cfg.allow_ask,
                     "seed": self.cfg.seed},
         )
-        messages: list[dict[str, Any]] = [{"role": "user", "content": task}]
+        convo = Conversation(policy=self.cfg.context, backend=self.backend.name)
+        convo.add({"role": "user", "content": task})
         schemas = [t.schema() for t in self.tools.values()]
         asked: list[dict[str, Any]] = []
         outcome, summary = "max_steps", ""
 
         for _ in range(self.cfg.max_steps):
+            # Enforce the context budget before every call, not after the API
+            # has already refused one.
+            convo.compact(lambda ev: trace.record("compact", ev))
             resp = self.backend.complete(
-                messages,
+                convo.render(),
                 system=system or SYSTEM,
                 tools=schemas,
                 temperature=self.cfg.temperature,
@@ -110,7 +116,9 @@ class Agent:
                 outcome, summary = "text_only", resp.text
                 break
 
-            messages.append(_assistant_turn(resp.text, resp.tool_calls, self.backend.name))
+            convo.add(_assistant_turn(resp.text, resp.tool_calls, self.backend.name))
+            for tc in resp.tool_calls:
+                convo.note_call(tc.id, tc.name, tc.arguments)
             results: list[tuple[ToolCall, str]] = []
             stop: tuple[str, str] | None = None
 
@@ -121,9 +129,13 @@ class Agent:
                     continue
                 try:
                     out = tool.fn(**tc.arguments)
+                    # Clip on the way in. Nothing unbounded ever reaches history,
+                    # so no single result can blow the budget by itself.
+                    out, clipped = clip_tool_output(out, self.cfg.context)
+                    convo.n_clipped += clipped
                     results.append((tc, out))
                     trace.record("tool", {"name": tc.name, "args": tc.arguments,
-                                          "result": out[:2000]})
+                                          "result": out[:2000], "clipped": clipped})
                 except AskUser as ask:
                     if len(asked) >= self.cfg.max_asks:
                         results.append((tc, "You have used your question budget. Proceed "
@@ -146,12 +158,14 @@ class Agent:
                     results.append((tc, "error: " + msg))
                     trace.record("tool", {"name": tc.name, "args": tc.arguments, "error": msg})
 
-            messages.extend(_tool_result_turns(results, self.backend.name))
+            for turn in _tool_result_turns(results, self.backend.name):
+                convo.add(turn)
             if stop:
                 outcome, summary = stop
                 break
 
         trace.outcome = outcome
+        trace.record("end", {"context": convo.stats()})
         return AgentResult(outcome=outcome, summary=summary, trace=trace,
                            workspace=self.ws, asked=asked)
 
