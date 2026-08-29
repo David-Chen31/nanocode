@@ -6,6 +6,7 @@ a hundred experiment runs cannot walk over the repo.
 """
 from __future__ import annotations
 
+import locale
 import os
 import shutil
 import subprocess
@@ -17,6 +18,36 @@ from pathlib import Path
 
 class PathEscape(Exception):
     """Raised when an agent-supplied path resolves outside the workspace."""
+
+
+def _decode(raw: bytes) -> str:
+    """Decode one output stream, trying the encodings that actually occur.
+
+    A single shell command has two producers writing into these pipes and they
+    do not agree on an encoding. The child process is told to emit UTF-8
+    (PYTHONIOENCODING below), but when the command does not exist the child
+    never runs and it is the *shell* that writes the error -- in the OEM code
+    page, which on this machine is CP936.
+
+    Pinning UTF-8 therefore turns "'pytest' is not recognized" into a row of
+    replacement characters, and that is not a cosmetic loss. It was measured:
+    an agent that could not read "command not found" spent ten of its fourteen
+    steps guessing at variations of a command that was never going to run. The
+    error message is the most valuable thing a failed command produces, so it
+    is worth two decode attempts to keep it legible.
+
+    Strict UTF-8 first because it is the common case and a mis-decode is
+    silent; then the locale codec; then latin-1, which cannot fail and at least
+    keeps the ASCII skeleton of the message readable.
+    """
+    if not raw:
+        return ""
+    for codec in ("utf-8", locale.getpreferredencoding(False)):
+        try:
+            return raw.decode(codec)
+        except (UnicodeDecodeError, LookupError):
+            continue
+    return raw.decode("latin-1", errors="replace")
 
 
 @dataclass
@@ -78,21 +109,20 @@ class Workspace:
                 shell=True,
                 cwd=self.root,
                 capture_output=True,
-                text=True,
-                # Without an explicit encoding, text mode decodes with the
-                # locale's preferred codec -- GBK on a Chinese Windows box --
-                # while the child has just been told to write UTF-8. Any
-                # non-ASCII byte in the child's output then kills the call.
-                encoding="utf-8",
-                errors="replace",
+                # Bytes, not text=True. Text mode commits to one codec for the
+                # whole call, and the two writers into these pipes do not use
+                # the same one -- see _decode. Decoding per stream is the only
+                # way to keep both the child's output and the shell's errors
+                # readable.
                 timeout=timeout,
                 env={**os.environ, "PYTHONIOENCODING": "utf-8"},
             )
-            return RunResult(proc.stdout, proc.stderr, proc.returncode)
+            return RunResult(_decode(proc.stdout), _decode(proc.stderr), proc.returncode)
         except subprocess.TimeoutExpired as exc:
+            # Whatever the command managed to print before the clock ran out is
+            # usually the reason it hung, so it is kept rather than discarded.
             return RunResult(
-                exc.stdout.decode("utf-8", "replace") if isinstance(exc.stdout, bytes) else (exc.stdout or ""),
-                exc.stderr.decode("utf-8", "replace") if isinstance(exc.stderr, bytes) else (exc.stderr or ""),
+                _decode(exc.stdout or b""), _decode(exc.stderr or b""),
                 -1,
                 timed_out=True,
             )
