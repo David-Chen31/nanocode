@@ -1,0 +1,907 @@
+{
+  "judge": "gpt-4o",
+  "models": {
+    "gpt-4o-mini": {
+      "detection_rate": 1.0,
+      "false_alarm_rate": 1.0,
+      "mean_items_ambiguous": 6.083333333333333,
+      "mean_items_full": 5.916666666666667,
+      "localisation": 1.0,
+      "calls": 36,
+      "cost_usd": 0.00196,
+      "errors": 0,
+      "wall_seconds": 15.4,
+      "per_task": {
+        "t01_remove_outliers": {
+          "ambiguous": {
+            "items": [
+              "Uses population standard deviation instead of sample standard deviation.",
+              "Assumes input list is non-empty.",
+              "Does not handle non-numeric values in the input list.",
+              "Returns a new list instead of modifying the original list.",
+              "Assumes k is a non-negative integer or float.",
+              "Does not check for NaN values in the input list.",
+              "Preserves the order of elements in the output list.",
+              "Does not raise an error for invalid input types."
+            ],
+            "raw": "- Uses population standard deviation instead of sample standard deviation.  \n- Assumes input list is non-empty.  \n- Does not handle non-numeric values in the input list.  \n- Returns a new list instead of modifying the original list.  \n- Assumes k is a non-negative integer or float.  \n- Does not check for NaN values in the input list.  \n- Preserves the order of elements in the output list.  \n- Does not raise an error for invalid input types.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Uses population standard deviation instead of sample standard deviation.",
+              "Returns an empty list for empty input instead of None.",
+              "Assumes k is always non-negative without explicit validation.",
+              "Preserves order of elements in the output list.",
+              "Uses mean and standard deviation from the statistics module."
+            ],
+            "raw": "- Uses population standard deviation instead of sample standard deviation.  \n- Returns an empty list for empty input instead of None.  \n- Assumes k is always non-negative without explicit validation.  \n- Preserves order of elements in the output list.  \n- Uses mean and standard deviation from the statistics module.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t02_top_k": {
+          "ambiguous": {
+            "items": [
+              "Sorts items in descending order by score.",
+              "Returns an empty list if k is 0.",
+              "Handles cases where k exceeds the length of items.",
+              "Assumes items are well-formed as [name, score] pairs.",
+              "Does not handle ties in scores explicitly.",
+              "Does not validate input types for items and k.",
+              "Returns a shallow copy of the sorted list."
+            ],
+            "raw": "Sorts items in descending order by score.  \nReturns an empty list if k is 0.  \nHandles cases where k exceeds the length of items.  \nAssumes items are well-formed as [name, score] pairs.  \nDoes not handle ties in scores explicitly.  \nDoes not validate input types for items and k.  \nReturns a shallow copy of the sorted list.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Returns all items if k equals len(items)",
+              "Sorts items in descending order by score",
+              "Maintains original order for ties in scores"
+            ],
+            "raw": "- Returns all items if k equals len(items)  \n- Sorts items in descending order by score  \n- Maintains original order for ties in scores",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t03_chunk": {
+          "ambiguous": {
+            "items": [
+              "Handles cases where xs is empty.",
+              "Allows size greater than length of xs.",
+              "Does not raise an error for invalid size.",
+              "Returns the last chunk even if it's smaller.",
+              "Assumes size is always a positive integer."
+            ],
+            "raw": "- Handles cases where xs is empty.  \n- Allows size greater than length of xs.  \n- Does not raise an error for invalid size.  \n- Returns the last chunk even if it's smaller.  \n- Assumes size is always a positive integer.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Assumes size is always a positive integer.",
+              "Includes the last sublist even if shorter than size.",
+              "Uses zero-based indexing for slicing.",
+              "Returns an empty list for empty input.",
+              "Does not raise an error for invalid sizes.",
+              "Does not modify the original list.",
+              "Handles large lists without performance concerns.",
+              "Returns sublists in the same order as input."
+            ],
+            "raw": "- Assumes size is always a positive integer.  \n- Includes the last sublist even if shorter than size.  \n- Uses zero-based indexing for slicing.  \n- Returns an empty list for empty input.  \n- Does not raise an error for invalid sizes.  \n- Does not modify the original list.  \n- Handles large lists without performance concerns.  \n- Returns sublists in the same order as input.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t04_normalize": {
+          "ambiguous": {
+            "items": [
+              "Assumes input list is non-empty.",
+              "Assumes all elements are numeric.",
+              "Returns a new list instead of modifying the original.",
+              "Preserves the order of elements in the output.",
+              "Handles cases where all elements are the same."
+            ],
+            "raw": "- Assumes input list is non-empty.  \n- Assumes all elements are numeric.  \n- Returns a new list instead of modifying the original.  \n- Preserves the order of elements in the output.  \n- Handles cases where all elements are the same.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Returns a list of 0.0 for identical values.",
+              "Preserves the order of elements in the output.",
+              "Uses floating-point division for scaling.",
+              "Assumes input list is non-empty.",
+              "Returns a new list instead of modifying the input."
+            ],
+            "raw": "- Returns a list of 0.0 for identical values.  \n- Preserves the order of elements in the output.  \n- Uses floating-point division for scaling.  \n- Assumes input list is non-empty.  \n- Returns a new list instead of modifying the input.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t05_merge_configs": {
+          "ambiguous": {
+            "items": [
+              "Overrides base values with override values unconditionally.",
+              "Merges nested dictionaries recursively.",
+              "Does not handle non-dictionary types in base.",
+              "Preserves order of keys from base and override.",
+              "Returns a shallow copy of the base dictionary.",
+              "Ignores keys in override not present in base.",
+              "Assumes override values are always valid.",
+              "Does not raise errors for incompatible types."
+            ],
+            "raw": "- Overrides base values with override values unconditionally.  \n- Merges nested dictionaries recursively.  \n- Does not handle non-dictionary types in base.  \n- Preserves order of keys from base and override.  \n- Returns a shallow copy of the base dictionary.  \n- Ignores keys in override not present in base.  \n- Assumes override values are always valid.  \n- Does not raise errors for incompatible types.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Supports nested dictionaries without deep merging.",
+              "Preserves order of keys in Python 3.7+.",
+              "Does not handle non-dictionary types in inputs.",
+              "Assumes all values are directly replaceable.",
+              "Returns a shallow copy of the base dictionary.",
+              "Ignores key types beyond string and immutable types.",
+              "Does not raise errors for incompatible types.",
+              "Merges only at the top level, not recursively."
+            ],
+            "raw": "- Supports nested dictionaries without deep merging.  \n- Preserves order of keys in Python 3.7+.  \n- Does not handle non-dictionary types in inputs.  \n- Assumes all values are directly replaceable.  \n- Returns a shallow copy of the base dictionary.  \n- Ignores key types beyond string and immutable types.  \n- Does not raise errors for incompatible types.  \n- Merges only at the top level, not recursively.  \n- Does not log or report conflicts between keys.  \n- Assumes both inputs are valid dictiona",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t06_parse_range": {
+          "ambiguous": {
+            "items": [
+              "Includes the end value in the output list.",
+              "Assumes input is always well-formed.",
+              "Assumes start is non-negative.",
+              "Assumes start is less than or equal to end.",
+              "Returns a list instead of a different collection type.",
+              "Uses a range that is inclusive of both bounds."
+            ],
+            "raw": "- Includes the end value in the output list.  \n- Assumes input is always well-formed.  \n- Assumes start is non-negative.  \n- Assumes start is less than or equal to end.  \n- Returns a list instead of a different collection type.  \n- Uses a range that is inclusive of both bounds.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Assumes input is always well-formed and valid.",
+              "Assumes start is less than or equal to end.",
+              "Assumes input does not contain negative numbers.",
+              "Assumes input is a single range without spaces.",
+              "Assumes output is a list of integers.",
+              "Assumes the range is inclusive of the start.",
+              "Assumes the range is exclusive of the end."
+            ],
+            "raw": "- Assumes input is always well-formed and valid.  \n- Assumes start is less than or equal to end.  \n- Assumes input does not contain negative numbers.  \n- Assumes input is a single range without spaces.  \n- Assumes output is a list of integers.  \n- Assumes the range is inclusive of the start.  \n- Assumes the range is exclusive of the end.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t07_dedupe": {
+          "ambiguous": {
+            "items": [
+              "Uses a set for tracking seen elements.",
+              "Maintains the order of first occurrences.",
+              "Allows mutable elements in the input list.",
+              "Returns a new list instead of modifying the input.",
+              "Handles non-hashable elements by raising an error.",
+              "Assumes input is iterable and not empty.",
+              "Does not handle nested lists or complex structures.",
+              "Ignores case sensitivity for string duplicates."
+            ],
+            "raw": "- Uses a set for tracking seen elements.  \n- Maintains the order of first occurrences.  \n- Allows mutable elements in the input list.  \n- Returns a new list instead of modifying the input.  \n- Handles non-hashable elements by raising an error.  \n- Assumes input is iterable and not empty.  \n- Does not handle nested lists or complex structures.  \n- Ignores case sensitivity for string duplicates.  \n- Assumes input elements are comparable.  \n- Does not provide a way to specify custom equality.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Uses `OrderedDict` for maintaining order.",
+              "Reverses the input list before processing.",
+              "Reverses the result list before returning.",
+              "Uses `None` as a placeholder in the dictionary.",
+              "Handles only hashable types (no lists, dicts, etc.)."
+            ],
+            "raw": "Uses `OrderedDict` for maintaining order.  \nReverses the input list before processing.  \nReverses the result list before returning.  \nUses `None` as a placeholder in the dictionary.  \nHandles only hashable types (no lists, dicts, etc.).",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t08_round_price": {
+          "ambiguous": {
+            "items": [
+              "Handles rounding half up (e.g., 2.675 becomes 2.68)",
+              "Accepts negative float values",
+              "Accepts integer values without error",
+              "Returns a float type regardless of input type",
+              "Does not handle rounding to more than two decimal places"
+            ],
+            "raw": "- Handles rounding half up (e.g., 2.675 becomes 2.68)  \n- Accepts negative float values  \n- Accepts integer values without error  \n- Returns a float type regardless of input type  \n- Does not handle rounding to more than two decimal places",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Uses decimal.Decimal for rounding instead of built-in round function.",
+              "Rounds using ROUND_HALF_UP instead of other rounding methods.",
+              "Converts input x to decimal.Decimal before rounding.",
+              "Returns a float instead of a decimal.Decimal."
+            ],
+            "raw": "- Uses decimal.Decimal for rounding instead of built-in round function.\n- Rounds using ROUND_HALF_UP instead of other rounding methods.\n- Converts input x to decimal.Decimal before rounding.\n- Returns a float instead of a decimal.Decimal.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t09_split_name": {
+          "ambiguous": {
+            "items": [
+              "Returns empty string for last name if no space found.",
+              "Splits only on the first space, ignoring subsequent spaces.",
+              "Strips leading and trailing spaces before splitting.",
+              "Handles names with no spaces by returning full name as first."
+            ],
+            "raw": "- Returns empty string for last name if no space found.  \n- Splits only on the first space, ignoring subsequent spaces.  \n- Strips leading and trailing spaces before splitting.  \n- Handles names with no spaces by returning full name as first.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Treats multiple spaces as a single delimiter.",
+              "Returns empty string for first name if no space.",
+              "Strips leading and trailing spaces before processing.",
+              "Returns last name as the entire string if no space."
+            ],
+            "raw": "- Treats multiple spaces as a single delimiter.  \n- Returns empty string for first name if no space.  \n- Strips leading and trailing spaces before processing.  \n- Returns last name as the entire string if no space.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t10_moving_average": {
+          "ambiguous": {
+            "items": [
+              "Assumes w is always greater than or equal to 1.",
+              "Handles empty input list by returning an empty list.",
+              "Uses a deque for efficient window management.",
+              "Calculates averages only when the window is full.",
+              "Returns averages as floating-point numbers.",
+              "Does not raise an error for invalid window sizes."
+            ],
+            "raw": "Assumes w is always greater than or equal to 1.  \nHandles empty input list by returning an empty list.  \nUses a deque for efficient window management.  \nCalculates averages only when the window is full.  \nReturns averages as floating-point numbers.  \nDoes not raise an error for invalid window sizes.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Uses a deque for efficient window management.",
+              "Calculates average as a float instead of an integer.",
+              "Returns empty list for w larger than len(xs).",
+              "Maintains a running sum for efficiency.",
+              "Appends averages to the result list only when window is full.",
+              "Assumes input list xs contains only numbers.",
+              "Does not handle empty input list xs.",
+              "Assumes w is a positive integer."
+            ],
+            "raw": "- Uses a deque for efficient window management.  \n- Calculates average as a float instead of an integer.  \n- Returns empty list for w larger than len(xs).  \n- Maintains a running sum for efficiency.  \n- Appends averages to the result list only when window is full.  \n- Assumes input list xs contains only numbers.  \n- Does not handle empty input list xs.  \n- Assumes w is a positive integer.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t11_truncate": {
+          "ambiguous": {
+            "items": [
+              "Assumes n is always greater than or equal to 3.",
+              "Truncates to n-3 characters instead of n-2.",
+              "Does not handle empty string input.",
+              "Does not raise an error for non-string input.",
+              "Returns a string with '...' even if s is empty.",
+              "Does not preserve whitespace or formatting in truncation.",
+              "Assumes input string is not modified in-place.",
+              "Does not consider multibyte characters or encoding issues."
+            ],
+            "raw": "- Assumes n is always greater than or equal to 3.  \n- Truncates to n-3 characters instead of n-2.  \n- Does not handle empty string input.  \n- Does not raise an error for non-string input.  \n- Returns a string with '...' even if s is empty.  \n- Does not preserve whitespace or formatting in truncation.  \n- Assumes input string is not modified in-place.  \n- Does not consider multibyte characters or encoding issues.  \n- Truncates at the exact character count without context.  \n- Does not provide an ",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Assumes n is always greater than or equal to 3.",
+              "Does not handle empty string input.",
+              "Does not raise an error for invalid input types.",
+              "Truncates to n-3 characters before appending '...'.",
+              "Returns a string with '...' even if s is empty.",
+              "Does not consider whitespace or special characters in s.",
+              "Does not preserve original string formatting or casing.",
+              "Assumes input string is not None."
+            ],
+            "raw": "- Assumes n is always greater than or equal to 3.  \n- Does not handle empty string input.  \n- Does not raise an error for invalid input types.  \n- Truncates to n-3 characters before appending '...'.  \n- Returns a string with '...' even if s is empty.  \n- Does not consider whitespace or special characters in s.  \n- Does not preserve original string formatting or casing.  \n- Assumes input string is not None.  \n- Does not provide a warning for very short strings.  \n- Does not allow for custom trunc",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t12_sort_scores": {
+          "ambiguous": {
+            "items": [
+              "Uses built-in sorted function instead of manual sorting algorithm.",
+              "Returns a new sorted list instead of modifying the original list.",
+              "Sorts in descending order rather than ascending order."
+            ],
+            "raw": "- Uses built-in sorted function instead of manual sorting algorithm.\n- Returns a new sorted list instead of modifying the original list.\n- Sorts in descending order rather than ascending order.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Sorts the list in place instead of returning a new list.",
+              "Uses the built-in sort method instead of a custom sorting algorithm.",
+              "Handles only numbers, not other data types.",
+              "Assumes the input list is mutable.",
+              "Does not handle empty lists or non-numeric values explicitly.",
+              "Sorts in descending order rather than ascending."
+            ],
+            "raw": "Sorts the list in place instead of returning a new list.  \nUses the built-in sort method instead of a custom sorting algorithm.  \nHandles only numbers, not other data types.  \nAssumes the input list is mutable.  \nDoes not handle empty lists or non-numeric values explicitly.  \nSorts in descending order rather than ascending.",
+            "error": false
+          },
+          "localisation_hit": true
+        }
+      }
+    },
+    "claude-haiku-4-5-20251001": {
+      "detection_rate": 1.0,
+      "false_alarm_rate": 1.0,
+      "mean_items_ambiguous": 3.75,
+      "mean_items_full": 3.9166666666666665,
+      "localisation": 0.9166666666666666,
+      "calls": 36,
+      "cost_usd": 0.01448,
+      "errors": 0,
+      "wall_seconds": 18.2,
+      "per_task": {
+        "t01_remove_outliers": {
+          "ambiguous": {
+            "items": [
+              "stdev uses sample standard deviation (ddof=1) instead of population (ddof=0)",
+              "returns empty list for single-element input instead of that element",
+              "uses statistics.stdev which raises ValueError on non-numeric input instead of propagating silently"
+            ],
+            "raw": "stdev uses sample standard deviation (ddof=1) instead of population (ddof=0)\nreturns empty list for single-element input instead of that element\nuses statistics.stdev which raises ValueError on non-numeric input instead of propagating silently",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "When xs has fewer than 2 elements, stdev raises ValueError instead of handling gracefully.",
+              "When k is negative, the code filters all values instead of rejecting invalid input.",
+              "When xs contains non-numeric types, the code raises TypeError instead of validating input."
+            ],
+            "raw": "When xs has fewer than 2 elements, stdev raises ValueError instead of handling gracefully.\n\nWhen k is negative, the code filters all values instead of rejecting invalid input.\n\nWhen xs contains non-numeric types, the code raises TypeError instead of validating input.",
+            "error": false
+          },
+          "localisation_hit": false
+        },
+        "t02_top_k": {
+          "ambiguous": {
+            "items": [
+              "Uses heapq.nlargest instead of sorting the entire list",
+              "Handles k > len(items) by returning all items (implicitly via nlargest)",
+              "Maintains original pair structure rather than extracting scores only",
+              "Sorts again after nlargest despite nlargest already ordering results"
+            ],
+            "raw": "- Uses heapq.nlargest instead of sorting the entire list\n- Handles k > len(items) by returning all items (implicitly via nlargest)\n- Maintains original pair structure rather than extracting scores only\n- Sorts again after nlargest despite nlargest already ordering results",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "The code assumes items contains exactly 2-element lists with [name, score] structure.",
+              "The code assumes score values are comparable (support negation and ordering).",
+              "The code assumes name can be any type and doesn't validate or constrain it.",
+              "The code returns a new list rather than modifying items in-place.",
+              "The code uses stable sort, preserving earlier indices when scores are equal."
+            ],
+            "raw": "The code assumes items contains exactly 2-element lists with [name, score] structure.\n\nThe code assumes score values are comparable (support negation and ordering).\n\nThe code assumes name can be any type and doesn't validate or constrain it.\n\nThe code returns a new list rather than modifying items in-place.\n\nThe code uses stable sort, preserving earlier indices when scores are equal.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t03_chunk": {
+          "ambiguous": {
+            "items": [
+              "Returns a list instead of a generator or iterator",
+              "Handles empty input by returning an empty list",
+              "Final chunk can be shorter than size if xs length isn't divisible by size",
+              "Does not mutate the input list"
+            ],
+            "raw": "- Returns a list instead of a generator or iterator\n- Handles empty input by returning an empty list\n- Final chunk can be shorter than size if xs length isn't divisible by size\n- Does not mutate the input list",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Returns a list instead of a generator or iterator",
+              "Preserves the original list type (doesn't convert to tuple or other sequence)",
+              "Handles empty input by returning an empty list",
+              "Uses zero-based indexing starting position for slicing"
+            ],
+            "raw": "- Returns a list instead of a generator or iterator\n- Preserves the original list type (doesn't convert to tuple or other sequence)\n- Handles empty input by returning an empty list\n- Uses zero-based indexing starting position for slicing",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t04_normalize": {
+          "ambiguous": {
+            "items": [
+              "When all values are identical, return a list of 0.0 instead of raising an error.",
+              "When xs contains non-numeric types, let the error propagate instead of handling it.",
+              "Preserve the input list unchanged instead of modifying it in place."
+            ],
+            "raw": "When all values are identical, return a list of 0.0 instead of raising an error.\n\nWhen xs contains non-numeric types, let the error propagate instead of handling it.\n\nPreserve the input list unchanged instead of modifying it in place.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Treats NaN and infinity as regular values rather than handling them specially.",
+              "Returns floats even if input contains only integers.",
+              "Uses equality comparison for detecting uniform values instead of tolerance-based comparison."
+            ],
+            "raw": "Treats NaN and infinity as regular values rather than handling them specially.\n\nReturns floats even if input contains only integers.\n\nUses equality comparison for detecting uniform values instead of tolerance-based comparison.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t05_merge_configs": {
+          "ambiguous": {
+            "items": [
+              "Nested dicts are not recursively merged, only top-level keys replaced.",
+              "Values from override completely replace values in base, no combining.",
+              "If a key exists in both, override's value wins unconditionally.",
+              "Shallow copy is used, not deep copy of nested structures."
+            ],
+            "raw": "Nested dicts are not recursively merged, only top-level keys replaced.\nValues from override completely replace values in base, no combining.\nIf a key exists in both, override's value wins unconditionally.\nShallow copy is used, not deep copy of nested structures.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Shallow copy of base; nested dicts are shared references",
+              "Non-dict iterables treated as values, not merged recursively",
+              "Missing keys in base are added from override unchanged",
+              "Keys only in base are preserved in result",
+              "Keys only in override are added to result"
+            ],
+            "raw": "- Shallow copy of base; nested dicts are shared references\n- Non-dict iterables treated as values, not merged recursively\n- Missing keys in base are added from override unchanged\n- Keys only in base are preserved in result\n- Keys only in override are added to result",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t06_parse_range": {
+          "ambiguous": {
+            "items": [
+              "Returns a list rather than a generator or other iterable",
+              "Includes both endpoints in the range (inclusive end)",
+              "Splits on the first hyphen only, not handling multiple hyphens",
+              "Returns integers in ascending order rather than descending"
+            ],
+            "raw": "- Returns a list rather than a generator or other iterable\n- Includes both endpoints in the range (inclusive end)\n- Splits on the first hyphen only, not handling multiple hyphens\n- Returns integers in ascending order rather than descending",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Treats the input as a single dash-delimited pair rather than multiple ranges",
+              "Returns a list instead of another iterable type",
+              "Raises an exception if spec cannot be parsed as two integers"
+            ],
+            "raw": "- Treats the input as a single dash-delimited pair rather than multiple ranges\n- Returns a list instead of another iterable type\n- Raises an exception if spec cannot be parsed as two integers",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t07_dedupe": {
+          "ambiguous": {
+            "items": [
+              "Treats unhashable types (lists, dicts) as duplicates by raising TypeError instead of handling them",
+              "Preserves the first occurrence of each element rather than the last",
+              "Considers elements equal if they compare equal via == rather than using identity (is)"
+            ],
+            "raw": "- Treats unhashable types (lists, dicts) as duplicates by raising TypeError instead of handling them\n- Preserves the first occurrence of each element rather than the last\n- Considers elements equal if they compare equal via == rather than using identity (is)",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Unhashable types raise TypeError instead of being handled gracefully",
+              "Elements appearing multiple times are deduplicated by value equality, not identity",
+              "The original list xs is not modified (implicit, but worth noting the implementation choice)"
+            ],
+            "raw": "Unhashable types raise TypeError instead of being handled gracefully\nElements appearing multiple times are deduplicated by value equality, not identity\nThe original list xs is not modified (implicit, but worth noting the implementation choice)",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t08_round_price": {
+          "ambiguous": {
+            "items": [
+              "Rounds using banker's rounding (round half to even) instead of always rounding half up",
+              "Returns exactly what `round()` returns, which may be a float with fewer than 2 decimals displayed",
+              "Accepts any numeric type that `round()` accepts, not just floats",
+              "Does not validate input or raise errors for non-numeric types",
+              "Does not enforce exactly 2 decimal places in the return value's representation"
+            ],
+            "raw": "- Rounds using banker's rounding (round half to even) instead of always rounding half up\n- Returns exactly what `round()` returns, which may be a float with fewer than 2 decimals displayed\n- Accepts any numeric type that `round()` accepts, not just floats\n- Does not validate input or raise errors for non-numeric types\n- Does not enforce exactly 2 decimal places in the return value's representation",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Converts input to string before creating Decimal to handle float precision issues",
+              "Returns float type instead of Decimal or string representation",
+              "Raises exception on non-numeric input instead of coercing or defaulting",
+              "Treats None, NaN, or infinity as errors rather than special cases"
+            ],
+            "raw": "- Converts input to string before creating Decimal to handle float precision issues\n- Returns float type instead of Decimal or string representation\n- Raises exception on non-numeric input instead of coercing or defaulting\n- Treats None, NaN, or infinity as errors rather than special cases",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t09_split_name": {
+          "ambiguous": {
+            "items": [
+              "When a name has no space, return empty string as last name instead of raising error.",
+              "When a name has no space, return a list with two elements instead of one.",
+              "Strip leading and trailing spaces before splitting instead of splitting the raw input."
+            ],
+            "raw": "When a name has no space, return empty string as last name instead of raising error.\nWhen a name has no space, return a list with two elements instead of one.\nStrip leading and trailing spaces before splitting instead of splitting the raw input.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Returns empty string for first name when no space exists, not None",
+              "Splits on first space only, not all spaces",
+              "Returns list, not tuple",
+              "Strips both leading and trailing spaces in one operation"
+            ],
+            "raw": "Returns empty string for first name when no space exists, not None\nSplits on first space only, not all spaces\nReturns list, not tuple\nStrips both leading and trailing spaces in one operation",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t10_moving_average": {
+          "ambiguous": {
+            "items": [
+              "Returns empty list when xs is empty or w exceeds list length.",
+              "Divides by w instead of actual window size.",
+              "Uses floating-point division for average calculation."
+            ],
+            "raw": "Returns empty list when xs is empty or w exceeds list length.\nDivides by w instead of actual window size.\nUses floating-point division for average calculation.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Uses deque with maxlen for sliding window instead of manual index tracking",
+              "Computes average as sum divided by w instead of using statistics.mean or numpy",
+              "Returns float averages instead of rounding or converting to int",
+              "Appends first window average before the loop instead of computing all together"
+            ],
+            "raw": "- Uses deque with maxlen for sliding window instead of manual index tracking\n- Computes average as sum divided by w instead of using statistics.mean or numpy\n- Returns float averages instead of rounding or converting to int\n- Appends first window average before the loop instead of computing all together",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t11_truncate": {
+          "ambiguous": {
+            "items": [
+              "Truncates from the end rather than the beginning or middle",
+              "Places ellipsis at the end rather than elsewhere in the string",
+              "Uses exactly three dots for ellipsis rather than a different number",
+              "Counts string length in characters rather than bytes or display width",
+              "Returns original string for exactly n-length strings rather than truncating them"
+            ],
+            "raw": "- Truncates from the end rather than the beginning or middle\n- Places ellipsis at the end rather than elsewhere in the string\n- Uses exactly three dots for ellipsis rather than a different number\n- Counts string length in characters rather than bytes or display width\n- Returns original string for exactly n-length strings rather than truncating them",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Truncates from the end rather than the beginning or middle",
+              "Removes exactly n-3 characters, placing '...' at the end",
+              "Does not handle Unicode grapheme clusters specially",
+              "Does not strip whitespace before truncating",
+              "Uses '...' (three dots) rather than alternative ellipsis representations"
+            ],
+            "raw": "- Truncates from the end rather than the beginning or middle\n- Removes exactly n-3 characters, placing '...' at the end\n- Does not handle Unicode grapheme clusters specially\n- Does not strip whitespace before truncating\n- Uses '...' (three dots) rather than alternative ellipsis representations",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t12_sort_scores": {
+          "ambiguous": {
+            "items": [
+              "Modifies and returns a new list instead of sorting in-place",
+              "Uses stable sort (preserves order of equal elements)",
+              "Raises TypeError if list contains non-comparable types",
+              "Returns empty list for empty input instead of None"
+            ],
+            "raw": "- Modifies and returns a new list instead of sorting in-place\n- Uses stable sort (preserves order of equal elements)\n- Raises TypeError if list contains non-comparable types\n- Returns empty list for empty input instead of None",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "Uses Python's built-in sort algorithm instead of a custom sorting implementation",
+              "Modifies the list in place rather than creating a new sorted list",
+              "Uses comparison-based sorting instead of non-comparison methods like counting sort",
+              "Handles equal elements by preserving their relative order (stable sort)"
+            ],
+            "raw": "- Uses Python's built-in sort algorithm instead of a custom sorting implementation\n- Modifies the list in place rather than creating a new sorted list\n- Uses comparison-based sorting instead of non-comparison methods like counting sort\n- Handles equal elements by preserving their relative order (stable sort)",
+            "error": false
+          },
+          "localisation_hit": true
+        }
+      }
+    },
+    "qwen-plus": {
+      "detection_rate": 1.0,
+      "false_alarm_rate": 1.0,
+      "mean_items_ambiguous": 3.4166666666666665,
+      "mean_items_full": 3.8333333333333335,
+      "localisation": 0.8333333333333334,
+      "calls": 36,
+      "cost_usd": 0.00775,
+      "errors": 0,
+      "wall_seconds": 12.3,
+      "per_task": {
+        "t01_remove_outliers": {
+          "ambiguous": {
+            "items": [
+              "If the standard deviation is zero, the function returns all original values unchanged.",
+              "The function preserves the input list's order in the returned output list."
+            ],
+            "raw": "If the standard deviation is zero, the function returns all original values unchanged.\nThe function preserves the input list's order in the returned output list.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "If standard deviation is zero, the code returns a copy of all original values.",
+              "The function uses population standard deviation (ddof=0) as specified by the task.",
+              "The function preserves the original order of elements that pass the filter.",
+              "The function creates a new list instead of modifying the input list in place."
+            ],
+            "raw": "If standard deviation is zero, the code returns a copy of all original values.\nThe function uses population standard deviation (ddof=0) as specified by the task.\nThe function preserves the original order of elements that pass the filter.\nThe function creates a new list instead of modifying the input list in place.",
+            "error": false
+          },
+          "localisation_hit": false
+        },
+        "t02_top_k": {
+          "ambiguous": {
+            "items": [
+              "Stable sort preserves original order for equal scores.",
+              "Empty list returns empty list when k is zero.",
+              "Negative k values slice from end instead of returning empty."
+            ],
+            "raw": "Stable sort preserves original order for equal scores.\nEmpty list returns empty list when k is zero.\nNegative k values slice from end instead of returning empty.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "The code returns an empty list for negative k instead of raising an error.",
+              "The code preserves original relative order only when scores are equal, not generally.",
+              "The code uses a stable sort to handle tie-breaking based on original index.",
+              "The code ignores the input type validation and assumes valid [name, score] pairs."
+            ],
+            "raw": "The code returns an empty list for negative k instead of raising an error.\nThe code preserves original relative order only when scores are equal, not generally.\nThe code uses a stable sort to handle tie-breaking based on original index.\nThe code ignores the input type validation and assumes valid [name, score] pairs.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t03_chunk": {
+          "ambiguous": {
+            "items": [
+              "Preserve the original order of elements in each sublist.",
+              "Include a final partial sublist if the list length is not divisible by size."
+            ],
+            "raw": "Preserve the original order of elements in each sublist.\nInclude a final partial sublist if the list length is not divisible by size.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "The code preserves the original order of elements within sublists.",
+              "The code includes a potentially shorter final sublist if remaining elements exist.",
+              "The code returns an empty list when the input list is empty.",
+              "The code assumes size is a positive integer without explicit validation."
+            ],
+            "raw": "The code preserves the original order of elements within sublists.\nThe code includes a potentially shorter final sublist if remaining elements exist.\nThe code returns an empty list when the input list is empty.\nThe code assumes size is a positive integer without explicit validation.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t04_normalize": {
+          "ambiguous": {
+            "items": [
+              "Returns a list of floats even if input contains integers.",
+              "Returns [0.0] for all elements when min equals max.",
+              "Preserves the original order of elements in the output list."
+            ],
+            "raw": "Returns a list of floats even if input contains integers.\nReturns [0.0] for all elements when min equals max.\nPreserves the original order of elements in the output list.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "The code assumes the input list contains only numeric types.",
+              "The code assumes division by zero is impossible when max equals min.",
+              "The code returns a new list rather than modifying the input in place."
+            ],
+            "raw": "The code assumes the input list contains only numeric types.\nThe code assumes division by zero is impossible when max equals min.\nThe code returns a new list rather than modifying the input in place.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t05_merge_configs": {
+          "ambiguous": {
+            "items": [
+              "Deep merge recursively merges nested dictionaries instead of replacing them.",
+              "The override dictionary's keys always take precedence over base dictionary keys.",
+              "Non-dict values in the override completely replace corresponding base values.",
+              "Keys present only in the override are added to the result.",
+              "Keys present only in the base are preserved in the result unchanged."
+            ],
+            "raw": "Deep merge recursively merges nested dictionaries instead of replacing them.\nThe override dictionary's keys always take precedence over base dictionary keys.\nNon-dict values in the override completely replace corresponding base values.\nKeys present only in the override are added to the result.\nKeys present only in the base are preserved in the result unchanged.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "The function returns a shallow copy of the base dictionary.",
+              "The function assumes both inputs are standard Python dictionaries.",
+              "The function iterates over override items in insertion order.",
+              "The function replaces existing keys with new values from override."
+            ],
+            "raw": "- The function returns a shallow copy of the base dictionary.\n- The function assumes both inputs are standard Python dictionaries.\n- The function iterates over override items in insertion order.\n- The function replaces existing keys with new values from override.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t06_parse_range": {
+          "ambiguous": {
+            "items": [
+              "The code assumes the input string contains no whitespace around the hyphen.",
+              "The code converts the range end to an inclusive integer by adding one.",
+              "The code returns a list object rather than a generator or tuple."
+            ],
+            "raw": "The code assumes the input string contains no whitespace around the hyphen.\nThe code converts the range end to an inclusive integer by adding one.\nThe code returns a list object rather than a generator or tuple.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "The code assumes the input string contains exactly one hyphen.",
+              "The code converts range boundaries to integers using base 10.",
+              "The code returns a standard Python list object type.",
+              "The code iterates through the range in ascending numerical order."
+            ],
+            "raw": "The code assumes the input string contains exactly one hyphen.\nThe code converts range boundaries to integers using base 10.\nThe code returns a standard Python list object type.\nThe code iterates through the range in ascending numerical order.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t07_dedupe": {
+          "ambiguous": {
+            "items": [
+              "Uses a set for O(1) membership testing",
+              "Relies on hashability of elements",
+              "Preserves first occurrence of each value",
+              "Uses list append for result construction"
+            ],
+            "raw": "Uses a set for O(1) membership testing  \nRelies on hashability of elements  \nPreserves first occurrence of each value  \nUses list append for result construction",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "The code preserves the relative order of elements based on their last occurrence.",
+              "The code uses a set to track seen elements for O(1) average lookup.",
+              "The code creates a new list without modifying the input list xs.",
+              "The code returns an empty list if the input list is empty.",
+              "The code handles hashable elements but fails on unhashable types like lists."
+            ],
+            "raw": "The code preserves the relative order of elements based on their last occurrence.\nThe code uses a set to track seen elements for O(1) average lookup.\nThe code creates a new list without modifying the input list xs.\nThe code returns an empty list if the input list is empty.\nThe code handles hashable elements but fails on unhashable types like lists.",
+            "error": false
+          },
+          "localisation_hit": false
+        },
+        "t08_round_price": {
+          "ambiguous": {
+            "items": [
+              "Rounds to nearest even number on ties instead of always rounding up.",
+              "Returns a float with exactly two decimal places only if representable in binary.",
+              "Handles negative numbers by rounding away from zero only if specified (current behavior rounds toward even).",
+              "Does not specify how to handle non-float inputs or raise errors for them."
+            ],
+            "raw": "- Rounds to nearest even number on ties instead of always rounding up.\n- Returns a float with exactly two decimal places only if representable in binary.\n- Handles negative numbers by rounding away from zero only if specified (current behavior rounds toward even).\n- Does not specify how to handle non-float inputs or raise errors for them.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "It returns a float even if the input is an integer.",
+              "It uses string formatting to determine rounding direction for positive numbers.",
+              "It applies different logic branches based on whether x is non-negative.",
+              "It converts intermediate results to strings before converting back to floats.",
+              "It rounds negative numbers by negating the absolute value's result."
+            ],
+            "raw": "It returns a float even if the input is an integer.\nIt uses string formatting to determine rounding direction for positive numbers.\nIt applies different logic branches based on whether x is non-negative.\nIt converts intermediate results to strings before converting back to floats.\nIt rounds negative numbers by negating the absolute value's result.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t09_split_name": {
+          "ambiguous": {
+            "items": [
+              "Returns an empty string for last name when no space exists.",
+              "Strips only leading and trailing whitespace, not internal spaces.",
+              "Uses a single space character as the split delimiter.",
+              "Preserves original case of first and last names."
+            ],
+            "raw": "- Returns an empty string for last name when no space exists.\n- Strips only leading and trailing whitespace, not internal spaces.\n- Uses a single space character as the split delimiter.\n- Preserves original case of first and last names.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "It returns a list containing two strings.",
+              "It uses the first space as the split delimiter.",
+              "It treats names with multiple spaces by splitting only once."
+            ],
+            "raw": "It returns a list containing two strings.\nIt uses the first space as the split delimiter.\nIt treats names with multiple spaces by splitting only once.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t10_moving_average": {
+          "ambiguous": {
+            "items": [
+              "Returns empty list for empty input",
+              "Returns empty list for non-positive window size",
+              "Uses floating-point division for averages",
+              "Handles window larger than list by returning empty list",
+              "Computes sum once for first window, then updates incrementally"
+            ],
+            "raw": "Returns empty list for empty input  \nReturns empty list for non-positive window size  \nUses floating-point division for averages  \nHandles window larger than list by returning empty list  \nComputes sum once for first window, then updates incrementally",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "The code returns an empty list when w is less than 1.",
+              "The code performs integer division if inputs are integers in Python 2.",
+              "The code uses floating-point division for the average calculation.",
+              "The code excludes the final window if w exceeds list length."
+            ],
+            "raw": "The code returns an empty list when w is less than 1.\nThe code performs integer division if inputs are integers in Python 2.\nThe code uses floating-point division for the average calculation.\nThe code excludes the final window if w exceeds list length.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t11_truncate": {
+          "ambiguous": {
+            "items": [
+              "It truncates the string to exactly n-3 characters before adding ellipsis.",
+              "It assumes n is at least 3 without explicit validation in code.",
+              "It uses a fixed three-character ellipsis instead of allowing customization."
+            ],
+            "raw": "It truncates the string to exactly n-3 characters before adding ellipsis.\nIt assumes n is at least 3 without explicit validation in code.\nIt uses a fixed three-character ellipsis instead of allowing customization.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "It truncates the string to exactly n characters including the ellipsis.",
+              "It assumes the input string contains no special encoding issues.",
+              "It treats the ellipsis as three literal ASCII dots rather than a single character."
+            ],
+            "raw": "It truncates the string to exactly n characters including the ellipsis.\nIt assumes the input string contains no special encoding issues.\nIt treats the ellipsis as three literal ASCII dots rather than a single character.",
+            "error": false
+          },
+          "localisation_hit": true
+        },
+        "t12_sort_scores": {
+          "ambiguous": {
+            "items": [
+              "The code does not modify the input list in place.",
+              "The code returns a new list rather than reusing the original.",
+              "The code uses Python's default stable sorting algorithm for equal elements."
+            ],
+            "raw": "The code does not modify the input list in place.\nThe code returns a new list rather than reusing the original.\nThe code uses Python's default stable sorting algorithm for equal elements.",
+            "error": false
+          },
+          "full": {
+            "items": [
+              "The code does not preserve the original list object's identity if a new list were expected.",
+              "The code assumes the input list contains only comparable numeric types without error handling.",
+              "The code uses Python's built-in sort algorithm rather than specifying a custom sorting method."
+            ],
+            "raw": "The code does not preserve the original list object's identity if a new list were expected.\nThe code assumes the input list contains only comparable numeric types without error handling.\nThe code uses Python's built-in sort algorithm rather than specifying a custom sorting method.",
+            "error": false
+          },
+          "localisation_hit": true
+        }
+      }
+    }
+  }
+}

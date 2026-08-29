@@ -1,0 +1,2668 @@
+{
+  "meta": {
+    "n_tasks": 12,
+    "n_probes": 24,
+    "n_eval_probes": 40,
+    "max_asks_per_task": 2,
+    "candidate_probe_executions": 3480,
+    "mode": "live:gpt-4o-mini",
+    "k_samples": 6,
+    "temperature": 1.0,
+    "wall_seconds": 77.1
+  },
+  "h1": {
+    "bse": {
+      "auroc": 0.3889,
+      "paired_accuracy": 0.4167,
+      "mean_delta": -0.0542,
+      "delta_ci95": [
+        -0.1257,
+        0.0086
+      ],
+      "per_task": {
+        "t01_remove_outliers": {
+          "ambiguous": 0.3552,
+          "full": 0.2515,
+          "difficulty": "easy"
+        },
+        "t02_top_k": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t03_chunk": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t04_normalize": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t05_merge_configs": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t06_parse_range": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "hard"
+        },
+        "t07_dedupe": {
+          "ambiguous": 0.0,
+          "full": 0.2515,
+          "difficulty": "easy"
+        },
+        "t08_round_price": {
+          "ambiguous": 0.0,
+          "full": 0.2515,
+          "difficulty": "hard"
+        },
+        "t09_split_name": {
+          "ambiguous": 0.0,
+          "full": 0.2515,
+          "difficulty": "easy"
+        },
+        "t10_moving_average": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t11_truncate": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "hard"
+        },
+        "t12_sort_scores": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        }
+      }
+    },
+    "max_probe_entropy": {
+      "auroc": 0.3889,
+      "paired_accuracy": 0.4167,
+      "mean_delta": -0.0542,
+      "delta_ci95": [
+        -0.1257,
+        0.0086
+      ],
+      "per_task": {
+        "t01_remove_outliers": {
+          "ambiguous": 0.3552,
+          "full": 0.2515,
+          "difficulty": "easy"
+        },
+        "t02_top_k": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t03_chunk": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t04_normalize": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t05_merge_configs": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t06_parse_range": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "hard"
+        },
+        "t07_dedupe": {
+          "ambiguous": 0.0,
+          "full": 0.2515,
+          "difficulty": "easy"
+        },
+        "t08_round_price": {
+          "ambiguous": 0.0,
+          "full": 0.2515,
+          "difficulty": "hard"
+        },
+        "t09_split_name": {
+          "ambiguous": 0.0,
+          "full": 0.2515,
+          "difficulty": "easy"
+        },
+        "t10_moving_average": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t11_truncate": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "hard"
+        },
+        "t12_sort_scores": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        }
+      }
+    },
+    "distinct_classes": {
+      "auroc": 0.375,
+      "paired_accuracy": 0.375,
+      "mean_delta": -0.05,
+      "delta_ci95": [
+        -0.1,
+        0.0
+      ],
+      "per_task": {
+        "t01_remove_outliers": {
+          "ambiguous": 0.2,
+          "full": 0.2,
+          "difficulty": "easy"
+        },
+        "t02_top_k": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t03_chunk": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t04_normalize": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t05_merge_configs": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t06_parse_range": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "hard"
+        },
+        "t07_dedupe": {
+          "ambiguous": 0.0,
+          "full": 0.2,
+          "difficulty": "easy"
+        },
+        "t08_round_price": {
+          "ambiguous": 0.0,
+          "full": 0.2,
+          "difficulty": "hard"
+        },
+        "t09_split_name": {
+          "ambiguous": 0.0,
+          "full": 0.2,
+          "difficulty": "easy"
+        },
+        "t10_moving_average": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t11_truncate": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "hard"
+        },
+        "t12_sort_scores": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        }
+      }
+    },
+    "text_diversity": {
+      "auroc": 0.3681,
+      "paired_accuracy": 0.2917,
+      "mean_delta": -0.0693,
+      "delta_ci95": [
+        -0.1327,
+        -0.0109
+      ],
+      "per_task": {
+        "t01_remove_outliers": {
+          "ambiguous": 0.1815,
+          "full": 0.1189,
+          "difficulty": "easy"
+        },
+        "t02_top_k": {
+          "ambiguous": 0.0314,
+          "full": 0.1192,
+          "difficulty": "easy"
+        },
+        "t03_chunk": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t04_normalize": {
+          "ambiguous": 0.0463,
+          "full": 0.1206,
+          "difficulty": "easy"
+        },
+        "t05_merge_configs": {
+          "ambiguous": 0.3142,
+          "full": 0.4646,
+          "difficulty": "easy"
+        },
+        "t06_parse_range": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "hard"
+        },
+        "t07_dedupe": {
+          "ambiguous": 0.0,
+          "full": 0.3127,
+          "difficulty": "easy"
+        },
+        "t08_round_price": {
+          "ambiguous": 0.0,
+          "full": 0.2416,
+          "difficulty": "hard"
+        },
+        "t09_split_name": {
+          "ambiguous": 0.1915,
+          "full": 0.1431,
+          "difficulty": "easy"
+        },
+        "t10_moving_average": {
+          "ambiguous": 0.3142,
+          "full": 0.3805,
+          "difficulty": "easy"
+        },
+        "t11_truncate": {
+          "ambiguous": 0.0,
+          "full": 0.0098,
+          "difficulty": "hard"
+        },
+        "t12_sort_scores": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        }
+      }
+    },
+    "random": {
+      "auroc": 0.5,
+      "paired_accuracy": 0.5,
+      "mean_delta": 0.0,
+      "delta_ci95": [
+        0.0,
+        0.0
+      ],
+      "per_task": {
+        "t01_remove_outliers": {
+          "ambiguous": 0.575,
+          "full": 0.575,
+          "difficulty": "easy"
+        },
+        "t02_top_k": {
+          "ambiguous": 0.5311,
+          "full": 0.5311,
+          "difficulty": "easy"
+        },
+        "t03_chunk": {
+          "ambiguous": 0.4011,
+          "full": 0.4011,
+          "difficulty": "easy"
+        },
+        "t04_normalize": {
+          "ambiguous": 0.1586,
+          "full": 0.1586,
+          "difficulty": "easy"
+        },
+        "t05_merge_configs": {
+          "ambiguous": 0.7396,
+          "full": 0.7396,
+          "difficulty": "easy"
+        },
+        "t06_parse_range": {
+          "ambiguous": 0.7637,
+          "full": 0.7637,
+          "difficulty": "hard"
+        },
+        "t07_dedupe": {
+          "ambiguous": 0.7352,
+          "full": 0.7352,
+          "difficulty": "easy"
+        },
+        "t08_round_price": {
+          "ambiguous": 0.0454,
+          "full": 0.0454,
+          "difficulty": "hard"
+        },
+        "t09_split_name": {
+          "ambiguous": 0.8345,
+          "full": 0.8345,
+          "difficulty": "easy"
+        },
+        "t10_moving_average": {
+          "ambiguous": 0.9692,
+          "full": 0.9692,
+          "difficulty": "easy"
+        },
+        "t11_truncate": {
+          "ambiguous": 0.2685,
+          "full": 0.2685,
+          "difficulty": "hard"
+        },
+        "t12_sort_scores": {
+          "ambiguous": 0.8819,
+          "full": 0.8819,
+          "difficulty": "easy"
+        }
+      }
+    },
+    "token_entropy": {
+      "auroc": 0.3889,
+      "paired_accuracy": 0.3333,
+      "mean_delta": -0.0084,
+      "delta_ci95": [
+        -0.0161,
+        -0.0006
+      ],
+      "per_task": {
+        "t01_remove_outliers": {
+          "ambiguous": 0.0226,
+          "full": 0.0158,
+          "difficulty": "easy"
+        },
+        "t02_top_k": {
+          "ambiguous": 0.0107,
+          "full": 0.025,
+          "difficulty": "easy"
+        },
+        "t03_chunk": {
+          "ambiguous": 0.0004,
+          "full": 0.0005,
+          "difficulty": "easy"
+        },
+        "t04_normalize": {
+          "ambiguous": 0.0111,
+          "full": 0.0125,
+          "difficulty": "easy"
+        },
+        "t05_merge_configs": {
+          "ambiguous": 0.046,
+          "full": 0.0832,
+          "difficulty": "easy"
+        },
+        "t06_parse_range": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "hard"
+        },
+        "t07_dedupe": {
+          "ambiguous": 0.0015,
+          "full": 0.0286,
+          "difficulty": "easy"
+        },
+        "t08_round_price": {
+          "ambiguous": 0.0029,
+          "full": 0.0301,
+          "difficulty": "hard"
+        },
+        "t09_split_name": {
+          "ambiguous": 0.0209,
+          "full": 0.0221,
+          "difficulty": "easy"
+        },
+        "t10_moving_average": {
+          "ambiguous": 0.0378,
+          "full": 0.0246,
+          "difficulty": "easy"
+        },
+        "t11_truncate": {
+          "ambiguous": 0.0044,
+          "full": 0.0164,
+          "difficulty": "hard"
+        },
+        "t12_sort_scores": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        }
+      }
+    },
+    "self_report": {
+      "auroc": 0.5833,
+      "paired_accuracy": 0.5833,
+      "mean_delta": 0.0167,
+      "delta_ci95": [
+        0.0,
+        0.0417
+      ],
+      "per_task": {
+        "t01_remove_outliers": {
+          "ambiguous": 0.1,
+          "full": 0.1,
+          "difficulty": "easy"
+        },
+        "t02_top_k": {
+          "ambiguous": 0.1,
+          "full": 0.1,
+          "difficulty": "easy"
+        },
+        "t03_chunk": {
+          "ambiguous": 0.1,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t04_normalize": {
+          "ambiguous": 0.1,
+          "full": 0.1,
+          "difficulty": "easy"
+        },
+        "t05_merge_configs": {
+          "ambiguous": 0.1,
+          "full": 0.1,
+          "difficulty": "easy"
+        },
+        "t06_parse_range": {
+          "ambiguous": 0.1,
+          "full": 0.0,
+          "difficulty": "hard"
+        },
+        "t07_dedupe": {
+          "ambiguous": 0.1,
+          "full": 0.1,
+          "difficulty": "easy"
+        },
+        "t08_round_price": {
+          "ambiguous": 0.1,
+          "full": 0.1,
+          "difficulty": "hard"
+        },
+        "t09_split_name": {
+          "ambiguous": 0.0,
+          "full": 0.0,
+          "difficulty": "easy"
+        },
+        "t10_moving_average": {
+          "ambiguous": 0.1,
+          "full": 0.1,
+          "difficulty": "easy"
+        },
+        "t11_truncate": {
+          "ambiguous": 0.1,
+          "full": 0.1,
+          "difficulty": "hard"
+        },
+        "t12_sort_scores": {
+          "ambiguous": 0.1,
+          "full": 0.1,
+          "difficulty": "easy"
+        }
+      }
+    }
+  },
+  "localisation": {
+    "precision_at_1": 0.6667,
+    "precision_at_1_no_precondition": 0.8333,
+    "n_tasks": 12,
+    "per_task": {
+      "t01_remove_outliers": {
+        "hit": false,
+        "hit_without_precondition": true,
+        "top_probe": [
+          [
+            1,
+            2,
+            3,
+            10
+          ],
+          2.0
+        ],
+        "top_probe_unfiltered": [
+          [],
+          2.0
+        ]
+      },
+      "t02_top_k": {
+        "hit": true,
+        "hit_without_precondition": false,
+        "top_probe": [
+          [
+            [
+              "a",
+              3
+            ],
+            [
+              "b",
+              5
+            ],
+            [
+              "c",
+              3
+            ]
+          ],
+          2
+        ],
+        "top_probe_unfiltered": [
+          [
+            [
+              "a",
+              3
+            ],
+            [
+              "b",
+              5
+            ],
+            [
+              "c",
+              3
+            ]
+          ],
+          -1
+        ]
+      },
+      "t03_chunk": {
+        "hit": true,
+        "hit_without_precondition": false,
+        "top_probe": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          2
+        ],
+        "top_probe_unfiltered": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          0
+        ]
+      },
+      "t04_normalize": {
+        "hit": false,
+        "hit_without_precondition": true,
+        "top_probe": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "top_probe_unfiltered": [
+          [
+            5,
+            5,
+            5
+          ]
+        ]
+      },
+      "t05_merge_configs": {
+        "hit": true,
+        "hit_without_precondition": true,
+        "top_probe": [
+          {
+            "a": 1,
+            "b": 2
+          },
+          {
+            "b": 9,
+            "c": 3
+          }
+        ],
+        "top_probe_unfiltered": [
+          {
+            "a": 1,
+            "b": 2
+          },
+          {
+            "b": 9,
+            "c": 3
+          }
+        ]
+      },
+      "t06_parse_range": {
+        "hit": true,
+        "hit_without_precondition": true,
+        "top_probe": [
+          "3-7"
+        ],
+        "top_probe_unfiltered": [
+          "3-7"
+        ]
+      },
+      "t07_dedupe": {
+        "hit": true,
+        "hit_without_precondition": true,
+        "top_probe": [
+          [
+            1,
+            2,
+            1,
+            3
+          ]
+        ],
+        "top_probe_unfiltered": [
+          [
+            1,
+            2,
+            1,
+            3
+          ]
+        ]
+      },
+      "t08_round_price": {
+        "hit": true,
+        "hit_without_precondition": true,
+        "top_probe": [
+          0.125
+        ],
+        "top_probe_unfiltered": [
+          0.125
+        ]
+      },
+      "t09_split_name": {
+        "hit": false,
+        "hit_without_precondition": true,
+        "top_probe": [
+          "Ada Lovelace"
+        ],
+        "top_probe_unfiltered": [
+          "Prince"
+        ]
+      },
+      "t10_moving_average": {
+        "hit": false,
+        "hit_without_precondition": true,
+        "top_probe": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          2
+        ],
+        "top_probe_unfiltered": [
+          [
+            1,
+            2
+          ],
+          3
+        ]
+      },
+      "t11_truncate": {
+        "hit": true,
+        "hit_without_precondition": true,
+        "top_probe": [
+          "abcdefgh",
+          5
+        ],
+        "top_probe_unfiltered": [
+          "abcdefgh",
+          5
+        ]
+      },
+      "t12_sort_scores": {
+        "hit": true,
+        "hit_without_precondition": true,
+        "top_probe": [
+          [
+            3,
+            1,
+            2
+          ]
+        ],
+        "top_probe_unfiltered": [
+          [
+            3,
+            1,
+            2
+          ]
+        ]
+      }
+    }
+  },
+  "h2": {
+    "ranked_budget": {
+      "bse": [
+        {
+          "budget": 0,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667,
+          "ci95": [
+            0.4166666666666667,
+            0.4166666666666667
+          ]
+        },
+        {
+          "budget": 1,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 2,
+          "asks_per_task": 0.16666666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 3,
+          "asks_per_task": 0.25,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 4,
+          "asks_per_task": 0.3333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 5,
+          "asks_per_task": 0.4166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 6,
+          "asks_per_task": 0.5,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 7,
+          "asks_per_task": 0.5833333333333334,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 8,
+          "asks_per_task": 0.6666666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 9,
+          "asks_per_task": 0.75,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 10,
+          "asks_per_task": 0.8333333333333334,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 11,
+          "asks_per_task": 0.9166666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 12,
+          "asks_per_task": 1.0,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 13,
+          "asks_per_task": 1.0833333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 14,
+          "asks_per_task": 1.1666666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 15,
+          "asks_per_task": 1.25,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 16,
+          "asks_per_task": 1.3333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 17,
+          "asks_per_task": 1.4166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 18,
+          "asks_per_task": 1.5,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 19,
+          "asks_per_task": 1.5833333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 20,
+          "asks_per_task": 1.6666666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 21,
+          "asks_per_task": 1.75,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 22,
+          "asks_per_task": 1.8333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 23,
+          "asks_per_task": 1.9166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 24,
+          "asks_per_task": 2.0,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "max_probe_entropy": [
+        {
+          "budget": 0,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667,
+          "ci95": [
+            0.4166666666666667,
+            0.4166666666666667
+          ]
+        },
+        {
+          "budget": 1,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 2,
+          "asks_per_task": 0.16666666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 3,
+          "asks_per_task": 0.25,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 4,
+          "asks_per_task": 0.3333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 5,
+          "asks_per_task": 0.4166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 6,
+          "asks_per_task": 0.5,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 7,
+          "asks_per_task": 0.5833333333333334,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 8,
+          "asks_per_task": 0.6666666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 9,
+          "asks_per_task": 0.75,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 10,
+          "asks_per_task": 0.8333333333333334,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 11,
+          "asks_per_task": 0.9166666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 12,
+          "asks_per_task": 1.0,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 13,
+          "asks_per_task": 1.0833333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 14,
+          "asks_per_task": 1.1666666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 15,
+          "asks_per_task": 1.25,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 16,
+          "asks_per_task": 1.3333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 17,
+          "asks_per_task": 1.4166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 18,
+          "asks_per_task": 1.5,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 19,
+          "asks_per_task": 1.5833333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 20,
+          "asks_per_task": 1.6666666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 21,
+          "asks_per_task": 1.75,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 22,
+          "asks_per_task": 1.8333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 23,
+          "asks_per_task": 1.9166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 24,
+          "asks_per_task": 2.0,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "distinct_classes": [
+        {
+          "budget": 0,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667,
+          "ci95": [
+            0.4166666666666667,
+            0.4166666666666667
+          ]
+        },
+        {
+          "budget": 1,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 2,
+          "asks_per_task": 0.16666666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 3,
+          "asks_per_task": 0.25,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 4,
+          "asks_per_task": 0.3333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 5,
+          "asks_per_task": 0.4166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 6,
+          "asks_per_task": 0.5,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 7,
+          "asks_per_task": 0.5833333333333334,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 8,
+          "asks_per_task": 0.6666666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 9,
+          "asks_per_task": 0.75,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 10,
+          "asks_per_task": 0.8333333333333334,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 11,
+          "asks_per_task": 0.9166666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 12,
+          "asks_per_task": 1.0,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 13,
+          "asks_per_task": 1.0833333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 14,
+          "asks_per_task": 1.1666666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 15,
+          "asks_per_task": 1.25,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 16,
+          "asks_per_task": 1.3333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 17,
+          "asks_per_task": 1.4166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 18,
+          "asks_per_task": 1.5,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 19,
+          "asks_per_task": 1.5833333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 20,
+          "asks_per_task": 1.6666666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 21,
+          "asks_per_task": 1.75,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 22,
+          "asks_per_task": 1.8333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 23,
+          "asks_per_task": 1.9166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 24,
+          "asks_per_task": 2.0,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "text_diversity": [
+        {
+          "budget": 0,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667,
+          "ci95": [
+            0.4166666666666667,
+            0.4166666666666667
+          ]
+        },
+        {
+          "budget": 1,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 2,
+          "asks_per_task": 0.16666666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 3,
+          "asks_per_task": 0.25,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 4,
+          "asks_per_task": 0.3333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 5,
+          "asks_per_task": 0.4166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 6,
+          "asks_per_task": 0.5,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 7,
+          "asks_per_task": 0.5833333333333334,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 8,
+          "asks_per_task": 0.6666666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 9,
+          "asks_per_task": 0.75,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 10,
+          "asks_per_task": 0.8333333333333334,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 11,
+          "asks_per_task": 0.9166666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 12,
+          "asks_per_task": 1.0,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 13,
+          "asks_per_task": 1.0833333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 14,
+          "asks_per_task": 1.1666666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 15,
+          "asks_per_task": 1.25,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 16,
+          "asks_per_task": 1.3333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 17,
+          "asks_per_task": 1.4166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 18,
+          "asks_per_task": 1.5,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 19,
+          "asks_per_task": 1.5833333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 20,
+          "asks_per_task": 1.6666666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 21,
+          "asks_per_task": 1.75,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 22,
+          "asks_per_task": 1.8333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 23,
+          "asks_per_task": 1.9166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 24,
+          "asks_per_task": 2.0,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "random": [
+        {
+          "budget": 0,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667,
+          "ci95": [
+            0.4166666666666667,
+            0.4166666666666667
+          ]
+        },
+        {
+          "budget": 1,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 2,
+          "asks_per_task": 0.16666666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 3,
+          "asks_per_task": 0.25,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 4,
+          "asks_per_task": 0.3333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 5,
+          "asks_per_task": 0.4166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 6,
+          "asks_per_task": 0.5,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 7,
+          "asks_per_task": 0.5833333333333334,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 8,
+          "asks_per_task": 0.6666666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 9,
+          "asks_per_task": 0.75,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 10,
+          "asks_per_task": 0.8333333333333334,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 11,
+          "asks_per_task": 0.9166666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 12,
+          "asks_per_task": 1.0,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 13,
+          "asks_per_task": 1.0833333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 14,
+          "asks_per_task": 1.1666666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 15,
+          "asks_per_task": 1.25,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 16,
+          "asks_per_task": 1.3333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 17,
+          "asks_per_task": 1.4166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 18,
+          "asks_per_task": 1.5,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 19,
+          "asks_per_task": 1.5833333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 20,
+          "asks_per_task": 1.6666666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 21,
+          "asks_per_task": 1.75,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 22,
+          "asks_per_task": 1.8333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 23,
+          "asks_per_task": 1.9166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 24,
+          "asks_per_task": 2.0,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "token_entropy": [
+        {
+          "budget": 0,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667,
+          "ci95": [
+            0.4166666666666667,
+            0.4166666666666667
+          ]
+        },
+        {
+          "budget": 1,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 2,
+          "asks_per_task": 0.16666666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 3,
+          "asks_per_task": 0.25,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 4,
+          "asks_per_task": 0.3333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 5,
+          "asks_per_task": 0.4166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 6,
+          "asks_per_task": 0.5,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 7,
+          "asks_per_task": 0.5833333333333334,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 8,
+          "asks_per_task": 0.6666666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 9,
+          "asks_per_task": 0.75,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 10,
+          "asks_per_task": 0.8333333333333334,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 11,
+          "asks_per_task": 0.9166666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 12,
+          "asks_per_task": 1.0,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 13,
+          "asks_per_task": 1.0833333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 14,
+          "asks_per_task": 1.1666666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 15,
+          "asks_per_task": 1.25,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 16,
+          "asks_per_task": 1.3333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 17,
+          "asks_per_task": 1.4166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 18,
+          "asks_per_task": 1.5,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 19,
+          "asks_per_task": 1.5833333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 20,
+          "asks_per_task": 1.6666666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 21,
+          "asks_per_task": 1.75,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 22,
+          "asks_per_task": 1.8333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 23,
+          "asks_per_task": 1.9166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 24,
+          "asks_per_task": 2.0,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "self_report": [
+        {
+          "budget": 0,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667,
+          "ci95": [
+            0.4166666666666667,
+            0.4166666666666667
+          ]
+        },
+        {
+          "budget": 1,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 2,
+          "asks_per_task": 0.16666666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 3,
+          "asks_per_task": 0.25,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 4,
+          "asks_per_task": 0.3333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 5,
+          "asks_per_task": 0.4166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 6,
+          "asks_per_task": 0.5,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 7,
+          "asks_per_task": 0.5833333333333334,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 8,
+          "asks_per_task": 0.6666666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 9,
+          "asks_per_task": 0.75,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 10,
+          "asks_per_task": 0.8333333333333334,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 11,
+          "asks_per_task": 0.9166666666666666,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 12,
+          "asks_per_task": 1.0,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 13,
+          "asks_per_task": 1.0833333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 14,
+          "asks_per_task": 1.1666666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 15,
+          "asks_per_task": 1.25,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 16,
+          "asks_per_task": 1.3333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 17,
+          "asks_per_task": 1.4166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 18,
+          "asks_per_task": 1.5,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 19,
+          "asks_per_task": 1.5833333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 20,
+          "asks_per_task": 1.6666666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 21,
+          "asks_per_task": 1.75,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 22,
+          "asks_per_task": 1.8333333333333333,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 23,
+          "asks_per_task": 1.9166666666666667,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "budget": 24,
+          "asks_per_task": 2.0,
+          "success_rate": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    },
+    "threshold_sweep": {
+      "bse": [
+        {
+          "threshold": 1.01,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667
+        },
+        {
+          "threshold": 0.0,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5
+        }
+      ],
+      "max_probe_entropy": [
+        {
+          "threshold": 1.01,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667
+        },
+        {
+          "threshold": 0.0,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5
+        }
+      ],
+      "distinct_classes": [
+        {
+          "threshold": 1.01,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667
+        },
+        {
+          "threshold": 0.0,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5
+        }
+      ],
+      "text_diversity": [
+        {
+          "threshold": 0.191515,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667
+        },
+        {
+          "threshold": 0.0,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5
+        }
+      ],
+      "random": [
+        {
+          "threshold": 0.575013,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667
+        },
+        {
+          "threshold": 0.0,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5
+        }
+      ],
+      "token_entropy": [
+        {
+          "threshold": 0.022553,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667
+        },
+        {
+          "threshold": 0.0,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5
+        }
+      ],
+      "self_report": [
+        {
+          "threshold": 0.1,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667
+        },
+        {
+          "threshold": 0.0,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5
+        }
+      ],
+      "always_ask": [
+        {
+          "threshold": 1.01,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667
+        },
+        {
+          "threshold": 0.0,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5
+        }
+      ],
+      "never_ask": [
+        {
+          "threshold": 1.01,
+          "asks_per_task": 0.0,
+          "success_rate": 0.4166666666666667
+        },
+        {
+          "threshold": 0.0,
+          "asks_per_task": 0.08333333333333333,
+          "success_rate": 0.5
+        }
+      ]
+    },
+    "never_ask_success": 0.4166666666666667,
+    "always_ask_success": 0.5,
+    "questions_on_constraint": 0,
+    "questions_off_constraint": 1,
+    "answers_rejected": 0,
+    "question_efficiency": {
+      "bse": 0.1667,
+      "max_probe_entropy": 0.1667,
+      "distinct_classes": 0.1667,
+      "text_diversity": 0.1667,
+      "random": 0.1667,
+      "token_entropy": 0.1667,
+      "self_report": 0.1667
+    },
+    "target_diagnosis": {
+      "bse": {
+        "signal": "bse",
+        "auroc_T2_question_helps": 1.0,
+        "auroc_T2_easy_tasks_only": 1.0,
+        "mean_score_when_question_helps": 0.3552,
+        "mean_score_when_wasted": 0.0,
+        "n_helped": 1,
+        "n_wasted": 11
+      },
+      "max_probe_entropy": {
+        "signal": "max_probe_entropy",
+        "auroc_T2_question_helps": 1.0,
+        "auroc_T2_easy_tasks_only": 1.0,
+        "mean_score_when_question_helps": 0.3552,
+        "mean_score_when_wasted": 0.0,
+        "n_helped": 1,
+        "n_wasted": 11
+      },
+      "distinct_classes": {
+        "signal": "distinct_classes",
+        "auroc_T2_question_helps": 1.0,
+        "auroc_T2_easy_tasks_only": 1.0,
+        "mean_score_when_question_helps": 0.2,
+        "mean_score_when_wasted": 0.0,
+        "n_helped": 1,
+        "n_wasted": 11
+      },
+      "text_diversity": {
+        "signal": "text_diversity",
+        "auroc_T2_question_helps": 0.7273,
+        "auroc_T2_easy_tasks_only": 0.625,
+        "mean_score_when_question_helps": 0.1815,
+        "mean_score_when_wasted": 0.0816,
+        "n_helped": 1,
+        "n_wasted": 11
+      },
+      "random": {
+        "signal": "random",
+        "auroc_T2_question_helps": 0.4545,
+        "auroc_T2_easy_tasks_only": 0.375,
+        "mean_score_when_question_helps": 0.575,
+        "mean_score_when_wasted": 0.5753,
+        "n_helped": 1,
+        "n_wasted": 11
+      },
+      "token_entropy": {
+        "signal": "token_entropy",
+        "auroc_T2_question_helps": 0.8182,
+        "auroc_T2_easy_tasks_only": 0.75,
+        "mean_score_when_question_helps": 0.0226,
+        "mean_score_when_wasted": 0.0124,
+        "n_helped": 1,
+        "n_wasted": 11
+      },
+      "self_report": {
+        "signal": "self_report",
+        "auroc_T2_question_helps": 0.5455,
+        "auroc_T2_easy_tasks_only": 0.5625,
+        "mean_score_when_question_helps": 0.1,
+        "mean_score_when_wasted": 0.0909,
+        "n_helped": 1,
+        "n_wasted": 11
+      }
+    },
+    "outcomes": {
+      "t01_remove_outliers": {
+        "success": [
+          false,
+          true,
+          true
+        ],
+        "asks": [
+          0,
+          1,
+          1
+        ]
+      },
+      "t02_top_k": {
+        "success": [
+          true,
+          true,
+          true
+        ],
+        "asks": [
+          0,
+          0,
+          0
+        ]
+      },
+      "t03_chunk": {
+        "success": [
+          true,
+          true,
+          true
+        ],
+        "asks": [
+          0,
+          0,
+          0
+        ]
+      },
+      "t04_normalize": {
+        "success": [
+          false,
+          false,
+          false
+        ],
+        "asks": [
+          0,
+          0,
+          0
+        ]
+      },
+      "t05_merge_configs": {
+        "success": [
+          true,
+          true,
+          true
+        ],
+        "asks": [
+          0,
+          0,
+          0
+        ]
+      },
+      "t06_parse_range": {
+        "success": [
+          false,
+          false,
+          false
+        ],
+        "asks": [
+          0,
+          0,
+          0
+        ]
+      },
+      "t07_dedupe": {
+        "success": [
+          false,
+          false,
+          false
+        ],
+        "asks": [
+          0,
+          0,
+          0
+        ]
+      },
+      "t08_round_price": {
+        "success": [
+          false,
+          false,
+          false
+        ],
+        "asks": [
+          0,
+          0,
+          0
+        ]
+      },
+      "t09_split_name": {
+        "success": [
+          false,
+          false,
+          false
+        ],
+        "asks": [
+          0,
+          0,
+          0
+        ]
+      },
+      "t10_moving_average": {
+        "success": [
+          true,
+          true,
+          true
+        ],
+        "asks": [
+          0,
+          0,
+          0
+        ]
+      },
+      "t11_truncate": {
+        "success": [
+          true,
+          true,
+          true
+        ],
+        "asks": [
+          0,
+          0,
+          0
+        ]
+      },
+      "t12_sort_scores": {
+        "success": [
+          false,
+          false,
+          false
+        ],
+        "asks": [
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  }
+}

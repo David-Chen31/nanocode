@@ -1,0 +1,1451 @@
+{
+  "k": 5,
+  "temperature": 1.0,
+  "calls": {
+    "t01_remove_outliers": "remove_outliers([], 2.0)",
+    "t02_top_k": "top_k([['a', 3], ['b', 5], ['c', 3]], 2)",
+    "t03_chunk": "chunk([1, 2, 3, 4, 5], 2)",
+    "t04_normalize": "normalize([5, 5, 5])",
+    "t05_merge_configs": "merge_configs({'a': 1, 'b': 2}, {'b': 9, 'c': 3})",
+    "t06_parse_range": "parse_range('3-7')",
+    "t07_dedupe": "dedupe([1, 2, 1, 3])",
+    "t08_round_price": "round_price(0.125)",
+    "t09_split_name": "split_name('Prince')",
+    "t10_moving_average": "moving_average([1, 2], 3)",
+    "t11_truncate": "truncate('abcdefgh', 5)",
+    "t12_sort_scores": "sort_scores([3, 1, 2])"
+  },
+  "models": {
+    "gpt-4o-mini": {
+      "summary": {
+        "bare": {
+          "settled_majority": 10,
+          "mean_settled_rate": 0.783,
+          "correct": 2,
+          "n": 12
+        },
+        "distractor": {
+          "settled_majority": 6,
+          "mean_settled_rate": 0.4,
+          "correct": 6,
+          "n": 12
+        },
+        "prose": {
+          "settled_majority": 12,
+          "mean_settled_rate": 0.917,
+          "correct": 12,
+          "n": 12
+        },
+        "convention": {
+          "settled_majority": 11,
+          "mean_settled_rate": 0.933,
+          "correct": 11,
+          "n": 12
+        },
+        "diluted": {
+          "settled_majority": 11,
+          "mean_settled_rate": 0.917,
+          "correct": 11,
+          "n": 12
+        },
+        "anti": {
+          "settled_majority": 11,
+          "mean_settled_rate": 0.9,
+          "correct": 11,
+          "n": 12
+        },
+        "conflict": {
+          "settled_majority": 10,
+          "mean_settled_rate": 0.8,
+          "correct": 2,
+          "n": 12
+        },
+        "conflict_r": {
+          "settled_majority": 10,
+          "mean_settled_rate": 0.833,
+          "correct": 2,
+          "n": 12
+        }
+      },
+      "per_task": {
+        "t01_remove_outliers": {
+          "bare": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          }
+        },
+        "t02_top_k": {
+          "bare": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "distractor": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          }
+        },
+        "t03_chunk": {
+          "bare": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          }
+        },
+        "t04_normalize": {
+          "bare": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          }
+        },
+        "t05_merge_configs": {
+          "bare": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "distractor": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          }
+        },
+        "t06_parse_range": {
+          "bare": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "distractor": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          }
+        },
+        "t07_dedupe": {
+          "bare": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "distractor": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          }
+        },
+        "t08_round_price": {
+          "bare": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          }
+        },
+        "t09_split_name": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          }
+        },
+        "t10_moving_average": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "diluted": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "anti": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "conflict": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "conflict_r": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          }
+        },
+        "t11_truncate": {
+          "bare": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "distractor": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          }
+        },
+        "t12_sort_scores": {
+          "bare": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "distractor": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict_r": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          }
+        }
+      },
+      "n_calls": 480,
+      "cost_usd": 0.04808,
+      "errors": 0,
+      "unparsed": 0,
+      "wall_seconds": 98.0,
+      "transcripts": {
+        "bare": "The requirement specifies that the function should return a new list holding the values of xs, and since the input list is empty, the function must return an empty list, which is clear and without ambiguity. \n\nVERDICT: SETTLED",
+        "distractor": "The existing code does not provide any explicit behavior for handling an empty list in the context of calculating mean and standard deviations, leaving room for different interpretations by careful programmers. \n\nVERDICT: OPEN",
+        "prose": "The conventions for helpers in this module specify that helpers that filter a sequence return an empty sequence when given an empty one, which pins down the behavior of `remove_outliers([], 2.0)` to return an empty list. \n\nVERDICT: SETTLED",
+        "convention": "The requirement states that the function should return a new list, and the existing `drop_negatives` and `clip_to_range` functions both return an empty list when provided with an empty input list, establishing a clear convention for such cases. \n\nVERDICT: SETTLED",
+        "diluted": "The existing code clearly defines behavior for several functions dealing with empty input lists, specifically returning an empty list when given an empty input. This sets a precedent for handling similar cases. \n\nVERDICT: SETTLED",
+        "anti": "The provided code includes checks for empty lists in both `drop_negatives` and `clip_to_range`, which indicates that similar behavior should be expected for the new function `remove_outliers`, thereby supporting the idea that calling `remove_outliers([], 2.0)` should raise a `ValueError`. \n\nVERDICT: SETTLED",
+        "conflict": "The existing code does not define how to handle the case where the input list is empty for the `remove_outliers` function, leaving room for different interpretations by programmers. \n\nVERDICT: OPEN",
+        "conflict_r": "The code above clearly establishes a convention that when an empty list is passed to a function, a ValueError should be raised, as seen in the `drop_negatives` function. Therefore, by following that convention, the empty input in `remove_outliers` should not lead to a return of an empty list. \n\nVERDICT: SETTLED"
+      }
+    },
+    "claude-haiku-4-5-20251001": {
+      "summary": {
+        "bare": {
+          "settled_majority": 2,
+          "mean_settled_rate": 0.267,
+          "correct": 10,
+          "n": 12
+        },
+        "distractor": {
+          "settled_majority": 4,
+          "mean_settled_rate": 0.283,
+          "correct": 8,
+          "n": 12
+        },
+        "prose": {
+          "settled_majority": 11,
+          "mean_settled_rate": 0.933,
+          "correct": 11,
+          "n": 12
+        },
+        "convention": {
+          "settled_majority": 10,
+          "mean_settled_rate": 0.817,
+          "correct": 10,
+          "n": 12
+        },
+        "diluted": {
+          "settled_majority": 10,
+          "mean_settled_rate": 0.817,
+          "correct": 10,
+          "n": 12
+        },
+        "anti": {
+          "settled_majority": 10,
+          "mean_settled_rate": 0.8,
+          "correct": 10,
+          "n": 12
+        },
+        "conflict": {
+          "settled_majority": 6,
+          "mean_settled_rate": 0.467,
+          "correct": 6,
+          "n": 12
+        },
+        "conflict_r": {
+          "settled_majority": 5,
+          "mean_settled_rate": 0.45,
+          "correct": 7,
+          "n": 12
+        }
+      },
+      "per_task": {
+        "t01_remove_outliers": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "conflict_r": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          }
+        },
+        "t02_top_k": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "prose": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "convention": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "diluted": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "conflict": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "conflict_r": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          }
+        },
+        "t03_chunk": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "distractor": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          }
+        },
+        "t04_normalize": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          }
+        },
+        "t05_merge_configs": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "conflict": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          }
+        },
+        "t06_parse_range": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "distractor": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "conflict_r": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          }
+        },
+        "t07_dedupe": {
+          "bare": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "distractor": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "diluted": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict_r": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          }
+        },
+        "t08_round_price": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "conflict": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "conflict_r": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          }
+        },
+        "t09_split_name": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "conflict_r": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          }
+        },
+        "t10_moving_average": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          }
+        },
+        "t11_truncate": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "conflict": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "conflict_r": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          }
+        },
+        "t12_sort_scores": {
+          "bare": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "distractor": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          }
+        }
+      },
+      "n_calls": 480,
+      "cost_usd": 0.45033,
+      "errors": 0,
+      "unparsed": 0,
+      "wall_seconds": 117.0,
+      "transcripts": {
+        "bare": "The requirement states the function \"returns a new list holding the values of xs whose absolute distance from the mean is at most k population standard deviations,\" and for an empty list, there are no values to filter, so the mean and standard deviation are undefined but irrelevant—the result must be an empty list in all cases.\n\nVERDICT: SETTLED",
+        "distractor": "The requirement states the function should return values \"whose absolute distance from the mean is at most k population standard deviations.\" For an empty list, there is no mean and no standard deviation to compute, and the requirement does not specify behavior for this edge case. Different careful programmers could reasonably choose to return `[]`, raise an exception, or handle it differently.\n\nVERDICT: OPEN",
+        "prose": "The module's conventions state: \"Helpers that filter a sequence return an empty sequence when given an empty one. They never raise on empty input.\" Since `remove_outliers` is a filtering helper, this convention directly determines that it must return an empty list when given an empty input.\n\nVERDICT: SETTLED",
+        "convention": "Looking at the existing code, `drop_negatives([])` and `clip_to_range([], lo, hi)` both establish a clear convention: when the input list is empty, return an empty list. This pattern is explicit in the codebase and would naturally apply to `remove_outliers([], 2.0)`.\n\nVERDICT: SETTLED",
+        "diluted": "Looking at the existing code, there's a clear convention established: `drop_negatives([])` returns `[]`, and `clip_to_range([], lo, hi)` returns `[]`. Both functions explicitly handle the empty list case by returning an empty list. This pattern of returning an empty list when the input is empty is consistent across the module.\n\nVERDICT: SETTLED\nThe established convention of returning an empty list for empty input determines the behavior.",
+        "anti": "The existing functions `drop_negatives` and `clip_to_range` both raise `ValueError` when passed an empty list, establishing a clear convention in this module for handling empty inputs.\n\nVERDICT: SETTLED",
+        "conflict": "The requirement does not specify behavior for an empty list. `drop_negatives` returns `[]` for empty input, establishing a convention in this module, but `clip_to_range` raises an exception for empty input, so there is conflicting precedent.\n\nVERDICT: OPEN",
+        "conflict_r": "The `clip_to_range` function establishes a clear convention: when `xs` is empty, return an empty list. This sets a precedent for how functions in this module handle empty input, which two careful programmers would follow.\n\nVERDICT: SETTLED"
+      }
+    },
+    "qwen-plus": {
+      "summary": {
+        "bare": {
+          "settled_majority": 3,
+          "mean_settled_rate": 0.35,
+          "correct": 9,
+          "n": 12
+        },
+        "distractor": {
+          "settled_majority": 3,
+          "mean_settled_rate": 0.3,
+          "correct": 9,
+          "n": 12
+        },
+        "prose": {
+          "settled_majority": 9,
+          "mean_settled_rate": 0.733,
+          "correct": 9,
+          "n": 12
+        },
+        "convention": {
+          "settled_majority": 7,
+          "mean_settled_rate": 0.533,
+          "correct": 7,
+          "n": 12
+        },
+        "diluted": {
+          "settled_majority": 10,
+          "mean_settled_rate": 0.75,
+          "correct": 10,
+          "n": 12
+        },
+        "anti": {
+          "settled_majority": 8,
+          "mean_settled_rate": 0.65,
+          "correct": 8,
+          "n": 12
+        },
+        "conflict": {
+          "settled_majority": 6,
+          "mean_settled_rate": 0.533,
+          "correct": 6,
+          "n": 12
+        },
+        "conflict_r": {
+          "settled_majority": 8,
+          "mean_settled_rate": 0.583,
+          "correct": 4,
+          "n": 12
+        }
+      },
+      "per_task": {
+        "t01_remove_outliers": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "anti": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "conflict": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "conflict_r": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          }
+        },
+        "t02_top_k": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "convention": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "diluted": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "anti": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "conflict": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          }
+        },
+        "t03_chunk": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "conflict": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          }
+        },
+        "t04_normalize": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          }
+        },
+        "t05_merge_configs": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          }
+        },
+        "t06_parse_range": {
+          "bare": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "prose": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "convention": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "conflict_r": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          }
+        },
+        "t07_dedupe": {
+          "bare": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "distractor": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "prose": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "convention": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          }
+        },
+        "t08_round_price": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "prose": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "anti": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "conflict": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "conflict_r": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          }
+        },
+        "t09_split_name": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0.2
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          }
+        },
+        "t10_moving_average": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "distractor": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          },
+          "diluted": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "conflict": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "conflict_r": {
+            "verdict": "OPEN",
+            "settled_rate": 0
+          }
+        },
+        "t11_truncate": {
+          "bare": {
+            "verdict": "OPEN",
+            "settled_rate": 0.4
+          },
+          "distractor": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          }
+        },
+        "t12_sort_scores": {
+          "bare": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "distractor": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "prose": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "convention": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "diluted": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          },
+          "anti": {
+            "verdict": "SETTLED",
+            "settled_rate": 1
+          },
+          "conflict": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.6
+          },
+          "conflict_r": {
+            "verdict": "SETTLED",
+            "settled_rate": 0.8
+          }
+        }
+      },
+      "n_calls": 480,
+      "cost_usd": 0.30697,
+      "errors": 0,
+      "unparsed": 0,
+      "wall_seconds": 121.4,
+      "transcripts": {
+        "bare": "The requirement specifies preserving the original order and returning a new list for input values meeting the criteria; since an empty list has no elements to filter, both programmers must return an empty list.\nVERDICT: SETTLED",
+        "distractor": "The requirement and existing code do not determine the return value for an empty list because neither the mathematical definition of mean/standard deviation nor the provided helper functions explicitly specify behavior for empty inputs, leaving the result (e.g., `[]` or a raised exception) ambiguous.\nVERDICT: OPEN",
+        "prose": "The requirement and the existing conventions in the module (specifically that helpers return an empty sequence when given an empty one) determine that `remove_outliers([], 2.0)` must return an empty list.\nVERDICT: SETTLED",
+        "convention": "The requirement and existing code do not determine the return value because neither the function description nor the provided helper functions explicitly define how to handle an empty list when calculating a mean and standard deviation (which are undefined for empty sequences), leaving open whether the result should be an empty list, an error, or something else.\nVERDICT: OPEN",
+        "diluted": "The requirement explicitly defines the behavior for an empty list (returning a new list of values satisfying the condition, which is vacuously true for all elements in an empty list), and the existing code establishes a clear convention of returning `[]` for empty inputs in analogous filtering functions like `drop_negatives` and `clip_to_range`.\n\nVERDICT: SETTLED",
+        "anti": "The requirement and existing code do not determine the return value for an empty list because both `drop_negatives` and `clip_to_range` explicitly raise a `ValueError` on empty input, but the new requirement for `remove_outliers` does not specify whether to follow this convention or return an empty list when calculating statistics on an empty sequence.\n\nVERDICT: OPEN",
+        "conflict": "The requirement does not specify the behavior for an empty input list, and while existing functions in the module handle empty lists differently (one returns `[]`, another raises a `ValueError`), there is no established convention or explicit rule in the provided material to determine whether `remove_outliers([], 2.0)` should return an empty list or raise an error.\n\nVERDICT: OPEN",
+        "conflict_r": "The requirement leaves the behavior open because it does not specify how to handle the case where the input list is empty (where the mean and standard deviation are undefined), and the existing code provides no convention for handling empty lists in statistical computations, with `drop_negatives` raising an error while `clip_to_range` returns an empty list.\nVERDICT: OPEN"
+      }
+    }
+  }
+}

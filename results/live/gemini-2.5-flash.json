@@ -1,0 +1,545 @@
+{
+  "model": "gemini-2.5-flash",
+  "k": 6,
+  "temperature": 1.0,
+  "diversify": false,
+  "n_tasks": 12,
+  "requested": 144,
+  "dropped": 0,
+  "api_errors": 0,
+  "input_tokens": 17910,
+  "output_tokens": 86669,
+  "model_calls": 192,
+  "cost_usd": 0.45126,
+  "wall_seconds": 70.0,
+  "samples": {
+    "t01_remove_outliers": {
+      "ambiguous": {
+        "sources": [
+          "import statistics\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n\n    data_\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    n = len(xs)\n\n    # Handle empty\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    n = len(xs)\n    if n == 0\n",
+          "\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    n = len(xs)\n    if n ==\n",
+          "import statistics\nimport math\n\ndef remove_outliers(xs, k):\n    if not xs:\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 1.0,
+        "direct_ask": 0.0,
+        "direct_ask_point": null
+      },
+      "full": {
+        "sources": [
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n\n    n = len\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n\n    n =\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n\n    n\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": 0.1,
+        "direct_ask_point": "The behavior when the standard deviation is zero."
+      }
+    },
+    "t02_top_k": {
+      "ambiguous": {
+        "sources": [
+          "def top_k(items, k):\n    \"\"\"\n    Returns a list of the k pairs with the highest scores from a list of [name, score] pairs.\n\n    The returned list is ordered by score descending.\n    If k is larger than len(items), all items are returned.\n    Assumes k >= 0.\n\n    Args:\n        items (list): A list of [name, score] pairs. Each pair is a 2-element list.\n                      Example: [['apple', 10], ['banana', 20], ['cherry', 5]]\n        k (int): The number of top-scoring items to return\n",
+          "def top_k(items, k):\n    \"\"\"\n    Returns a list of the k pairs with the highest scores from a\n",
+          "import operator\n\ndef top_k(items, k):\n    \"\"\"\n    Returns a list of the k\n",
+          "def top_k(items, k):\n    \"\"\"\n    Returns a list of the k pairs with the highest scores from the input list,\n    ordered by score descending.\n\n    Args:\n        items: A list of [name, score] pairs, where score is a number.\n        k: The number of top items to return. Assumed to be non-negative.\n\n    Returns:\n        A list of the k pairs with the highest scores, sorted by score descending.\n        If k is larger than the number of items, all items are returned.\n    \"\"\"\n    # Sort the items by score in descending order.\n    # The key for sorting is the second element of each pair (the score).\n",
+          "def top_k(items, k):\n    \"\"\"\n    Returns a list of the k pairs with the highest scores, ordered by score descending.\n\n    Args:\n        items: A list of [name, score] pairs (each a 2-element list).\n        k: The number of top items to return. Assumed k >= 0.\n\n    Returns:\n        A list of the k pairs with the highest scores, ordered by score descending.\n        If k is larger than len(items), returns all items.\n    \"\"\"\n    if not items or k == 0:\n        return []\n\n    # Sort the items by score\n",
+          "import collections\n\n\ndef top_k(items, k):\n    sorted_items = sorted(items, key=\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": 0.0,
+        "direct_ask_point": null
+      },
+      "full": {
+        "sources": [
+          "import heapq\n\ndef top_k(items, k):\n    # If k is 0, return an empty list\n",
+          "import collections\n\ndef top_k(items, k):\n    \"\"\"\n    Returns a list of the k pairs with the highest\n",
+          "import heapq\n\ndef top_k(items, k):\n    if k == 0:\n        return []\n",
+          "def top_k(items, k):\n    \"\"\"\n    Returns a list of the k pairs with the highest scores, ordered\n",
+          "import collections\n\ndef top_k(items, k):\n    \"\"\"\n    Returns a list of the k\n",
+          "import operator\n\ndef top_k(items, k):\n    # If k is 0, return an empty list\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": 0.1,
+        "direct_ask_point": null
+      }
+    },
+    "t03_chunk": {
+      "ambiguous": {
+        "sources": [
+          "def chunk(xs, size):\n    result = []\n    for i in range(0, len(\n",
+          "def chunk(xs, size):\n    result = []\n    for i in range(0, len(xs), size\n",
+          "def chunk(xs, size):\n    result = []\n    for i in range(0, len(xs), size):\n",
+          "def chunk(xs, size):\n    result = []\n    for i in range(0, len(xs), size):\n",
+          "def chunk(xs, size):\n    \"\"\"\n    Splits a list `xs` into consecutive sublists (chunks)\n",
+          "def chunk(xs, size):\n    \"\"\"\n    Splits a list into consecutive sublists of a specified size.\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": 0.0,
+        "direct_ask_point": null
+      },
+      "full": {
+        "sources": [
+          "def chunk(xs, size):\n    result = []\n    for i in range(0, len(xs), size):\n",
+          "def chunk(xs, size):\n    \"\"\"\n    Splits a list into consecutive sublists (chunks) of a\n",
+          "def chunk(xs, size):\n    result = []\n    for i in range(0,\n",
+          "def chunk(xs, size):\n    \"\"\"\n    Splits a list xs into consecutive sublists (chunks) of\n",
+          "def chunk(xs, size):\n    \"\"\"\n    Splits xs into consecutive sublists of length size,\n",
+          "def chunk(xs, size):\n    \"\"\"\n    Splits a list into consecutive sublists of a specified size.\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": 0.0,
+        "direct_ask_point": null
+      }
+    },
+    "t04_normalize": {
+      "ambiguous": {
+        "sources": [
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n",
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n",
+          "import math\n\ndef normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n",
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n",
+          "import math\n\ndef normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n    \n    if math.isclose(max_val, min_val):\n        # All elements are the same, so they should all normalize to 0.0\n        return [0.0] * len(xs)\n    else:\n        normalized_list = []\n        for x in xs:\n            normalized_x = (x - min_val) / (max_val - min_val)\n            normalized_list.append(normalized_x)\n        return normalized_list\n",
+          "import math\n\ndef normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": 0.0,
+        "direct_ask_point": null
+      },
+      "full": {
+        "sources": [
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n",
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n\n    if\n",
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n",
+          "import math\n\ndef normalize(xs):\n    min_val = xs[0]\n    max_val = xs[\n",
+          "import math\n\ndef normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n\n    if math.isclose(max_val, min_val):\n        return [0.0] * len(xs)\n    else:\n        scale_factor = max_val - min_val\n        return [float((x - min_val) / scale_factor) for x in xs]\n",
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": 0.2,
+        "direct_ask_point": null
+      }
+    },
+    "t05_merge_configs": {
+      "ambiguous": {
+        "sources": [
+          "def merge_configs(base, override):\n    \"\"\"\n    Merges two dictionaries, `base` and `override`, returning\n",
+          "def merge_configs(base: dict, override: dict) -> dict:\n    return {**base, **override}\n",
+          "def merge_configs(base, override):\n    return {**base, **override}\n",
+          "def merge_configs(base, override):\n    \"\"\"\n    Merges two dictionaries, `base` and `override`, returning a new dictionary.\n\n    Keys present in `override` will take precedence over keys in `base`.\n    Neither `base` nor `override` will be modified.\n\n    Args:\n        base (dict): The base configuration dictionary.\n        override (dict): The override configuration dictionary.\n\n    Returns:\n        dict: A new dictionary containing the merged configuration.\n    \"\"\"\n    return {**base, **override}\n",
+          "def merge_configs(base, override):\n    return {**base, **override}\n",
+          "def merge_configs(base, override):\n    \"\"\"\n    Merges two dictionaries, `base` and `override`, into a new dictionary.\n\n    Keys present in both dictionaries will have their values taken from `override`.\n    Neither the `base` nor the `override` dictionary is modified.\n\n    Args:\n        base (dict): The base dictionary.\n        override (dict): The dictionary whose values will override base values\n                         for common keys.\n\n    Returns:\n        dict: A new dictionary containing all key-value pairs from both inputs,\n              with `override` values taking precedence.\n    \"\"\"\n    return {**base, **override}\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": null,
+        "direct_ask_point": null
+      },
+      "full": {
+        "sources": [
+          "def merge_configs(base, override):\n    \"\"\"\n    Merges two dictionaries, `base` and\n",
+          "def merge_configs(base, override):\n    \"\"\"\n    Merges two dictionaries, `base` and `override`, returning a new dictionary.\n\n    Neither `base` nor `override` are modified. When a key is present in both,\n    the value from `override` takes precedence.\n\n    Args:\n        base (dict): The base configuration dictionary.\n        override (dict): The overriding configuration dictionary.\n\n    Returns:\n        dict: A new dictionary containing the merged configuration.\n    \"\"\"\n    merged_config = base.copy()\n    merged_config.update(override)\n    return merged_config\n",
+          "def merge_configs(base, override):\n    \"\"\"\n    Merges two dictionaries, returning a new dictionary containing\n",
+          "def merge_configs(base, override):\n    \"\"\"\n    Merges two dictionaries, `base` and `override`, into a new dictionary.\n\n    Args:\n        base (dict): The base configuration dictionary.\n        override (dict): The override configuration dictionary.\n\n    Returns:\n        dict: A new dictionary containing all keys from both `base\n",
+          "def merge_configs(base, override):\n    \"\"\"\n    Merges two dictionaries, `base` and\n",
+          "def merge_configs(base, override):\n    \"\"\"\n    Merges two dictionaries, `base` and `override`, into a new dictionary.\n\n    Args:\n        base (dict): The base configuration dictionary.\n        override (dict): The override configuration dictionary.\n\n    Returns:\n        dict: A new dictionary containing all keys from both inputs.\n              If a key is present in both, the value from `override` wins.\n              Neither input dictionary is modified.\n    \"\"\"\n    return {**base, **override}\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": 0.0,
+        "direct_ask_point": null
+      }
+    },
+    "t06_parse_range": {
+      "ambiguous": {
+        "sources": [
+          "def parse_range(spec):\n    start_str, end_str = spec.split('-')\n    start = int(start_str)\n    end = int(end_str)\n    return list(range(start, end + 1))\n",
+          "def parse_range(spec):\n    start_str, end_str = spec.split('-')\n    start = int(start_str)\n    end = int(end_str)\n    return list(range(start, end + 1))\n",
+          "def parse_range(spec: str) -> list[int]:\n    \"\"\"\n    Parses a range string like '3-7' and returns the list of integers it denotes.\n\n    Assumes the spec is well-formed, with a non-negative start no larger than the end.\n\n    Args:\n        spec: A string representing a range, e.g., '3-7'.\n\n    Returns:\n        A list of integers within the specified range, inclusive.\n    \"\"\"\n    start_str, end_str = spec.split('-')\n    start = int(start_str)\n    end = int(end_str)\n    return list(range(start, end + 1))\n",
+          "def parse_range(spec: str) -> list[int]:\n    \"\"\"\n    Parses a range specification string like '3-7' and returns the list of integers it denotes.\n\n    Assumes spec is well-formed, with a non-negative start no larger than the end.\n\n    Args:\n        spec: A string representing the range (e.g., '3-7').\n\n    Returns:\n        A list of integers within the specified range, inclusive.\n    \"\"\"\n    start_str, end_str = spec.split('-')\n    start = int(start_str)\n    end = int(end_str)\n    return list(range(start, end + 1))\n",
+          "def parse_range(spec):\n    start_str, end_str = spec.split('-')\n    start = int(start_str)\n    end = int(end_str)\n    return list(range(start, end + 1))\n",
+          "def parse_range(spec):\n    start_str, end_str = spec.split('-')\n    start = int(start_str)\n    end = int(end_str)\n    return list(range(start, end + 1))\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": null,
+        "direct_ask_point": null
+      },
+      "full": {
+        "sources": [
+          "def parse_range(spec: str) -> list[int]:\n    start_str, end_str = spec.split('-')\n    start = int(start_str)\n    end = int(end_str)\n    return list(range(start, end))\n",
+          "def parse_range(spec: str) -> list[int]:\n    \"\"\"\n    Parses a range string like '3-7' and returns the list of integers it denotes.\n    The end of the range is exclusive.\n\n    Args:\n        spec: A string representing the range, e.g., '3-7'.\n              Assumed to be well-formed with a non-negative start no larger than the end.\n\n    Returns:\n        A list of integers within the specified range (exclusive end).\n        For '3-7', returns [3, 4, 5, 6].\n    \"\"\"\n    start_str, end_str = spec.split('-')\n    start = int(start_str)\n    end = int(end_str)\n    return list(range(start, end))\n",
+          "def parse_range(spec: str) -> list[int]:\n    \"\"\"\n    Parses a range string like '3-7' and returns the list of integers it denotes.\n    The end of the range is exclusive, so '3-7' gives [3, 4, 5, 6].\n    Assumes spec is well formed, with a non-negative start no larger than the end.\n\n    Args:\n        spec: A string representing the range, e.g., '3-7'.\n\n    Returns:\n        A list of integers within the specified range (exclusive end).\n    \"\"\"\n    start_str, end_str = spec.split('-')\n    start = int(start_str)\n    end = int(end_str)\n    return list(range(start, end))\n",
+          "def parse_range(spec):\n    start_str, end_str = spec.split('-')\n    start = int(start_str)\n    end = int(end_str)\n    return list(range(start, end))\n",
+          "def parse_range(spec: str) -> list[int]:\n    \"\"\"\n    Parses a range string like '3-7' and returns the list of integers it denotes.\n    The end of the range is exclusive, so '3-7' gives [3, 4, 5, 6].\n    Assumes spec is well formed, with a non-negative start no larger than the end.\n    \"\"\"\n    start_str, end_str = spec.split('-')\n    start = int(start_str)\n    end = int(end_str)\n    return list(range(start, end))\n",
+          "def parse_range(spec: str) -> list[int]:\n    \"\"\"\n    Parses a range string like '3-7' and returns the list of integers it denotes.\n    The end of the range is exclusive, so '3-7' gives [3, 4, 5, 6].\n    Assumes spec is well-formed, with a non-negative start no larger than the end.\n\n    Args:\n        spec: A string representing the range, e.g., '3-7'.\n\n    Returns:\n        A list of integers within the specified range.\n    \"\"\"\n    start_str, end_str = spec.split('-')\n    start = int(start_str)\n    end = int(end_str)\n    return list(range(start, end))\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": null,
+        "direct_ask_point": null
+      }
+    },
+    "t07_dedupe": {
+      "ambiguous": {
+        "sources": [
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for x in xs:\n        if x not in seen:\n            result.append(x)\n            seen.add(x)\n    return result\n",
+          "def dedupe(xs):\n    \"\"\"\n    Returns a new list with duplicates removed, keeping the elements in order\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for x in xs\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for x in xs:\n        if x\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for x in xs:\n",
+          "def dedupe(xs):\n    \"\"\"\n    Returns a new list with duplicates removed, keeping the elements in order.\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": null,
+        "direct_ask_point": null
+      },
+      "full": {
+        "sources": [
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for x in reversed(xs):\n",
+          "\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    # Iterate through the list in reverse order.\n",
+          "def dedupe(xs):\n    \"\"\"\n    Returns a new list with duplicates removed.\n    The surviving elements keep the relative\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for x in reversed(\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    # Iterate through the list in reverse order\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": null,
+        "direct_ask_point": null
+      }
+    },
+    "t08_round_price": {
+      "ambiguous": {
+        "sources": [
+          "def round_price(x: float) -> float:\n    return round(x, 2)\n",
+          "def round_price(x):\n    return round(x, 2)\n",
+          "def round_price(x: float) -> float:\n    \"\"\"\n    Rounds a float to two decimal places.\n",
+          "def round_price(x):\n    \"\"\"\n    Rounds the float x to two decimal places and returns a float.\n    \"\"\"\n    return round(x, 2)\n",
+          "def round_price(x: float) -> float:\n    return round(x, 2)\n",
+          "import math\n\ndef round_price(x: float) -> float:\n    return round(x, 2)\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": null,
+        "direct_ask_point": null
+      },
+      "full": {
+        "sources": [
+          "import math\n\ndef round_price(x):\n    \"\"\"\n    Rounds a float x to two decimal\n",
+          "import math\n\ndef round_price(x):\n    if x >= 0:\n        return math.floor(x *\n",
+          "import math\n\ndef round_price(x):\n    \"\"\"\n    Rounds a float x to two decimal places\n",
+          "import math\n\ndef round_price(x):\n    \"\"\"\n    Rounds the float x to two decimal places using the \"round\n",
+          "import math\n\ndef round_price(x):\n    \"\"\"\n    Rounds a float x to two decimal\n",
+          "import math\n\ndef round_price(x: float) -> float:\n    \"\"\"\n    Rounds a float x to\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": 0.0,
+        "direct_ask_point": null
+      }
+    },
+    "t09_split_name": {
+      "ambiguous": {
+        "sources": [
+          "def split_name(full):\n    stripped_name = full.strip()\n    parts = stripped_name.split\n",
+          "import re\n\ndef split_name(full):\n    stripped_name = full.strip()\n    parts =\n",
+          "def split_name(full):\n    stripped_name = full.strip()\n    first_space_index = stripped_name\n",
+          "import re\n\ndef split_name(full):\n    \"\"\"\n    Splits a full name string into a [first, last\n",
+          "def split_name(full):\n    stripped_name = full.strip()\n    parts = stripped_name.\n",
+          "def split_name(full):\n    s = full.strip()\n    parts = s.split('\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": null,
+        "direct_ask_point": null
+      },
+      "full": {
+        "sources": [
+          "def split_name(full):\n    \"\"\"\n    Splits a full name string into a [first,\n",
+          "def split_name(full):\n    \"\"\"\n    Splits a full name string into a [first, last] pair.\n",
+          "import re\n\ndef split_name(full):\n    stripped_name = full.strip()\n    parts = stripped_name\n",
+          "def split_name(full):\n    stripped_name = full.strip()\n    parts = stripped_name.split\n",
+          "def split_name(full):\n    name = full.strip()\n    if ' ' not in name:\n        return [\"\n",
+          "def split_name(full):\n    \"\"\"\n    Splits a full name string into a [first_name, last\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": 0.2,
+        "direct_ask_point": null
+      }
+    },
+    "t10_moving_average": {
+      "ambiguous": {
+        "sources": [
+          "import collections\n\ndef moving_average(xs, w):\n    if w <= 0:\n        raise ValueError(\"Window size\n",
+          "def moving_average(xs, w):\n    \"\"\"\n    Calculates the moving average of a list of numbers.\n",
+          "def moving_average(xs, w):\n    if not xs or w <= 0 or w > len(xs):\n",
+          "def moving_average(xs, w):\n    if w <= 0:\n        raise ValueError(\"Window\n",
+          "def moving_average(xs, w):\n    if w <= 0:\n        raise ValueError(\"Window size w must\n",
+          "import collections\n\ndef moving_average(xs, w):\n    if w <= 0:\n        raise ValueError(\"Window size\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": null,
+        "direct_ask_point": null
+      },
+      "full": {
+        "sources": [
+          "def moving_average(xs, w):\n    if not xs or w > len(xs):\n        return []\n",
+          "import collections\n\ndef moving_average(xs, w):\n    n = len(xs)\n    if w > n or w\n",
+          "def moving_average(xs, w):\n    n = len(xs)\n    if w > n or w <\n",
+          "def moving_average(xs, w):\n    if w > len(xs):\n        return []\n\n    averages = []\n",
+          "def moving_average(xs, w):\n    if w > len(xs):\n        return []\n",
+          "def moving_average(xs, w):\n    if w > len(xs):\n        return []\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": null,
+        "direct_ask_point": null
+      }
+    },
+    "t11_truncate": {
+      "ambiguous": {
+        "sources": [
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    else:\n        # Since n >= 3, we can always fit '...'\n        # The number of characters from s will be n - 3\n        return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    else:\n        return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    else:\n        # Since n >= 3, n - 3 will be a non-negative index.\n        # The result will be n characters long: (n - 3) characters + '...'(3 characters)\n        return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    else:\n        return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    else:\n        return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    else:\n        return s[:n-3] + '...'\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": null,
+        "direct_ask_point": null
+      },
+      "full": {
+        "sources": [
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    else:\n        return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    else:\n        return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    else:\n        return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    else:\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    else:\n        # Since n >= 3 is assumed, n-3 will always\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    else\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": null,
+        "direct_ask_point": null
+      }
+    },
+    "t12_sort_scores": {
+      "ambiguous": {
+        "sources": [
+          "def sort_scores(xs):\n    return sorted(xs, reverse=True)\n",
+          "import collections\n\ndef sort_scores(xs: collections.abc.Sequence[int | float]) -> list[int | float]:\n    return sorted(xs, reverse=True)\n",
+          "import collections\n\ndef sort_scores(xs):\n    return sorted(xs, reverse=True)\n",
+          "def sort_scores(xs):\n    return sorted(xs, reverse=True)\n",
+          "def sort_scores(xs):\n    return sorted(xs, reverse=True)\n",
+          "def sort_scores(xs):\n    return sorted(xs, reverse=True)\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": null,
+        "direct_ask_point": null
+      },
+      "full": {
+        "sources": [
+          "def sort_scores(xs):\n    xs.sort(reverse=True)\n    return None\n",
+          "def sort_scores(xs):\n    \"\"\"\n    Sorts a list of numbers in place from largest to smallest.\n\n    Args:\n        xs: A list of numbers. The list will be modified in place.\n\n    Returns:\n        None\n    \"\"\"\n    xs.sort(reverse=True)\n",
+          "def sort_scores(xs):\n    xs.sort(reverse=True)\n",
+          "def sort_scores(xs):\n    xs.sort(reverse=True)\n",
+          "def sort_scores(xs):\n    xs.sort(reverse=True)\n",
+          "def sort_scores(xs):\n    xs.sort(reverse=True)\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": null,
+        "direct_ask": 0.0,
+        "direct_ask_point": null
+      }
+    }
+  }
+}

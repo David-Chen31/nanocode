@@ -1,0 +1,1013 @@
+{
+  "files": 4000,
+  "functions": 64623,
+  "dims": {
+    "D1_empty": {
+      "modules_any": 139,
+      "modules_two_plus": 42,
+      "parsed": 4000,
+      "agree": 22,
+      "disagree": 20,
+      "availability": 0.0105,
+      "agreement": 0.5238,
+      "verdicts": {
+        "EMPTY": 32,
+        "OTHER": 102,
+        "NONE": 33,
+        "RAISE": 53
+      },
+      "disagreeing_examples": [
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\_pydecimal.py",
+          "functions": [
+            [
+              "_group_lengths",
+              "EMPTY"
+            ],
+            [
+              "__abs__",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\imaplib.py",
+          "functions": [
+            [
+              "decode",
+              "EMPTY"
+            ],
+            [
+              "_dump_ur",
+              "NONE"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\ntpath.py",
+          "functions": [
+            [
+              "commonpath",
+              "RAISE"
+            ],
+            [
+              "normcase",
+              "EMPTY"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\pathlib.py",
+          "functions": [
+            [
+              "_parse_path",
+              "OTHER"
+            ],
+            [
+              "glob",
+              "RAISE"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\reprlib.py",
+          "functions": [
+            [
+              "_join",
+              "EMPTY"
+            ],
+            [
+              "repr_array",
+              "OTHER"
+            ],
+            [
+              "repr_set",
+              "OTHER"
+            ],
+            [
+              "repr_frozenset",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\email\\_header_value_parser.py",
+          "functions": [
+            [
+              "get_word",
+              "RAISE"
+            ],
+            [
+              "get_no_fold_literal",
+              "RAISE"
+            ],
+            [
+              "get_value",
+              "RAISE"
+            ],
+            [
+              "_find_mime_parameters",
+              "NONE"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\email\\base64mime.py",
+          "functions": [
+            [
+              "header_encode",
+              "EMPTY"
+            ],
+            [
+              "body_encode",
+              "EMPTY"
+            ],
+            [
+              "decode",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\importlib\\_bootstrap_external.py",
+          "functions": [
+            [
+              "_get_sourcefile",
+              "NONE"
+            ],
+            [
+              "_path_isabs",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\peewee.py",
+          "functions": [
+            [
+              "_sqlite_date_part",
+              "NONE"
+            ],
+            [
+              "_sqlite_date_trunc",
+              "NONE"
+            ],
+            [
+              "Check",
+              "OTHER"
+            ],
+            [
+              "inner",
+              "RAISE"
+            ],
+            [
+              "db_value",
+              "OTHER"
+            ],
+            [
+              "_create_table_option_sql",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\pefile.py",
+          "functions": [
+            [
+              "lru_cache",
+              "OTHER"
+            ],
+            [
+              "entropy_H",
+              "OTHER"
+            ],
+            [
+              "parse_dynamic_relocations",
+              "NONE"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\urllib\\parse.py",
+          "functions": [
+            [
+              "urljoin",
+              "OTHER"
+            ],
+            [
+              "quote_from_bytes",
+              "EMPTY"
+            ]
+          ]
+        },
+        {
+          "project": "numpy",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\numpy\\_core\\einsumfunc.py",
+          "functions": [
+            [
+              "_can_dot",
+              "OTHER"
+            ],
+            [
+              "_parse_einsum_input",
+              "RAISE"
+            ]
+          ]
+        },
+        {
+          "project": "numpy",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\numpy\\lib\\_function_base_impl.py",
+          "functions": [
+            [
+              "select",
+              "RAISE"
+            ],
+            [
+              "_update_dim_sizes",
+              "NONE"
+            ],
+            [
+              "_get_ufunc_and_otypes",
+              "RAISE"
+            ]
+          ]
+        },
+        {
+          "project": "scipy",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\scipy\\signal\\windows\\_windows.py",
+          "functions": [
+            [
+              "_extend",
+              "OTHER"
+            ],
+            [
+              "kaiser_bessel_derived",
+              "RAISE"
+            ]
+          ]
+        },
+        {
+          "project": "scipy",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\scipy\\stats\\_axis_nan_policy.py",
+          "functions": [
+            [
+              "_broadcast_arrays",
+              "EMPTY"
+            ],
+            [
+              "_broadcast_shapes",
+              "EMPTY"
+            ],
+            [
+              "_remove_nans",
+              "OTHER"
+            ],
+            [
+              "_remove_sentinel",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "matplotlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\matplotlib\\transforms.py",
+          "functions": [
+            [
+              "count_contains",
+              "OTHER"
+            ],
+            [
+              "union",
+              "RAISE"
+            ],
+            [
+              "update_from_data_xy",
+              "NONE"
+            ]
+          ]
+        },
+        {
+          "project": "transformers",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\transformers\\models\\sam2_video\\modeling_sam2_video.py",
+          "functions": [
+            [
+              "_process_object_pointers",
+              "OTHER"
+            ],
+            [
+              "_batch_encode_memories",
+              "NONE"
+            ]
+          ]
+        },
+        {
+          "project": "transformers",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\transformers\\models\\sam2_video\\modular_sam2_video.py",
+          "functions": [
+            [
+              "_process_object_pointers",
+              "OTHER"
+            ],
+            [
+              "_batch_encode_memories",
+              "NONE"
+            ]
+          ]
+        },
+        {
+          "project": "transformers",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\transformers\\models\\sam3_tracker_video\\modeling_sam3_tracker_video.py",
+          "functions": [
+            [
+              "_process_object_pointers",
+              "OTHER"
+            ],
+            [
+              "_batch_encode_memories",
+              "NONE"
+            ]
+          ]
+        },
+        {
+          "project": "transformers",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\transformers\\models\\tapas\\tokenization_tapas.py",
+          "functions": [
+            [
+              "whitespace_tokenize",
+              "EMPTY"
+            ],
+            [
+              "_get_numeric_sort_key_fn",
+              "NONE"
+            ]
+          ]
+        }
+      ],
+      "agreeing_examples": [
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\cmd.py",
+          "functions": [
+            [
+              "parseline",
+              "OTHER"
+            ],
+            [
+              "onecmd",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\enum.py",
+          "functions": [
+            [
+              "_get_mixins_",
+              "OTHER"
+            ],
+            [
+              "_generate_next_value_",
+              "OTHER"
+            ],
+            [
+              "_generate_next_value_",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\ipaddress.py",
+          "functions": [
+            [
+              "_ip_int_from_string",
+              "RAISE"
+            ],
+            [
+              "_parse_octet",
+              "RAISE"
+            ],
+            [
+              "_ip_int_from_string",
+              "RAISE"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\posixpath.py",
+          "functions": [
+            [
+              "relpath",
+              "RAISE"
+            ],
+            [
+              "commonpath",
+              "RAISE"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\typing.py",
+          "functions": [
+            [
+              "_check_generic",
+              "RAISE"
+            ],
+            [
+              "Union",
+              "RAISE"
+            ],
+            [
+              "Concatenate",
+              "RAISE"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\warnings.py",
+          "functions": [
+            [
+              "_getaction",
+              "OTHER"
+            ],
+            [
+              "_getcategory",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\asyncio\\selector_events.py",
+          "functions": [
+            [
+              "writelines",
+              "NONE"
+            ],
+            [
+              "sendto",
+              "NONE"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\ctypes\\util.py",
+          "functions": [
+            [
+              "_get_soname",
+              "NONE"
+            ],
+            [
+              "_get_soname",
+              "NONE"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\email\\quoprimime.py",
+          "functions": [
+            [
+              "header_encode",
+              "EMPTY"
+            ],
+            [
+              "body_encode",
+              "EMPTY"
+            ],
+            [
+              "decode",
+              "EMPTY"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\encodings\\idna.py",
+          "functions": [
+            [
+              "encode",
+              "OTHER"
+            ],
+            [
+              "decode",
+              "OTHER"
+            ],
+            [
+              "_buffer_encode",
+              "OTHER"
+            ],
+            [
+              "_buffer_decode",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\typing_extensions.py",
+          "functions": [
+            [
+              "_concatenate_getitem",
+              "RAISE"
+            ],
+            [
+              "_check_generic",
+              "RAISE"
+            ],
+            [
+              "_check_generic",
+              "RAISE"
+            ]
+          ]
+        },
+        {
+          "project": "stdlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\tkinter\\tix.py",
+          "functions": [
+            [
+              "info",
+              "OTHER"
+            ],
+            [
+              "column_width",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "numpy",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\numpy\\f2py\\crackfortran.py",
+          "functions": [
+            [
+              "appenddecl",
+              "OTHER"
+            ],
+            [
+              "setattrspec",
+              "OTHER"
+            ],
+            [
+              "setkindselector",
+              "OTHER"
+            ],
+            [
+              "setcharselector",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "numpy",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\numpy\\lib\\_iotools.py",
+          "functions": [
+            [
+              "_fixedwidth_splitter",
+              "EMPTY"
+            ],
+            [
+              "_variablewidth_splitter",
+              "EMPTY"
+            ]
+          ]
+        },
+        {
+          "project": "numpy",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\numpy\\ma\\core.py",
+          "functions": [
+            [
+              "getdata",
+              "OTHER"
+            ],
+            [
+              "anom",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "scipy",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\scipy\\_lib\\array_api_compat\\torch\\_aliases.py",
+          "functions": [
+            [
+              "max",
+              "OTHER"
+            ],
+            [
+              "min",
+              "OTHER"
+            ],
+            [
+              "prod",
+              "OTHER"
+            ],
+            [
+              "sum",
+              "OTHER"
+            ],
+            [
+              "any",
+              "OTHER"
+            ],
+            [
+              "all",
+              "OTHER"
+            ],
+            [
+              "mean",
+              "OTHER"
+            ],
+            [
+              "std",
+              "OTHER"
+            ],
+            [
+              "var",
+              "OTHER"
+            ],
+            [
+              "linspace",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "scipy",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\scipy\\signal\\_signaltools.py",
+          "functions": [
+            [
+              "_inputs_swap_needed",
+              "OTHER"
+            ],
+            [
+              "_freq_domain_conv",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "scipy",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\scipy\\sparse\\_sputils.py",
+          "functions": [
+            [
+              "validateaxis",
+              "RAISE"
+            ],
+            [
+              "check_shape",
+              "RAISE"
+            ]
+          ]
+        },
+        {
+          "project": "sklearn",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\sklearn\\externals\\array_api_compat\\torch\\_aliases.py",
+          "functions": [
+            [
+              "max",
+              "OTHER"
+            ],
+            [
+              "min",
+              "OTHER"
+            ],
+            [
+              "prod",
+              "OTHER"
+            ],
+            [
+              "sum",
+              "OTHER"
+            ],
+            [
+              "any",
+              "OTHER"
+            ],
+            [
+              "all",
+              "OTHER"
+            ],
+            [
+              "mean",
+              "OTHER"
+            ],
+            [
+              "std",
+              "OTHER"
+            ],
+            [
+              "var",
+              "OTHER"
+            ],
+            [
+              "linspace",
+              "OTHER"
+            ]
+          ]
+        },
+        {
+          "project": "matplotlib",
+          "module": "D:\\Users\\28170\\AppData\\Local\\Programs\\Python\\Python3.12.1\\Lib\\site-packages\\matplotlib\\_afm.py",
+          "functions": [
+            [
+              "string_width_height",
+              "OTHER"
+            ],
+            [
+              "get_str_bbox_and_descent",
+              "OTHER"
+            ]
+          ]
+        }
+      ]
+    },
+    "D3_mutate": {
+      "modules_any": 3,
+      "modules_two_plus": 0,
+      "parsed": 4000,
+      "agree": 0,
+      "disagree": 0,
+      "availability": 0.0,
+      "agreement": null,
+      "verdicts": {
+        "IN_PLACE": 2,
+        "COPY": 1
+      },
+      "disagreeing_examples": [],
+      "agreeing_examples": []
+    },
+    "D5_merge": {
+      "modules_any": 0,
+      "modules_two_plus": 0,
+      "parsed": 4000,
+      "agree": 0,
+      "disagree": 0,
+      "availability": 0.0,
+      "agreement": null,
+      "verdicts": {},
+      "disagreeing_examples": [],
+      "agreeing_examples": []
+    }
+  },
+  "family_scope": {
+    "families_two_plus": 16,
+    "agree": 14,
+    "disagree": 2,
+    "availability": 0.004,
+    "agreement": 0.875,
+    "families": {
+      "stdlib|cmd.py|line": [
+        [
+          "parseline",
+          "OTHER"
+        ],
+        [
+          "onecmd",
+          "OTHER"
+        ]
+      ],
+      "stdlib|ipaddress.py|ip_str": [
+        [
+          "_ip_int_from_string",
+          "RAISE"
+        ],
+        [
+          "_ip_int_from_string",
+          "RAISE"
+        ]
+      ],
+      "stdlib|reprlib.py|x": [
+        [
+          "repr_array",
+          "OTHER"
+        ],
+        [
+          "repr_set",
+          "OTHER"
+        ],
+        [
+          "repr_frozenset",
+          "OTHER"
+        ]
+      ],
+      "stdlib|typing.py|parameters": [
+        [
+          "Union",
+          "RAISE"
+        ],
+        [
+          "Concatenate",
+          "RAISE"
+        ]
+      ],
+      "stdlib|util.py|f": [
+        [
+          "_get_soname",
+          "NONE"
+        ],
+        [
+          "_get_soname",
+          "NONE"
+        ]
+      ],
+      "stdlib|_header_value_parser.py|value": [
+        [
+          "get_word",
+          "RAISE"
+        ],
+        [
+          "get_no_fold_literal",
+          "RAISE"
+        ],
+        [
+          "get_value",
+          "RAISE"
+        ],
+        [
+          "_find_mime_parameters",
+          "NONE"
+        ]
+      ],
+      "stdlib|idna.py|input": [
+        [
+          "encode",
+          "OTHER"
+        ],
+        [
+          "decode",
+          "OTHER"
+        ],
+        [
+          "_buffer_encode",
+          "OTHER"
+        ],
+        [
+          "_buffer_decode",
+          "OTHER"
+        ]
+      ],
+      "stdlib|peewee.py|datetime_string": [
+        [
+          "_sqlite_date_part",
+          "NONE"
+        ],
+        [
+          "_sqlite_date_trunc",
+          "NONE"
+        ]
+      ],
+      "stdlib|typing_extensions.py|elen": [
+        [
+          "_check_generic",
+          "RAISE"
+        ],
+        [
+          "_check_generic",
+          "RAISE"
+        ]
+      ],
+      "numpy|crackfortran.py|sel": [
+        [
+          "setkindselector",
+          "OTHER"
+        ],
+        [
+          "setcharselector",
+          "OTHER"
+        ]
+      ],
+      "numpy|_iotools.py|line": [
+        [
+          "_fixedwidth_splitter",
+          "EMPTY"
+        ],
+        [
+          "_variablewidth_splitter",
+          "EMPTY"
+        ]
+      ],
+      "scipy|_aliases.py|axis": [
+        [
+          "max",
+          "OTHER"
+        ],
+        [
+          "min",
+          "OTHER"
+        ],
+        [
+          "prod",
+          "OTHER"
+        ],
+        [
+          "sum",
+          "OTHER"
+        ],
+        [
+          "any",
+          "OTHER"
+        ],
+        [
+          "all",
+          "OTHER"
+        ],
+        [
+          "mean",
+          "OTHER"
+        ],
+        [
+          "std",
+          "OTHER"
+        ],
+        [
+          "var",
+          "OTHER"
+        ]
+      ],
+      "scipy|_windows.py|sym": [
+        [
+          "_extend",
+          "OTHER"
+        ],
+        [
+          "kaiser_bessel_derived",
+          "RAISE"
+        ]
+      ],
+      "scipy|_axis_nan_policy.py|paired": [
+        [
+          "_remove_nans",
+          "OTHER"
+        ],
+        [
+          "_remove_sentinel",
+          "OTHER"
+        ]
+      ],
+      "sklearn|_aliases.py|axis": [
+        [
+          "max",
+          "OTHER"
+        ],
+        [
+          "min",
+          "OTHER"
+        ],
+        [
+          "prod",
+          "OTHER"
+        ],
+        [
+          "sum",
+          "OTHER"
+        ],
+        [
+          "any",
+          "OTHER"
+        ],
+        [
+          "all",
+          "OTHER"
+        ],
+        [
+          "mean",
+          "OTHER"
+        ],
+        [
+          "std",
+          "OTHER"
+        ],
+        [
+          "var",
+          "OTHER"
+        ]
+      ],
+      "matplotlib|_afm.py|s": [
+        [
+          "string_width_height",
+          "OTHER"
+        ],
+        [
+          "get_str_bbox_and_descent",
+          "OTHER"
+        ]
+      ]
+    }
+  }
+}

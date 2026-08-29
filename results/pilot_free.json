@@ -1,0 +1,56 @@
+{
+  "pilot_C": {
+    "unanimous": 5,
+    "unanimous_correct": 1,
+    "split": 7,
+    "split_correct": 6,
+    "n_tasks": 12,
+    "models": [
+      "claude-haiku-4-5-20251001",
+      "gemini-2.5-flash",
+      "gpt-4o",
+      "gpt-4o-mini",
+      "qwen-plus"
+    ]
+  },
+  "pilot_D": {
+    "degenerate input": {
+      "correct": 7,
+      "total": 20
+    },
+    "ordering / selection": {
+      "correct": 4,
+      "total": 10
+    },
+    "boundary convention": {
+      "correct": 9,
+      "total": 15
+    },
+    "precedence": {
+      "correct": 5,
+      "total": 5
+    },
+    "numeric convention": {
+      "correct": 0,
+      "total": 5
+    },
+    "mutation contract": {
+      "correct": 0,
+      "total": 5
+    }
+  },
+  "kinds": {
+    "t01_remove_outliers": "degenerate input",
+    "t04_normalize": "degenerate input",
+    "t09_split_name": "degenerate input",
+    "t10_moving_average": "degenerate input",
+    "t02_top_k": "ordering / selection",
+    "t07_dedupe": "ordering / selection",
+    "t03_chunk": "boundary convention",
+    "t06_parse_range": "boundary convention",
+    "t11_truncate": "boundary convention",
+    "t05_merge_configs": "precedence",
+    "t08_round_price": "numeric convention",
+    "t12_sort_scores": "mutation contract"
+  }
+}

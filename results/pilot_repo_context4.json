@@ -1,0 +1,1188 @@
+{
+  "k": 6,
+  "temperature": 1.0,
+  "models": {
+    "gpt-4o-mini": {
+      "summary": {
+        "bare": {
+          "coverage": 6,
+          "majority_right": 6,
+          "n": 12,
+          "mean_classes": 1.0833333333333333
+        },
+        "distractor": {
+          "coverage": 6,
+          "majority_right": 5,
+          "n": 12,
+          "mean_classes": 1.4166666666666667
+        },
+        "convention": {
+          "coverage": 9,
+          "majority_right": 8,
+          "n": 12,
+          "mean_classes": 1.1666666666666667
+        },
+        "anti": {
+          "coverage": 5,
+          "majority_right": 5,
+          "n": 12,
+          "mean_classes": 1.3333333333333333
+        }
+      },
+      "per_task": {
+        "t01_remove_outliers": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 2,
+            "bse": 0.25146299858006066,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": false,
+            "classes": 4,
+            "bse": 0.7420981285103055,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": false,
+            "classes": 2,
+            "bse": 0.3868528072345416,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 2,
+            "bse": 0.25146299858006066,
+            "invalid": 0
+          }
+        },
+        "t02_top_k": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 1
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t03_chunk": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 2,
+            "bse": 0.3868528072345416,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t04_normalize": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 2,
+            "bse": 0.25146299858006066,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 3,
+            "bse": 0.5644754678724235,
+            "invalid": 0
+          }
+        },
+        "t05_merge_configs": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t06_parse_range": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t07_dedupe": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t08_round_price": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t09_split_name": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t10_moving_average": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 2,
+            "bse": 0.25146299858006066,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 2,
+            "bse": 0.25146299858006066,
+            "invalid": 0
+          }
+        },
+        "t11_truncate": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t12_sort_scores": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        }
+      },
+      "calls": 288,
+      "cost_usd": 0.02306,
+      "errors": 0,
+      "wall_seconds": 122.0
+    },
+    "claude-haiku-4-5-20251001": {
+      "summary": {
+        "bare": {
+          "coverage": 6,
+          "majority_right": 6,
+          "n": 12,
+          "mean_classes": 1.0
+        },
+        "distractor": {
+          "coverage": 7,
+          "majority_right": 7,
+          "n": 12,
+          "mean_classes": 1.1666666666666667
+        },
+        "convention": {
+          "coverage": 9,
+          "majority_right": 9,
+          "n": 12,
+          "mean_classes": 1.1666666666666667
+        },
+        "anti": {
+          "coverage": 5,
+          "majority_right": 5,
+          "n": 12,
+          "mean_classes": 1.25
+        }
+      },
+      "per_task": {
+        "t01_remove_outliers": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 2,
+            "bse": 0.25146299858006066,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 2,
+            "bse": 0.25146299858006066,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 4,
+            "bse": 0.6934264036172707,
+            "invalid": 0
+          }
+        },
+        "t02_top_k": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t03_chunk": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t04_normalize": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t05_merge_configs": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t06_parse_range": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t07_dedupe": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t08_round_price": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 2,
+            "bse": 0.25146299858006066,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t09_split_name": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 2,
+            "bse": 0.355245321275764,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t10_moving_average": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t11_truncate": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t12_sort_scores": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        }
+      },
+      "calls": 288,
+      "cost_usd": 0.14437,
+      "errors": 0,
+      "wall_seconds": 109.6
+    },
+    "qwen-plus": {
+      "summary": {
+        "bare": {
+          "coverage": 7,
+          "majority_right": 6,
+          "n": 12,
+          "mean_classes": 1.25
+        },
+        "distractor": {
+          "coverage": 7,
+          "majority_right": 7,
+          "n": 12,
+          "mean_classes": 1.0
+        },
+        "convention": {
+          "coverage": 10,
+          "majority_right": 10,
+          "n": 12,
+          "mean_classes": 1.0833333333333333
+        },
+        "anti": {
+          "coverage": 6,
+          "majority_right": 4,
+          "n": 12,
+          "mean_classes": 1.3333333333333333
+        }
+      },
+      "per_task": {
+        "t01_remove_outliers": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 2,
+            "bse": 0.25146299858006066,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": false,
+            "classes": 2,
+            "bse": 0.355245321275764,
+            "invalid": 0
+          }
+        },
+        "t02_top_k": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t03_chunk": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 2,
+            "bse": 0.25146299858006066,
+            "invalid": 0
+          }
+        },
+        "t04_normalize": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": false,
+            "classes": 2,
+            "bse": 0.25146299858006066,
+            "invalid": 0
+          }
+        },
+        "t05_merge_configs": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t06_parse_range": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t07_dedupe": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t08_round_price": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 2,
+            "bse": 0.3868528072345416,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t09_split_name": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t10_moving_average": {
+          "bare": {
+            "covered": true,
+            "majority_right": false,
+            "classes": 3,
+            "bse": 0.5644754678724235,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 2,
+            "bse": 0.25146299858006066,
+            "invalid": 0
+          }
+        },
+        "t11_truncate": {
+          "bare": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        },
+        "t12_sort_scores": {
+          "bare": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "distractor": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "convention": {
+            "covered": true,
+            "majority_right": true,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          },
+          "anti": {
+            "covered": false,
+            "majority_right": false,
+            "classes": 1,
+            "bse": 0.0,
+            "invalid": 0
+          }
+        }
+      },
+      "calls": 288,
+      "cost_usd": 0.08636,
+      "errors": 0,
+      "wall_seconds": 123.5
+    }
+  }
+}

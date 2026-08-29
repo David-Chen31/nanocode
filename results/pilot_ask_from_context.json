@@ -1,0 +1,2365 @@
+{
+  "k": 5,
+  "temperature": 1.0,
+  "arms": [
+    "bare",
+    "distractor",
+    "convention",
+    "diluted",
+    "anti"
+  ],
+  "models": {
+    "gpt-4o-mini": {
+      "summary": {
+        "naive": {
+          "per_arm": {
+            "bare": {
+              "ask_rate": 0.167,
+              "mean_score": 2.15,
+              "n": 12
+            },
+            "distractor": {
+              "ask_rate": 0.167,
+              "mean_score": 2.55,
+              "n": 12
+            },
+            "convention": {
+              "ask_rate": 0.0,
+              "mean_score": 1.62,
+              "n": 12
+            },
+            "diluted": {
+              "ask_rate": 0.083,
+              "mean_score": 1.52,
+              "n": 12
+            },
+            "anti": {
+              "ask_rate": 0.083,
+              "mean_score": 1.65,
+              "n": 12
+            }
+          },
+          "paired": {
+            "distractor>convention": {
+              "auc": 0.875,
+              "n": 12
+            },
+            "distractor>diluted": {
+              "auc": 0.875,
+              "n": 12
+            },
+            "bare>convention": {
+              "auc": 0.75,
+              "n": 12
+            },
+            "anti>convention": {
+              "auc": 0.417,
+              "n": 12
+            }
+          }
+        },
+        "grounded": {
+          "per_arm": {
+            "bare": {
+              "ask_rate": 1.0,
+              "mean_score": 9.02,
+              "n": 12
+            },
+            "distractor": {
+              "ask_rate": 1.0,
+              "mean_score": 8.12,
+              "n": 12
+            },
+            "convention": {
+              "ask_rate": 1.0,
+              "mean_score": 6.62,
+              "n": 12
+            },
+            "diluted": {
+              "ask_rate": 0.833,
+              "mean_score": 5.0,
+              "n": 12
+            },
+            "anti": {
+              "ask_rate": 1.0,
+              "mean_score": 6.27,
+              "n": 12
+            }
+          },
+          "paired": {
+            "distractor>convention": {
+              "auc": 0.625,
+              "n": 12
+            },
+            "distractor>diluted": {
+              "auc": 0.917,
+              "n": 12
+            },
+            "bare>convention": {
+              "auc": 0.833,
+              "n": 12
+            },
+            "anti>convention": {
+              "auc": 0.417,
+              "n": 12
+            }
+          }
+        }
+      },
+      "per_task": {
+        "t01_remove_outliers": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 2.8,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 3.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 3.2,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 3.6,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 3.6,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 9.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 9.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 8.4,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 7.6,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 8.2,
+              "n": 5
+            }
+          }
+        },
+        "t02_top_k": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 2.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 1.4,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 2.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 2.6,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 1.6,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 7.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 8.6,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 5.8,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 3.6,
+              "n": 5
+            }
+          }
+        },
+        "t03_chunk": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 2.2,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 1.8,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 1.8,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 2.6,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 8.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 7.8,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 8.4,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 5.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 6.8,
+              "n": 5
+            }
+          }
+        },
+        "t04_normalize": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 1.2,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 2.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 1.6,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 1.4,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 8.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 8.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 5.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 2.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 2.2,
+              "n": 5
+            }
+          }
+        },
+        "t05_merge_configs": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 2.4,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 2.8,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 2.2,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 2.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 2.0,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 9.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 9.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 8.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 5.8,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 7.4,
+              "n": 5
+            }
+          }
+        },
+        "t06_parse_range": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 1.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.6,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 9.2,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 7.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 7.6,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 5.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 4.4,
+              "n": 5
+            }
+          }
+        },
+        "t07_dedupe": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 1.4,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 1.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.6,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.4,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 9.4,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 7.8,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 8.4,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 7.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 8.25,
+              "n": 4
+            }
+          }
+        },
+        "t08_round_price": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 1.8,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 4.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.8,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 2.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 1.8,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 10.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 9.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 4.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 2.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 8.0,
+              "n": 5
+            }
+          }
+        },
+        "t09_split_name": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 3.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 4.8,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 2.4,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 2.6,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 2.8,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 10.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 7.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 2.2,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.6,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 4.0,
+              "n": 5
+            }
+          }
+        },
+        "t10_moving_average": {
+          "naive": {
+            "bare": {
+              "decision": "ASK",
+              "score": 2.8,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 2.8,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 2.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.8,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 1.0,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 9.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 5.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 7.2,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 9.0,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 8.0,
+              "n": 5
+            }
+          }
+        },
+        "t11_truncate": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 2.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 2.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 1.8,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 2.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 1.4,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 7.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 9.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 4.2,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 3.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 6.8,
+              "n": 5
+            }
+          }
+        },
+        "t12_sort_scores": {
+          "naive": {
+            "bare": {
+              "decision": "ASK",
+              "score": 3.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 2.8,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 1.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 1.0,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.6,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 10.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 8.2,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 7.4,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 5.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 7.6,
+              "n": 5
+            }
+          }
+        }
+      },
+      "calls": 600,
+      "cost_usd": 0.11631,
+      "errors": 0,
+      "unparsed": 1,
+      "wall_seconds": 206.1,
+      "transcripts": {
+        "bare": "1. The behavioural decisions left open by the requirement are:\n   - Handling of empty lists: What should the function return if `xs` is an empty list? A reasonable input to test this is `xs = []`.\n   - Handling of lists where all values are the same: If all values in `xs` are identical, should the function return an empty list or the original list? An input for this could be `xs = [5, 5, 5]` with `k = 1`.\n\n2. \n   - Handling of empty lists: The requirement does not specify what to return, and without seeing any existing code, I cannot determine how this is handled. This decision is unsettled.\n   - Handling of lists where all values are the same: Similar to the first case, the requirement does not address this scenario, and there is no code to inform the decision. This decision is also unsettled.\n\n3. Both discussed decisions are unsettled by both the requirement and, since no code was provided, I cannot settle these with existing code either. That places the score at a 10 since there are open questions on how to handle specific scenarios.\n\nUNSETTLED: 10\nDECISION: ASK",
+        "distractor": "1. The behavioral decisions left open in the requirement include:\n   - How to handle the case when the input list `xs` is empty.\n     - Input: `xs = []`, `k = 1`\n   - How to handle the case when all values in `xs` are identical (i.e., when standard deviation is zero).\n     - Input: `xs = [5, 5, 5]`, `k = 1`\n   - How to handle floating point precision issues when calculating the mean and standard deviation.\n     - Input: `xs = [1.0, 2.0, 2.0, 3.0]`, `k = 1`\n   - Whether the function should explicitly return a new list (instead of modifying the original) when no values meet the criteria.\n     - Input: `xs = [1, 2, 3]`, `k = 0.5` (this could return an empty list)\n\n2. Examining each decision:\n   - Empty List: The existing code does not provide any behavior regarding empty lists, so this is unsettled.\n   - Identical Values: Similarly, if all values are identical, the requirement does not specify how to handle the output in this case, leaving it unsettled.\n   - Floating Point Precision: The existing functions (e.g., `mean_absolute_error`) deal with absolute differences and averages but do not address floating-point precision directly, leaving this topic unsettled.\n   - Explicitly Return a New List: The requirement mentions returning a new list but doesn't specify behavior for cases where no values meet the criteria, so this remains unclear.\n\n3. Therefore, all of these decisions remain unsettled. There is not a single point in the provided code that addresses or clarifies these specific open-ended behavioral decisions directly linked to the new function being implemented.\n\nBased on my evaluation, I rate the remaining unsettled issues:\n\nUNSETTLED: 10\nDECISION: ASK",
+        "convention": "1. The behavioural decisions this requirement leaves open include:\n   - How to handle cases where the list is empty. For example, `remove_outliers([], 1)` could reasonably return `[]` or raise an error.\n   - How to handle cases where all values are the same (e.g., `remove_outliers([5, 5, 5], 1)`) since the standard deviation would be 0 and any non-zero `k` would mean all values are considered outliers.\n   - Handling of non-numeric values. The input specifies `xs`, but it doesn't clarify if it should handle mixed types or raise an error.\n\n2. Taking each point in turn:\n   - For the empty list case, the existing code does not directly settle it, as there’s no existing function handling this specific case in the provided code.\n   - For the case where all values are the same, the existing code does not address this, since it’s a new situation not covered by the provided functions.\n   - Regarding non-numeric values, the existing code does not address this, as all existing functions are numeric-specific and do not handle type-checking.\n\n3. There are three unresolved decisions based on the existing code and the given requirement.\n\nUNSETTLED: 7\nDECISION: ASK",
+        "diluted": "1. The behavioural decisions left open by the requirement for `remove_outliers(xs, k)` include:\n   - **Handling of empty lists**: What should the function return if `xs` is empty? Possible inputs: `xs = []`.\n   - **Floating-point precision**: How should the function handle floating-point values, especially in terms of equality and comparison when calculating the mean and the standard deviation? Possible inputs: `xs = [1.0, 2.0, 3.0, 4.0, 1000.0]` where floating-point calculation might impact the standard deviation.\n   - **Behavior with equal values**: If all values in the list are the same, should it treat them as outliers or not? Possible input: `xs = [5, 5, 5, 5]`.\n   - **Non-numeric input**: What should happen if the input list contains non-numeric values? Possible input: `xs = [1, 2, \"a\", 4]`.\n\n2. - **Handling of empty lists**: The existing `drop_negatives` function returns `[]` for empty input. Line quoted: `return []`.\n   - **Floating-point precision**: The existing code does not provide a specific mechanism for handling floating-point precision, so this remains unsettled.\n   - **Behavior with equal values**: The existing code does not specify how to treat lists with all equal values, so this remains unsettled.\n   - **Non-numeric input**: The existing code does not address this, leaving this behaviour unsettled.\n\n3. The decisions that remain unsettled by both the requirement and the existing code are:\n   - Floating-point precision handling.\n   - Behavior with equal values.\n   - Non-numeric input handling.\n\nConsidering there are three unsettled decisions, I would rate the overall unsettledness:\n\nUNSETTLED: 8\nDECISION: ASK",
+        "anti": "1. The behavioural decisions left open by the requirement include:\n   - How to handle the case when the input list `xs` is empty. For example, what should happen if `xs` is `[]`?\n   - How to handle the case when all values in `xs` are the same, resulting in a mean of that value and a standard deviation of 0. For example, what should be returned if `xs` is `[5, 5, 5, 5]` and `k` is any positive value?\n   - What to do when all values in `xs` are outliers. For instance, what should be returned if `xs` is `[1, 1, 1, 1, 100]` and `k` is 1, which would classify all elements as outliers based on their distance from the mean?\n\n2. \n   - The code does not specify what to do for an empty input list `xs`. \"xs must not be empty\" is raised in `drop_negatives` and `clip_to_range`, but no explicit handling is mentioned for `remove_outliers`. This leaves this decision unsettled.\n   - The existing code does not directly address how to handle cases where all values are the same or when there are no values within the defined range based on the mean and standard deviations. Thus, there is no existing code that determines this decision either.\n\n3. Given that both the requirement and the current code do not settle the decisions regarding handling empty input, uniform lists, and cases where all values are outliers, we can conclude that there are several behavioral aspects that remain unsettled.\n\nUNSETTLED: 10\nDECISION: ASK"
+      }
+    },
+    "claude-haiku-4-5-20251001": {
+      "summary": {
+        "naive": {
+          "per_arm": {
+            "bare": {
+              "ask_rate": 0.417,
+              "mean_score": 3.3,
+              "n": 12
+            },
+            "distractor": {
+              "ask_rate": 0.167,
+              "mean_score": 3.0,
+              "n": 12
+            },
+            "convention": {
+              "ask_rate": 0.25,
+              "mean_score": 2.42,
+              "n": 12
+            },
+            "diluted": {
+              "ask_rate": 0.417,
+              "mean_score": 2.7,
+              "n": 12
+            },
+            "anti": {
+              "ask_rate": 0.25,
+              "mean_score": 2.47,
+              "n": 12
+            }
+          },
+          "paired": {
+            "distractor>convention": {
+              "auc": 0.583,
+              "n": 12
+            },
+            "distractor>diluted": {
+              "auc": 0.5,
+              "n": 12
+            },
+            "bare>convention": {
+              "auc": 0.583,
+              "n": 12
+            },
+            "anti>convention": {
+              "auc": 0.542,
+              "n": 12
+            }
+          }
+        },
+        "grounded": {
+          "per_arm": {
+            "bare": {
+              "ask_rate": 1.0,
+              "mean_score": 6.32,
+              "n": 12
+            },
+            "distractor": {
+              "ask_rate": 1.0,
+              "mean_score": 5.47,
+              "n": 12
+            },
+            "convention": {
+              "ask_rate": 0.333,
+              "mean_score": 2.05,
+              "n": 12
+            },
+            "diluted": {
+              "ask_rate": 0.333,
+              "mean_score": 1.59,
+              "n": 12
+            },
+            "anti": {
+              "ask_rate": 0.417,
+              "mean_score": 2.32,
+              "n": 12
+            }
+          },
+          "paired": {
+            "distractor>convention": {
+              "auc": 1.0,
+              "n": 12
+            },
+            "distractor>diluted": {
+              "auc": 1.0,
+              "n": 12
+            },
+            "bare>convention": {
+              "auc": 1.0,
+              "n": 12
+            },
+            "anti>convention": {
+              "auc": 0.708,
+              "n": 12
+            }
+          }
+        }
+      },
+      "per_task": {
+        "t01_remove_outliers": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 1.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 1.8,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 4.4,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 3.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 4.4,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.4,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 6.2,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 4.8,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 6.0,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 5.2,
+              "n": 5
+            }
+          }
+        },
+        "t02_top_k": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 1.8,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 2.4,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 3.2,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 3.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 2.8,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 5.4,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.4,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 1.0,
+              "n": 4
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 1.6,
+              "n": 5
+            }
+          }
+        },
+        "t03_chunk": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 2.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 2.2,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 1.8,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 1.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 3.2,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.8,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 5.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 1.2,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 1.0,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.6,
+              "n": 5
+            }
+          }
+        },
+        "t04_normalize": {
+          "naive": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 5.2,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 2.2,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 2.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 3.2,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 6.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.4,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.6,
+              "n": 5
+            }
+          }
+        },
+        "t05_merge_configs": {
+          "naive": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.2,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 3.8,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 1.8,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 3.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 6.2,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 7.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 7.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 4.2,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 1.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 6.0,
+              "n": 5
+            }
+          }
+        },
+        "t06_parse_range": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 1.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 1.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 5.6,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 4.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.8,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 5.4,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 3.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 1.4,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.6,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 5
+            }
+          }
+        },
+        "t07_dedupe": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 1.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 2.2,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 4.2,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 3.6,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 1.4,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 4.4,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 4.2,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 2.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 2.0,
+              "n": 5
+            }
+          }
+        },
+        "t08_round_price": {
+          "naive": {
+            "bare": {
+              "decision": "ASK",
+              "score": 4.8,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 3.4,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 1.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 3.6,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 1.2,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 7.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 4.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 1.4,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 2.2,
+              "n": 5
+            }
+          }
+        },
+        "t09_split_name": {
+          "naive": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 6.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.8,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 1.0,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 6.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.4,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.4,
+              "n": 5
+            }
+          }
+        },
+        "t10_moving_average": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 2.4,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 2.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.8,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 2.6,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 6.2,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 3.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 2.6,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 4.6,
+              "n": 5
+            }
+          }
+        },
+        "t11_truncate": {
+          "naive": {
+            "bare": {
+              "decision": "ASK",
+              "score": 5.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 3.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 1.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 2.8,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 2.6,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 6.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.8,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 1.6,
+              "n": 5
+            }
+          }
+        },
+        "t12_sort_scores": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 1.2,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 1.8,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 2.2,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 3.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 1.2,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 4.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 2.4,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 3.25,
+              "n": 4
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 3.0,
+              "n": 5
+            }
+          }
+        }
+      },
+      "calls": 600,
+      "cost_usd": 1.60417,
+      "errors": 0,
+      "unparsed": 2,
+      "wall_seconds": 344.5,
+      "transcripts": {
+        "bare": "I'll work through this systematically.\n\n## 1. Behavioural decisions the requirement leaves open\n\n**Decision A: How to handle an empty list**\n- Should `remove_outliers([], 0)` return `[]` or raise an error?\n- Concrete input that tells them apart: `[]`\n\n**Decision B: How to handle a list with one element**\n- Should `remove_outliers([5], 0)` return `[5]` (mean=5, distance=0, within 0 std devs) or `[]`?\n- The mean exists, but population std dev = 0. Is a single point always kept, or is it filtered when k=0?\n- Concrete input: `[5]` with `k=0`\n\n**Decision C: How to handle all identical elements**\n- For `remove_outliers([3, 3, 3], 0)`: mean=3, std dev=0, all distances=0. Should all pass (return `[3,3,3]`) or should they be treated as \"infinitely many std devs away\" and filtered?\n- Concrete input: `[3, 3, 3]` with `k=0`\n\n**Decision D: Rounding/floating-point edge cases**\n- When distance equals `k * std_dev` exactly (within floating-point precision), is the point included or excluded?\n- The phrase \"at most k\" suggests inclusion, but floating-point comparison can be tricky.\n- Concrete input: values that land exactly on the boundary (requires specific construction)\n\n## 2. Does the code you were shown settle these?\n\nI was shown no code, only the requirement text. Therefore, the code settles none of these decisions.\n\n## 3. Unsettled decisions\n\nAll four decisions remain unsettled by both the requirement and the code (since no code was shown).\n\nHowever, some of these are less ambiguous than others:\n- **Decision A & B & C**: These hinge on edge cases with zero variance or empty inputs. The requirement is genuinely silent.\n- **Decision D**: \"At most\" is explicit, so inclusion on the boundary is clear in principle, though floating-point precision remains a minor concern.\n\nThe most material ambiguities are **A, B, and C**—how to handle edge cases where standard deviation is zero or the input is trivial. These are not exotic; a user could easily encounter them.\n\n---\n\nUNSETTLED: 7\nDECISION: ASK",
+        "distractor": "I'll work through this systematically.\n\n## 1. Behavioural decisions left open by the requirement\n\n**Decision A: How to handle empty input**\n- Should `remove_outliers([], k)` return `[]` or raise an error?\n- Concrete input: `remove_outliers([], 5)`\n\n**Decision B: How to handle single-element input**\n- With one element, the population standard deviation is 0. Should `remove_outliers([5], 2)` return `[5]` (the element is 0 standard deviations from mean), or raise an error, or return `[]`?\n- Concrete input: `remove_outliers([5], 2)`\n\n**Decision C: How to handle all-identical-values input**\n- When all values equal the mean, std dev is 0. Should `remove_outliers([5, 5, 5], 2)` return all three values, or none, or raise an error?\n- Concrete input: `remove_outliers([5, 5, 5], 2)`\n\n**Decision D: Tie-breaking when value is exactly k standard deviations away**\n- The requirement says \"at most k standard deviations\". Should `remove_outliers([0, 10], 1)` include the value exactly 1 std dev away? (mean=5, std=5, so 0 is exactly 1 std dev below)\n- Concrete input: `remove_outliers([0, 10], 1)`\n\n**Decision E: Numerical precision edge cases**\n- When floating-point rounding makes a value very close to k standard deviations away, should it be included or excluded?\n- Concrete input: depends on implementation details\n\n## 2. Does the code settle these?\n\nThe code shown (`mean_absolute_error`, `percent_change`, `is_within`, `describe`) provides helper utilities but **does not directly settle any of these decisions**. None of these functions are called by or constrain the behavior of `remove_outliers`. The code shows the module's style but not the policy for edge cases like empty lists or division by zero.\n\n- **Decision A (empty input)**: Not settled by code or requirement\n- **Decision B (single element)**: Not settled by code or requirement\n- **Decision C (all identical)**: Not settled by code or requirement\n- **Decision D (exactly k std devs)**: The requirement says \"at most k\" which settles this—include boundary values\n- **Decision E (floating point)**: Not settled\n\n## 3. Unsettled decisions\n\nCounting decisions left unsettled by both requirement AND code:\n- A (empty list) — unsettled\n- B (single element) — unsettled\n- C (all identical values) — unsettled\n- D (exactly k std devs) — **SETTLED by \"at most k\"**\n- E (numerical precision) — minor edge case, mostly unsettled\n\nFour substantive decisions remain open. An empty list is a basic input; single elements and all-identical values are common enough edge cases that different implementations could reasonably diverge.\n\nUNSETTLED: 6\nDECISION: ASK",
+        "convention": "I'll work through this systematically.\n\n## 1. Behavioural decisions left open by the requirement\n\n- **Empty list handling**: Should `remove_outliers([])` return `[]` or raise an error? On `[1, 2, 3]` it would return something non-empty, but the empty case is unspecified.\n\n- **Single-element list handling**: With one element, the mean equals that element, the standard deviation is 0, and the distance from mean is 0. Should `remove_outliers([5], k)` return `[5]` for any k >= 0? The math works, but it's a degenerate case.\n\n- **Constant list handling**: If all elements are identical (e.g., `[3, 3, 3]`), the standard deviation is 0. For k > 0, all elements are within k standard deviations of the mean. For k = 0, all elements equal the mean, so distance is 0. Should `remove_outliers([3, 3, 3], 0)` return `[3, 3, 3]` or `[]`? Test input: `([3, 3, 3], 0)`.\n\n- **Numerical precision**: When comparing `abs(x - mean) <= k * std_dev`, floating-point rounding could cause borderline values to be included or excluded differently. Test input: a value exactly at the boundary.\n\n- **Return type for all filtered out**: If all values are outliers, should `remove_outliers([100], 0)` return `[]`? The requirement doesn't forbid this, but it's worth noting.\n\n## 2. Does the shown code settle these?\n\nThe shown code demonstrates:\n- **Line 2-3 (`drop_negatives`)**: Returns `[]` for empty input.\n- **Line 7-8 (`clip_to_range`)**: Returns `[]` for empty input.\n- **Line 11 (`is_within`)**: Uses `<=` for boundary conditions (inclusive).\n\nThe code settles:\n- **Empty list handling**: The pattern in `drop_negatives` and `clip_to_range` both return `[]` for empty input. This strongly suggests `remove_outliers([])` should return `[]`.\n- **Boundary inclusion**: Line 11 uses `<=` (inclusive), and `clip_to_range` (line 8) mirrors this with `lo <= x <= hi`. This suggests boundaries should be inclusive: values exactly at `mean ± k*std_dev` should be kept, not filtered.\n\nThe code does **not** settle:\n- **Constant list / zero standard deviation case**: No code shown handles division by zero or zero std_dev scenarios.\n- **Numerical precision**: No tolerance or rounding strategy is shown.\n\n## 3. Unsettled decisions (not determined by requirement + code)\n\n- **Zero standard deviation behavior**: When std_dev = 0, all distances equal 0. For k = 0, the condition `distance <= 0 * k = 0` is satisfied by all elements. For k > 0, all elements satisfy it. But the code shown doesn't hint at how to handle this edge case. Test: `remove_outliers([5, 5, 5], 0)` — keep all or none? (Likely keep all based on math, but not explicit.)\n\n- **Numerical precision for borderline values**: No guidance on floating-point comparisons.\n\nThe first is a genuine algorithmic question. The second is minor (standard approach would be exact comparison, which is fine for this use case).\n\n---\n\nUNSETTLED: 4\nDECISION: ASK",
+        "diluted": "I'll work through this systematically.\n\n## 1. Behavioural decisions the requirement leaves open\n\n**Decision A: Empty list handling**\n- Should `remove_outliers([], k)` return `[]` or raise an error?\n- Concrete input: `remove_outliers([], 5)`\n\n**Decision B: Single-element list handling**\n- With one element, the mean equals that element, and standard deviation is 0. Should `remove_outliers([5], k)` return `[5]` (the element is always within k*0 of itself) or raise an error (can't meaningfully define outliers)?\n- Concrete input: `remove_outliers([5], 1)`\n\n**Decision C: All identical elements**\n- If all elements are identical, standard deviation is 0. Should `remove_outliers([5, 5, 5], k)` return all elements (all at distance 0 from mean), or should it raise an error?\n- Concrete input: `remove_outliers([5, 5, 5], 1)`\n\n**Decision D: Non-numeric input handling**\n- Should the function validate that xs contains only numbers, or assume the caller provides valid input?\n- Concrete input: `remove_outliers([1, \"two\", 3], 1)`\n\n**Decision E: Preservation of NaN/infinity**\n- If xs contains NaN or infinity, how should they be handled in distance calculations?\n- Concrete input: `remove_outliers([1, float('nan'), 3], 1)`\n\n## 2. Does the shown code settle these?\n\n**Decision A (empty list):** Yes. The code shows `if not xs: return []` in both `drop_negatives` and `clip_to_range`. This pattern clearly establishes the convention for this module.\n\n**Decision B (single element):** No code bears on this.\n\n**Decision C (identical elements/zero std dev):** No code bears on this.\n\n**Decision D (non-numeric validation):** No code bears on this. The existing functions assume valid input (e.g., `clamp`, `is_within`).\n\n**Decision E (NaN/infinity):** No code bears on this.\n\n## 3. Unsettled decisions\n\nCounting only those left unsettled by BOTH requirement and code:\n- Decision B: unsettled\n- Decision C: unsettled (though arguably a special case of B)\n- Decision E: unsettled\n\nDecision A is settled by code. Decision D is settled by the pattern of other functions (assume valid input).\n\nThat's **2-3 genuinely open questions** about edge case behaviour that would result in different implementations.\n\n---\n\nUNSETTLED: 6\nDECISION: ASK",
+        "anti": "I'll work through this systematically.\n\n## 1. Behavioural decisions the requirement leaves open\n\n- **Empty list handling**: Should `remove_outliers([])` raise an error or return `[]`?\n  - Distinguishing input: `[]`\n\n- **Single element handling**: Should `remove_outliers([5], k=0)` return `[5]` or `[]`? (A single point has mean=5, std=0, distance=0, which is ≤ 0*k=0, so should include it. But this is worth confirming.)\n  - Distinguishing input: `[5], k=0`\n\n- **All identical values**: Should `remove_outliers([5, 5, 5], k=0)` return `[5, 5, 5]` or `[]`? (Mean=5, std=0, all distances=0, which is ≤ 0, so all should be included.)\n  - Distinguishing input: `[5, 5, 5], k=0`\n\n- **What counts as \"absolute distance from mean\"**: Is this `abs(x - mean)`? (Almost certainly yes, but worth noting.)\n  - Distinguishing input: `[-10, 10], k=0` — should this include both, neither, or one?\n\n- **Floating point edge cases**: When distance equals k * std exactly, should the value be included? The requirement says \"at most k\", so yes. But floating point comparison could cause issues.\n  - Distinguishing input: A carefully constructed case where `abs(x - mean) == k * std` exactly\n\n## 2. Does the shown code settle these?\n\n- **Empty list handling**: Yes. The code shows two functions that both raise `ValueError(\"xs must not be empty\")` when `xs` is empty. This is a clear pattern in the module.\n  - Quote: `if not xs: raise ValueError(\"xs must not be empty\")`\n\n- **Single element / all identical values / what counts as absolute distance**: The code shown does not address these. No existing function deals with statistical calculations, standard deviation, or outlier logic.\n\n- **Floating point edge cases**: The code shown does not address this.\n\n## 3. Count of unsettled decisions\n\nAfter reading both the requirement and the code:\n\n1. Empty list handling: **SETTLED** by the module's pattern.\n2. Single element / identical values behavior: **UNSETTLED** — the code doesn't address this, and while the math is clear, the question is whether an exception or an empty/non-empty result is expected.\n3. Floating point comparison at the boundary: **UNSETTLED** — not addressed by either requirement or code.\n\nThe requirement is mathematically precise about *what* to compute, but the code pattern suggests the module has opinions about *how* to handle edge cases (raising errors on empty input). The main unsettled question is whether single-element or all-identical inputs should be treated the same way as other inputs (they should, mathematically), or whether they warrant special handling or error-raising.\n\nUNSETTLED: 4\nDECISION: ASK"
+      }
+    },
+    "qwen-plus": {
+      "summary": {
+        "naive": {
+          "per_arm": {
+            "bare": {
+              "ask_rate": 0.333,
+              "mean_score": 3.05,
+              "n": 12
+            },
+            "distractor": {
+              "ask_rate": 0.5,
+              "mean_score": 2.75,
+              "n": 12
+            },
+            "convention": {
+              "ask_rate": 0.167,
+              "mean_score": 1.55,
+              "n": 12
+            },
+            "diluted": {
+              "ask_rate": 0.25,
+              "mean_score": 2.2,
+              "n": 12
+            },
+            "anti": {
+              "ask_rate": 0.25,
+              "mean_score": 2.53,
+              "n": 12
+            }
+          },
+          "paired": {
+            "distractor>convention": {
+              "auc": 0.625,
+              "n": 12
+            },
+            "distractor>diluted": {
+              "auc": 0.583,
+              "n": 12
+            },
+            "bare>convention": {
+              "auc": 0.708,
+              "n": 12
+            },
+            "anti>convention": {
+              "auc": 0.708,
+              "n": 12
+            }
+          }
+        },
+        "grounded": {
+          "per_arm": {
+            "bare": {
+              "ask_rate": 1.0,
+              "mean_score": 7.01,
+              "n": 12
+            },
+            "distractor": {
+              "ask_rate": 0.917,
+              "mean_score": 5.82,
+              "n": 12
+            },
+            "convention": {
+              "ask_rate": 0.333,
+              "mean_score": 2.82,
+              "n": 12
+            },
+            "diluted": {
+              "ask_rate": 0.333,
+              "mean_score": 2.69,
+              "n": 12
+            },
+            "anti": {
+              "ask_rate": 0.583,
+              "mean_score": 3.14,
+              "n": 12
+            }
+          },
+          "paired": {
+            "distractor>convention": {
+              "auc": 0.833,
+              "n": 12
+            },
+            "distractor>diluted": {
+              "auc": 0.833,
+              "n": 12
+            },
+            "bare>convention": {
+              "auc": 0.917,
+              "n": 12
+            },
+            "anti>convention": {
+              "auc": 0.667,
+              "n": 12
+            }
+          }
+        }
+      },
+      "per_task": {
+        "t01_remove_outliers": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 1.8,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 3.2,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 3.8,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 5.0,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 6.2,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.2,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 6.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 2.4,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 4.8,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 3.0,
+              "n": 4
+            }
+          }
+        },
+        "t02_top_k": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 2.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 0.8,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 1.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 2.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 2.8,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.8,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 5.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 2.5,
+              "n": 4
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 2.25,
+              "n": 4
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 3.5,
+              "n": 4
+            }
+          }
+        },
+        "t03_chunk": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 1.4,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 2.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 1.8,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 6.0,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 7.2,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 6.2,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 5
+            }
+          }
+        },
+        "t04_normalize": {
+          "naive": {
+            "bare": {
+              "decision": "ASK",
+              "score": 5.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 5.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 1.4,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.8,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 2.4,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 7.75,
+              "n": 4
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 7.25,
+              "n": 4
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 2.2,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 2.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 2.4,
+              "n": 5
+            }
+          }
+        },
+        "t05_merge_configs": {
+          "naive": {
+            "bare": {
+              "decision": "ASK",
+              "score": 5.8,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 4.4,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.6,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 2.0,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 5.0,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 7.8,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 7.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 5.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 2.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 8.0,
+              "n": 5
+            }
+          }
+        },
+        "t06_parse_range": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 1.4,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 1.2,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 3.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 6.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.8,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.8,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 5.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 7.75,
+              "n": 4
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 7.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 3.4,
+              "n": 5
+            }
+          }
+        },
+        "t07_dedupe": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 1.4,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 0.2,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 1.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 6.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 1.2,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 6.2,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 5.8,
+              "n": 5
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 5.0,
+              "n": 4
+            }
+          }
+        },
+        "t08_round_price": {
+          "naive": {
+            "bare": {
+              "decision": "ASK",
+              "score": 5.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 5.4,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 1.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 1.6,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 7.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 8.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 1.5,
+              "n": 4
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 4
+            }
+          }
+        },
+        "t09_split_name": {
+          "naive": {
+            "bare": {
+              "decision": "ASK",
+              "score": 5.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 6.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 2.8,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.2,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 7.4,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 6.8,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 3.2,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 1.6,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 4
+            }
+          }
+        },
+        "t10_moving_average": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 0.4,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 2.8,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.6,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.8,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 1.8,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 5.333333333333333,
+              "n": 3
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 7.0,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 4.6,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 4.5,
+              "n": 4
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 5.0,
+              "n": 4
+            }
+          }
+        },
+        "t11_truncate": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 3.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 0.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.6,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.4,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 2.6,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 7.6,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 4.6,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 4
+            },
+            "anti": {
+              "decision": "ASK",
+              "score": 7.0,
+              "n": 5
+            }
+          }
+        },
+        "t12_sort_scores": {
+          "naive": {
+            "bare": {
+              "decision": "PROCEED",
+              "score": 3.8,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "PROCEED",
+              "score": 1.4,
+              "n": 5
+            },
+            "convention": {
+              "decision": "ASK",
+              "score": 3.8,
+              "n": 5
+            },
+            "diluted": {
+              "decision": "ASK",
+              "score": 5.2,
+              "n": 5
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 1.0,
+              "n": 5
+            }
+          },
+          "grounded": {
+            "bare": {
+              "decision": "ASK",
+              "score": 7.0,
+              "n": 5
+            },
+            "distractor": {
+              "decision": "ASK",
+              "score": 3.4,
+              "n": 5
+            },
+            "convention": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 3
+            },
+            "diluted": {
+              "decision": "PROCEED",
+              "score": 0.0,
+              "n": 4
+            },
+            "anti": {
+              "decision": "PROCEED",
+              "score": 0.4,
+              "n": 5
+            }
+          }
+        }
+      },
+      "calls": 600,
+      "cost_usd": 3.00595,
+      "errors": 0,
+      "unparsed": 19,
+      "wall_seconds": 568.7,
+      "transcripts": {
+        "bare": "### 1. Behavioral Decisions Left Open\n\nHere are the points where two reasonable programmers could write functions that return different results, along with concrete inputs to distinguish them:\n\n1.  **Handling of `None` or non-iterable inputs:**\n    *   The requirement says \"Assume k >= 0\" and implies `xs` is a list of numbers, but it does not explicitly state what happens if `xs` is `None`, an empty string, or contains non-numeric elements (e.g., strings in a list).\n    *   *Distinguishing Input:* `remove_outliers([1, \"a\", 3], 1)` or `remove_outliers(None, 1)`. One programmer might raise a `TypeError`, another might skip non-numeric items, and another might crash.\n\n2.  **Behavior on Empty Lists (`[]`):**\n    *   While mathematically the mean of an empty list is undefined, programming requirements often need explicit handling for edge cases like this. Does the function return an empty list, raise a `ZeroDivisionError` (if implemented naively), or handle it gracefully?\n    *   *Distinguishing Input:* `remove_outliers([], 1)`.\n\n3.  **Data Types and Precision (Float vs. Int):**\n    *   If the input list contains integers, should the output list preserve them as integers (e.g., `[1, 2]`) or convert them to floats (e.g., `[1.0, 2.0]`) because the calculation involves division?\n    *   *Distinguishing Input:* `remove_outliers([1, 2, 3], 1)`. One implementation might return `[1, 2, 3]`, another `[1.0, 2.0, 3.0]`.\n\n4.  **Definition of \"Mean\" and \"Standard Deviation\" for Edge Cases:**\n    *   Specifically regarding the population standard deviation (`ddof=0`). If all elements are identical (e.g., `[5, 5, 5]`), the standard deviation is 0. Dividing by zero or comparing against 0 can lead to ambiguity.\n    *   *Distinguishing Input:* `remove_outliers([5, 5, 5], 1)`.\n        *   Logic A: Distance is 0, which is $\\le 1 \\times 0$ (0). Result: `[5, 5, 5]`.\n        *   Logic B: Division by zero occurs when calculating the ratio, potentially raising an error or returning an empty list depending on implementation order.\n        *   Note: The prompt says \"at most k population standard deviations\". If std is 0, distance must be 0. This is usually safe, but the *implementation* path (checking std==0 before dividing) varies.\n\n5.  **Floating Point Tolerance:**\n    *   When checking `abs(x - mean) <= k * std`, floating point arithmetic can result in values extremely close to the boundary (e.g., `mean + k*std + epsilon`). Should strict inequality be used, or is exact equality expected?\n    *   *Distinguishing Input:* A list constructed such that one value is exactly at the mathematical boundary but slightly off due to float precision. E.g., `remove_outliers([0.0, 1.0], 0.5)` (where mean=0.5, std=0.5, k=1.0 -> bound is 1.0; 0.0 is exactly at bound).\n\n### 2. Analysis of Existing Code\n\n**You were shown no code.**\n\nTherefore, none of the decisions listed above are settled by existing code. The requirement text itself is silent on:\n*   Error handling for invalid inputs (non-lists, non-numbers).\n*   Return type preservation (int vs float).\n*   Behavior on empty lists.\n*   Floating-point tolerance strategies.\n\n### 3. Count of Unsettled Decisions\n\nSince no code was provided, **all** reasonable behavioral ambiguities remain unsettled. There are at least 4-5 distinct decisions where two reasonable programmers would produce different outputs or raise different exceptions.\n\n### Rating\n\nThe requirement provides a clear mathematical definition but lacks software engineering specifics required for robust implementation (edge case handling, type coercion, error policy). Without seeing any existing codebase patterns or additional constraints, the behavior on ordinary inputs (like mixed types or empty lists) is genuinely open.\n\n**UNSETTLED: 6**\n**DECISION: ASK**",
+        "distractor": "### 1. Behavioral Decisions Left Open\n\nHere are the points where two reasonable programmers could write functions that return different results, along with a concrete input to distinguish them:\n\n*   **Decision A: Handling of `None` or non-iterable inputs.**\n    *   *Scenario:* The requirement says \"Assume k >= 0\" and implies `xs` is a series/list, but does not explicitly state what happens if `xs` is empty, `None`, or contains non-numeric types (e.g., strings).\n    *   *Concrete Input:* `remove_outliers([], 1)` or `remove_outliers([1, \"a\"], 1)`. One programmer might raise a `TypeError` or `ValueError`; another might return an empty list silently; a third might crash on division by zero if they calculate mean/std on an empty list.\n*   **Decision B: Floating-point precision and edge cases in standard deviation calculation.**\n    *   *Scenario:* The requirement specifies \"population standard deviations (ddof=0)\". While this fixes the formula, it doesn't specify behavior for lists with fewer than 2 elements (where variance is 0) or lists containing only identical values.\n    *   *Concrete Input:* `remove_outliers([5, 5, 5], 1)`. Here, the standard deviation is 0. If `k=0`, should all elements be kept? If `k > 0`, should all be kept? What if `k=0` and `xs=[1, 2]`? (Standard deviation > 0, so outliers are removed based on distance from mean).\n    *   *More critical edge case:* `remove_outliers([1], 1)`. Mean is 1, Std Dev is 0. Distance is 0. Is 0 <= 1 * 0? Yes. All kept. But if a programmer uses a library function that throws an error for single-element std dev, they fail.\n*   **Decision C: Rounding/Comparison Tolerance.**\n    *   *Scenario:* The condition is \"at most k population standard deviations\". Due to floating-point arithmetic, a value exactly at the boundary (`mean + k * std`) might compute as slightly larger due to epsilon errors.\n    *   *Concrete Input:* A list where a value is mathematically exactly at the threshold. E.g., `xs = [0, 2]`, `mean=1`, `std=1`. For `k=1`, `value=2` is exactly at `1 + 1*1`. Floating point might make `abs(2 - 1) <= 1 * 1` evaluate to `False` (e.g., `1.0000000000000002 <= 1.0`).\n    *   *Distinction:* One implementation keeps the boundary value; one removes it.\n\n### 2. Evaluation Against Existing Code\n\nThe existing code provided (`mean_absolute_error`, `percent_change`, `is_within`, `describe`) **does not settle any of these decisions** for the new `remove_outliers` function.\n\n*   **Regarding Decision A (Empty/Invalid inputs):** None of the existing functions handle empty lists gracefully in a way that implies a specific strategy for `remove_outliers`. For instance, `mean_absolute_error` would crash on an empty list (`len(a)` would be 0, causing division by zero). This suggests the codebase might expect valid inputs, but it doesn't explicitly define the behavior for `remove_outliers` regarding empty lists.\n*   **Regarding Decision B (Single element / Zero Std Dev):** The existing code does not implement a standard deviation function. We have to assume the user will use `statistics.pstdev` or similar. The existing code has no logic to handle the `ZeroDivisionError` or `ValueError` that might arise from calculating std dev on a single element depending on the library used.\n*   **Regarding Decision C (Floating Point):** The existing code uses standard Python arithmetic (`sum`, `/`, `*`). It does not provide a utility like `is_within` that handles tolerance (though `is_within` exists, it's for generic bounds, not specifically for statistical thresholds with float epsilon). The requirement \"at most\" is strict mathematically, but floating point implementation is ambiguous without explicit guidance.\n\n**Conclusion:** The existing code provides no precedent or helper utilities that resolve the ambiguity of how to handle edge cases (empty lists, single elements, float precision) for this specific new function.\n\n### 3. Count of Unsettled Decisions\n\nThere are **3** major decisions left unsettled by both the requirement and the existing code:\n1.  Behavior on empty/non-numeric inputs.\n2.  Behavior when standard deviation is 0 (single element or constant list).\n3.  Floating-point tolerance at the exact boundary.\n\n### Rating\n\nThe requirement leaves significant room for interpretation regarding robustness and edge cases. Two reasonable programmers could write:\n1.  One that crashes on empty lists.\n2.  One that returns an empty list for empty inputs.\n3.  One that excludes values exactly on the boundary due to float errors.\n4.  One that includes them using a small epsilon.\n\nThis represents genuine openness in behavior on ordinary and edge-case inputs.\n\nUNSETTLED: 7\nDECISION: ASK",
+        "convention": "### 1. Behavioural Decisions Left Open\n\nThe requirement for `remove_outliers(xs, k)` leaves the following decisions open:\n\n*   **Decision A: Handling of Empty Lists (`xs = []`)**\n    *   *Ambiguity:* The requirement says \"return a new list holding the values...\". If the input is empty, there are no values to calculate a mean or standard deviation from. Should it return an empty list immediately, or should it raise a `ZeroDivisionError` (or similar) because the mean/std cannot be computed?\n    *   *Concrete Input:* `xs = []`, `k = 1`.\n    *   *Divergence:* One programmer returns `[]` (safe/fallback), another raises an exception (strict mathematical adherence).\n\n*   **Decision B: Handling of Constant Lists (`len(xs) == 1` or all elements equal)**\n    *   *Ambiguity:* If the population standard deviation is 0 (e.g., `xs = [5, 5, 5]`), the condition `abs(x - mean) <= k * 0` implies only the exact mean value survives. However, if `k` is large enough, does it matter? More critically, if `std == 0`, dividing by zero isn't happening in the formula `abs(x-mean)/std`, but the logic `distance <= 0` means only exact matches survive. But what if the code tries to compute `mean / std` elsewhere? The requirement specifies `ddof=0`. If `std` is 0, `k * std` is 0.\n    *   *Refined Ambiguity:* Does the function handle the case where `std == 0` gracefully? If `std == 0`, the threshold is 0. Only values exactly equal to the mean are kept. This seems mathematically sound, but implementation-wise, does one need to guard against division by zero if they implemented it as `if abs(x-mean) / std <= k`? Or do they implement it as `abs(x-mean) <= k * std`? The latter avoids division issues.\n    *   *Concrete Input:* `xs = [10, 10, 10]`, `k = 5`.\n    *   *Divergence:* Both reasonable implementations (using multiplication vs division) yield `[10, 10, 10]`. However, if a programmer naively divides by `std` without checking for 0, they crash. Is this a \"reasonable\" divergence? Yes, one might crash, one might not.\n    *   *Wait, let's look closer at the \"Mean\" definition.* \"Population standard deviation\". For `xs = [1]`, mean is `x[0]`, std is `0`. Threshold is `0`. Result: `[x[0]]`.\n    *   *Is there a clearer ambiguity?* What about `xs` with non-numeric types? The requirement says \"values of xs\", implying numeric. If `xs = [1, 'a', 3]`, what happens? The existing code doesn't specify type constraints, but `describe` and `clip_to_range` assume numbers.\n    *   *Let's stick to the most critical mathematical edge case:* **Empty List**.\n\n*   **Decision C: Floating Point Precision**\n    *   *Ambiguity:* How strictly is `<=` applied when floating point errors occur? E.g., `abs(x - mean) == k * std` due to rounding.\n    *   *Concrete Input:* `xs` constructed such that a value is theoretically on the boundary but slightly off due to float representation.\n    *   *Divergence:* Unlikely to cause different *lists* unless the inputs are specifically crafted to trigger precision differences between implementations, which is rare for \"ordinary\" inputs.\n\n*   **Decision D: Data Types**\n    *   *Ambiguity:* Can `xs` contain integers? Floats? Mixed? The requirement says \"numeric value\".\n    *   *Concrete Input:* `xs = [1, 2, 3]` (ints) vs `xs = [1.0, 2.0, 3.0]`.\n    *   *Divergence:* Unlikely to diverge in result content, just internal representation.\n\n**Primary Unsettled Decision:** **Handling of the Empty List (`xs = []`).**\nThe requirement does not state what to do if the list is empty. Calculating a mean of an empty list is undefined.\n*   Option 1: Return `[]` (consistent with `drop_negatives` and `clip_to_range`).\n*   Option 2: Raise `ValueError` or `StatisticsError`.\n\n### 2. Does the Existing Code Settle It?\n\n*   **Existing Code Analysis:**\n    ```python\n    def drop_negatives(xs):\n        \"\"\"Return the values of xs that are not negative.\"\"\"\n        if not xs:\n            return []\n        # ...\n    \n    def clip_to_range(xs, lo, hi):\n        \"\"\"Return the values of xs that fall inside the given bounds.\"\"\"\n        if not xs:\n            return []\n        # ...\n    ```\n*   **Settlement Status:**\n    The existing module (`drop_negatives`, `clip_to_range`) explicitly handles empty lists by returning `[]`. This establishes a strong **style guide** or **convention** within this specific codebase: \"If the list is empty, return an empty list rather than raising an error.\"\n    Since `remove_outliers` is being added to *this* module, a careful programmer would infer that the convention applies here too.\n\n*   **Are there other unsettled points?**\n    *   **Standard Deviation Calculation:** The requirement specifies \"population standard deviation (ddof=0)\". The code doesn't have a helper for this. We must implement it. Is there ambiguity in how to import/calculate it?\n        *   We can use `statistics.pstdev` (Python stdlib) or write our own.\n        *   Writing our own: `sqrt(sum((x-mu)**2 for x in xs) / n)`.\n        *   Is there ambiguity? No, the math is defined.\n    *   **Input Validation:** The requirement says \"Assume k >= 0\". Do we check it? The requirement says \"Assume\", so we don't need to validate.\n    *   **Ordering:** \"Preserve the original order\". This is clear. `[x for x in xs if ...]` preserves order.\n\n**Re-evaluating the \"Unsettled\" count:**\nThe only potential divergence was the empty list behavior.\n*   Requirement: Silent on empty list.\n*   Code Context: Explicitly returns `[]` for empty lists in similar functions.\n*   Conclusion: The code context settles the decision. A reasonable programmer following the project's style will return `[]`.\n\nIs there anything else?\nWhat about `xs` containing non-numbers?\n*   Requirement: \"values of xs whose absolute distance...\". Implies numeric.\n*   Code Context: `drop_negatives` iterates `if x >= 0`. If `x` is a string, this crashes. `clip_to_range` does `lo <= x <= hi`. Crashes on strings.\n*   Therefore, the existing code assumes `xs` contains comparable numeric types. It does not provide a fallback for non-numeric types.\n*   Decision: The requirement and code imply `xs` must be numeric. If `xs` has strings, the behavior is undefined (crash). This is consistent across all functions. Not a divergence between two \"reasonable\" implementations; both would likely crash or rely on the caller to ensure correctness.\n\nSo, the **only** true ambiguity was the empty list, and the **code settles it** via precedent.\n\n### 3. Count of Unsettled Decisions\n\n*   Empty List handling: Settled by code convention (`if not xs: return []`).\n*   Standard Deviation definition: Settled by requirement (`ddof=0`).\n*   Order preservation: Settled by requirement.\n*   Non-numeric input: Implicitly handled by the existing code's assumption (crash), not a divergence.\n\n**Result:** There are **0** decisions left unsettled. The combination of the explicit requirement details and the established patterns in the provided code fully determines the behavior.\n\n### Rating\n\nThe requirement plus the code shown fully determine the function's behavior. The pattern of handling empty lists is clearly established in the same file. The mathematical definition is precise.\n\nRating: 0\n\nUNSETTLED: 0\nDECISION: PROCEED",
+        "diluted": "1. **Behavioural decisions left open by the requirement:**\n   - **Empty list handling:** What should be returned if `xs` is empty? The requirement says \"return a new list holding the values...\", which implies an empty list, but doesn't explicitly state the edge case behavior for mean/std calculation on an empty sequence (which would cause a division by zero error in standard implementations).\n     - *Concrete input:* `remove_outliers([], 1)` vs `remove_outliers([1], 1)`.\n   - **Single element list handling:** If `xs` has one element, the population standard deviation is 0. Does the function return that single element (distance 0 <= k*0) or raise an error?\n     - *Concrete input:* `remove_outliers([5], 1)`.\n   - **Floating point precision/rounding:** How are the mean and standard deviation calculated? Are they floats? Does the comparison `abs(x - mean) <= k * std` use strict equality or epsilon tolerance?\n     - *Concrete input:* A list where the distance is exactly equal to `k * std` due to floating point representation quirks.\n   - **Non-numeric inputs:** What happens if `xs` contains non-numeric types (e.g., strings)? The requirement assumes numeric values (\"absolute distance\", \"mean\"), but doesn't specify type checking.\n     - *Concrete input:* `remove_outliers([1, \"a\"], 1)`.\n   - **Negative `k`:** The requirement says \"Assume k >= 0\", so this is settled by the assumption, not a decision.\n\n2. **Does the provided code settle these?**\n   - **Empty list handling:** The provided code (`drop_negatives`, `clip_to_range`, etc.) handles empty lists by returning `[]` immediately (e.g., `if not xs: return []`). However, `remove_outliers` involves calculating mean and std, which will fail on an empty list before reaching a return statement unless explicitly handled. The existing code pattern suggests returning `[]` for empty inputs is a convention, but it does not settle the *calculation* failure issue for `remove_outliers` specifically.\n   - **Single element list handling:** No existing code addresses the mathematical edge case of `std=0`.\n   - **Floating point precision:** No existing code addresses numerical stability or epsilon comparisons.\n   - **Non-numeric inputs:** No existing code validates types for arithmetic operations.\n\n3. **Count of unsettled decisions:**\n   - Empty list behavior (mathematical crash vs. graceful return): Unsettled.\n   - Single element behavior (std=0 logic): Unsettled.\n   - Type safety (non-numeric inputs): Unsettled.\n   - Floating point exactness: Minor, but technically unsettled.\n\nThe requirement relies on statistical concepts (mean, population standard deviation) that are not implemented in the provided snippet. While the snippet shows a style of handling empty lists with early returns, applying that logic to `remove_outliers` requires deciding whether to catch the `ZeroDivisionError` from `statistics.pvariance` or `numpy.var` or handle it manually. Furthermore, the definition of \"population standard deviation\" (ddof=0) is specific, and the implementation must ensure it matches Python's `statistics.pstdev` or equivalent. The requirement does not specify how to handle the `std=0` case (single element), nor does the code provide a template for statistical functions.\n\nTherefore, there are significant behavioral gaps regarding edge cases (empty, single-element) and type safety that a programmer could implement differently (e.g., raising an error vs. returning empty vs. returning the element).\n\nUNSETTLED: 7\nDECISION: ASK",
+        "anti": "1. **Behavioral decisions left open by the requirement:**\n   - **Decision A: Handling of empty lists.** The requirement says \"returns a new list holding the values...\", but does not explicitly state what to do if `xs` is empty. Does it return an empty list, raise an error, or behave differently?\n     - *Concrete input:* `xs = []`.\n   - **Decision B: Handling of lists with a single element (or all identical elements) where standard deviation is 0.** If the population standard deviation is 0 (e.g., `xs = [5]` or `xs = [2, 2, 2]`), division by zero occurs when calculating how many standard deviations away a point is. Does the function raise an error, treat all points as within range (since distance is 0 and k >= 0), or skip the calculation?\n     - *Concrete input:* `xs = [5]`, `k = 1`.\n   - **Decision C: Floating-point precision and edge cases near the boundary.** If a value's distance from the mean is exactly `k * std`, should it be included? The requirement says \"at most\", which implies inclusive (`<=`), but floating point errors could make this ambiguous in practice. However, \"at most\" usually resolves to inclusive mathematically.\n     - *Concrete input:* A case where `abs(x - mean) == k * std` due to exact representation or rounding.\n\n2. **Evaluation against existing code:**\n   - **Decision A (Empty lists):** The provided code contains two functions (`drop_negatives`, `clip_to_range`) that explicitly raise `ValueError(\"xs must not be empty\")` for empty inputs. This suggests a strong pattern in this codebase that empty lists are invalid inputs requiring an exception.\n     - *Verdict:* The code settles this decision. It likely expects `remove_outliers` to also raise `ValueError` on empty input, following the established pattern.\n   - **Decision B (Zero standard deviation):** The provided code does not contain any logic for statistical calculations (mean, std). There is no precedent here for handling `std=0`.\n     - *Verdict:* The code does *not* settle this decision.\n   - **Decision C (Boundary conditions):** The requirement uses the phrase \"at most\", which mathematically means inclusive (`<=`). The provided code uses `>=` and `<=` in its filtering logic (`if x >= 0`, `if lo <= x <= hi`), confirming the style prefers inclusive bounds.\n     - *Verdict:* The code reinforces the interpretation of \"at most\" as inclusive, though the mathematical definition is already clear in the text. The main ambiguity remains the implementation detail of floating point comparison, but the logical direction is settled.\n\n3. **Counting unsettled decisions:**\n   - Decision A is settled by the codebase pattern.\n   - Decision B is **unsettled**. How should we handle `std == 0`?\n     - Option 1: Raise `ZeroDivisionError` (standard Python behavior for `x/0`).\n     - Option 2: Return the original list (all points have distance 0, which is `<= k*0`).\n     - Option 3: Return an empty list.\n   - Since the requirement doesn't specify and the code has no statistical helpers or patterns for this specific edge case, a reasonable programmer might choose Option 1 (fail fast) while another might choose Option 2 (preserve data if spread is zero). This leads to different behaviors.\n\n**Rating:**\nThe requirement is mostly clear, but the zero-variance case is a classic edge case in outlier detection that is often defined differently depending on the domain (statistics vs. data cleaning). The existing code does not provide a template for this specific scenario. Therefore, there is significant risk of shipping the wrong behavior without clarification.\n\nUNSETTLED: 6\nDECISION: ASK"
+      }
+    }
+  }
+}

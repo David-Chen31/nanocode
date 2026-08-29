@@ -1,0 +1,545 @@
+{
+  "model": "qwen-plus",
+  "k": 6,
+  "temperature": 1.0,
+  "diversify": false,
+  "n_tasks": 12,
+  "requested": 144,
+  "dropped": 0,
+  "api_errors": 0,
+  "input_tokens": 1840,
+  "output_tokens": 8149,
+  "model_calls": 192,
+  "cost_usd": 0.04258,
+  "wall_seconds": 52.3,
+  "samples": {
+    "t01_remove_outliers": {
+      "ambiguous": {
+        "sources": [
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n    n = len(xs)\n    mean = sum(xs) / n\n    variance = sum((x - mean) ** 2 for x in xs) / n\n    std_dev = math.sqrt(variance)\n    if std_dev == 0:\n        return list(xs)\n    threshold = k * std_dev\n    return [x for x in xs if abs(x - mean) <= threshold]\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n    n = len(xs)\n    mean = sum(xs) / n\n    variance = sum((x - mean) ** 2 for x in xs) / n\n    std_dev = math.sqrt(variance)\n    \n    if std_dev == 0:\n        return xs[:]\n    \n    threshold = k * std_dev\n    return [x for x in xs if abs(x - mean) <= threshold]\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n    \n    n = len(xs)\n    mean = sum(xs) / n\n    \n    variance_sum = sum((x - mean) ** 2 for x in xs)\n    std_dev = math.sqrt(variance_sum / n)\n    \n    if std_dev == 0:\n        return list(xs)\n    \n    threshold = k * std_dev\n    result = [x for x in xs if abs(x - mean) <= threshold]\n    \n    return result\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n    \n    n = len(xs)\n    mean = sum(xs) / n\n    \n    variance = sum((x - mean) ** 2 for x in xs) / n\n    std_dev = math.sqrt(variance)\n    \n    if std_dev == 0:\n        return list(xs)\n    \n    threshold = k * std_dev\n    result = [x for x in xs if abs(x - mean) <= threshold]\n    \n    return result\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n    \n    n = len(xs)\n    mean = sum(xs) / n\n    \n    variance = sum((x - mean) ** 2 for x in xs) / n\n    std_dev = math.sqrt(variance)\n    \n    if std_dev == 0:\n        return xs[:]\n    \n    threshold = k * std_dev\n    result = [x for x in xs if abs(x - mean) <= threshold]\n    \n    return result\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n    n = len(xs)\n    mean = sum(xs) / n\n    variance = sum((x - mean) ** 2 for x in xs) / n\n    std_dev = math.sqrt(variance)\n    \n    if std_dev == 0:\n        return list(xs)\n    \n    threshold = k * std_dev\n    return [x for x in xs if abs(x - mean) <= threshold]\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.95,
+        "direct_ask": 0.0,
+        "direct_ask_point": "NONE"
+      },
+      "full": {
+        "sources": [
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n    \n    n = len(xs)\n    mean = sum(xs) / n\n    \n    variance = sum((x - mean) ** 2 for x in xs) / n\n    std_dev = math.sqrt(variance)\n    \n    if std_dev == 0:\n        return xs[:]\n    \n    threshold = k * std_dev\n    return [x for x in xs if abs(x - mean) <= threshold]\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n    n = len(xs)\n    mean = sum(xs) / n\n    variance = sum((x - mean) ** 2 for x in xs) / n\n    std_dev = math.sqrt(variance)\n    if std_dev == 0:\n        return list(xs)\n    threshold = k * std_dev\n    return [x for x in xs if abs(x - mean) <= threshold]\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n    \n    n = len(xs)\n    mean = sum(xs) / n\n    \n    # Calculate population standard deviation (ddof=0)\n    variance = sum((x - mean) ** 2 for x in xs) / n\n    std_dev = math.sqrt(variance)\n    \n    # Handle case where std_dev is 0 to avoid division by zero\n    if std_dev == 0:\n        return xs[:]\n    \n    result = []\n    for x in xs:\n        if abs(x - mean) <= k * std_dev:\n            result.append(x)\n    \n    return result\n",
+          "from statistics import mean, pstdev\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n    m = mean(xs)\n    s = pstdev(xs)\n    if s == 0:\n        return xs[:]\n    threshold = k * s\n    return [x for x in xs if abs(x - m) <= threshold]\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n    \n    n = len(xs)\n    mean = sum(xs) / n\n    \n    variance_sum = sum((x - mean) ** 2 for x in xs)\n    std_dev = math.sqrt(variance_sum / n)\n    \n    if std_dev == 0:\n        return list(xs)\n    \n    threshold = k * std_dev\n    return [x for x in xs if abs(x - mean) <= threshold]\n",
+          "import math\n\ndef remove_outliers(xs, k):\n    if not xs:\n        return []\n    n = len(xs)\n    mean = sum(xs) / n\n    variance = sum((x - mean) ** 2 for x in xs) / n\n    std_dev = math.sqrt(variance)\n    if std_dev == 0:\n        return xs[:]\n    threshold = k * std_dev\n    return [x for x in xs if abs(x - mean) <= threshold]\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          -0.020308527392406316,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.95,
+        "direct_ask": 0.0,
+        "direct_ask_point": "NONE"
+      }
+    },
+    "t02_top_k": {
+      "ambiguous": {
+        "sources": [
+          "def top_k(items, k):\n    return sorted(items, key=lambda x: x[1], reverse=True)[:k]\n",
+          "def top_k(items, k):\n    return sorted(items, key=lambda x: x[1], reverse=True)[:k]\n",
+          "def top_k(items, k):\n    if k <= 0:\n        return []\n    sorted_items = sorted(items, key=lambda x: x[1], reverse=True)\n    return sorted_items[:k]\n",
+          "def top_k(items, k):\n    return sorted(items, key=lambda x: x[1], reverse=True)[:k]\n",
+          "def top_k(items, k):\n    if k <= 0:\n        return []\n    sorted_items = sorted(items, key=lambda x: x[1], reverse=True)\n    return sorted_items[:k]\n",
+          "def top_k(items, k):\n    return sorted(items, key=lambda x: x[1], reverse=True)[:k]\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          -0.0013808107761255429,
+          null,
+          null
+        ],
+        "self_report": 0.9,
+        "direct_ask": 0.0,
+        "direct_ask_point": "NONE"
+      },
+      "full": {
+        "sources": [
+          "def top_k(items, k):\n    if k < 0:\n        return []\n    indexed = [(score, idx, name) for idx, (name, score) in enumerate(items)]\n    indexed.sort(key=lambda x: (-x[0], x[1]))\n    result = [[name, score] for _, idx, name, score in [(s, i, n) for s, i, n in indexed[:k]]]\n    # Reconstruct correctly from the sorted list\n    selected = indexed[:k]\n    return [[name, score] for score, idx, name in selected]\n",
+          "def top_k(items, k):\n    return sorted(items, key=lambda x: (-x[1], items.index(x)), reverse=False)[:k]\n",
+          "def top_k(items, k):\n    return sorted(items, key=lambda x: (-x[1], items.index(x)), reverse=False)[:k]\n",
+          "def top_k(items, k):\n    if k <= 0:\n        return []\n    sorted_items = sorted(enumerate(items), key=lambda x: (-x[1][1], x[0]))\n    return [item for _, item in sorted_items[:k]]\n",
+          "def top_k(items, k):\n    if k < 0:\n        raise ValueError(\"k must be non-negative\")\n    indexed_items = [(score, idx, item) for idx, item in enumerate(items)]\n    indexed_items.sort(key=lambda x: (-x[0], x[1]))\n    return [item for _, _, item in indexed_items[:k]]\n",
+          "def top_k(items, k):\n    if k <= 0:\n        return []\n    sorted_items = sorted(enumerate(items), key=lambda x: (-x[1][1], x[0]))\n    return [item for _, item in sorted_items[:k]]\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.9,
+        "direct_ask": 0.0,
+        "direct_ask_point": "NONE"
+      }
+    },
+    "t03_chunk": {
+      "ambiguous": {
+        "sources": [
+          "def chunk(xs, size):\n    return [xs[i:i + size] for i in range(0, len(xs), size)]\n",
+          "def chunk(xs, size):\n    return [xs[i:i+size] for i in range(0, len(xs), size)]\n",
+          "def chunk(xs, size):\n    result = []\n    for i in range(0, len(xs), size):\n        result.append(xs[i:i+size])\n    return result\n",
+          "def chunk(xs, size):\n    result = []\n    for i in range(0, len(xs), size):\n        result.append(xs[i:i + size])\n    return result\n",
+          "def chunk(xs, size):\n    result = []\n    for i in range(0, len(xs), size):\n        result.append(xs[i:i+size])\n    return result\n",
+          "def chunk(xs, size):\n    return [xs[i:i + size] for i in range(0, len(xs), size)]\n"
+        ],
+        "mean_logprobs": [
+          -7.239981505072726e-05,
+          null,
+          null,
+          null,
+          null,
+          -7.239981505072726e-05
+        ],
+        "self_report": 0.95,
+        "direct_ask": 0.0,
+        "direct_ask_point": "NONE"
+      },
+      "full": {
+        "sources": [
+          "def chunk(xs, size):\n    result = []\n    for i in range(0, len(xs), size):\n        result.append(xs[i:i + size])\n    return result\n",
+          "def chunk(xs, size):\n    return [xs[i:i+size] for i in range(0, len(xs), size)]\n",
+          "def chunk(xs, size):\n    result = []\n    for i in range(0, len(xs), size):\n        result.append(xs[i:i + size])\n    return result\n",
+          "def chunk(xs, size):\n    result = []\n    for i in range(0, len(xs), size):\n        result.append(xs[i:i+size])\n    return result\n",
+          "def chunk(xs, size):\n    result = []\n    for i in range(0, len(xs), size):\n        result.append(xs[i:i + size])\n    return result\n",
+          "def chunk(xs, size):\n    result = []\n    for i in range(0, len(xs), size):\n        result.append(xs[i:i + size])\n    return result\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.95,
+        "direct_ask": 0.0,
+        "direct_ask_point": "NONE"
+      }
+    },
+    "t04_normalize": {
+      "ambiguous": {
+        "sources": [
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n    range_val = max_val - min_val\n    if range_val == 0:\n        return [0.0] * len(xs)\n    return [(x - min_val) / range_val for x in xs]\n",
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n    if min_val == max_val:\n        return [0.0] * len(xs)\n    range_val = max_val - min_val\n    return [(x - min_val) / range_val for x in xs]\n",
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n    if max_val == min_val:\n        return [0.0] * len(xs)\n    scale = max_val - min_val\n    return [(x - min_val) / scale for x in xs]\n",
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n    range_val = max_val - min_val\n    if range_val == 0:\n        return [0.0] * len(xs)\n    return [(x - min_val) / range_val for x in xs]\n",
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n    if max_val == min_val:\n        return [0.0] * len(xs)\n    return [(x - min_val) / (max_val - min_val) for x in xs]\n",
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n    if min_val == max_val:\n        return [0.0] * len(xs)\n    return [(x - min_val) / (max_val - min_val) for x in xs]\n"
+        ],
+        "mean_logprobs": [
+          -0.022262417008472576,
+          null,
+          null,
+          -0.022262417008472576,
+          null,
+          -0.008642428188139574
+        ],
+        "self_report": 0.9,
+        "direct_ask": 0.3,
+        "direct_ask_point": "Handling of NaN or infinite values in the input list is unspecified."
+      },
+      "full": {
+        "sources": [
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n    if max_val == min_val:\n        return [0.0] * len(xs)\n    range_val = max_val - min_val\n    return [(x - min_val) / range_val for x in xs]\n",
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n    if min_val == max_val:\n        return [0.0] * len(xs)\n    range_val = max_val - min_val\n    return [(x - min_val) / range_val for x in xs]\n",
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n    if min_val == max_val:\n        return [0.0] * len(xs)\n    range_val = max_val - min_val\n    return [(x - min_val) / range_val for x in xs]\n",
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n    if max_val == min_val:\n        return [0.0] * len(xs)\n    range_val = max_val - min_val\n    return [(x - min_val) / range_val for x in xs]\n",
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n    if max_val == min_val:\n        return [0.0] * len(xs)\n    range_val = max_val - min_val\n    return [(x - min_val) / range_val for x in xs]\n",
+          "def normalize(xs):\n    min_val = min(xs)\n    max_val = max(xs)\n    if min_val == max_val:\n        return [0.0] * len(xs)\n    range_val = max_val - min_val\n    return [(x - min_val) / range_val for x in xs]\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.95,
+        "direct_ask": 0.2,
+        "direct_ask_point": "How to handle floating-point precision issues in edge cases"
+      }
+    },
+    "t05_merge_configs": {
+      "ambiguous": {
+        "sources": [
+          "def merge_configs(base, override):\n    result = dict(base)\n    for key, value in override.items():\n        if isinstance(value, dict) and key in result and isinstance(result[key], dict):\n            result[key] = merge_configs(result[key], value)\n        else:\n            result[key] = value\n    return result\n",
+          "def merge_configs(base, override):\n    result = dict(base)\n    for key, value in override.items():\n        if key in result and isinstance(result[key], dict) and isinstance(value, dict):\n            result[key] = merge_configs(result[key], value)\n        else:\n            result[key] = value\n    return result\n",
+          "def merge_configs(base, override):\n    result = {}\n    for key in base:\n        result[key] = base[key]\n    for key in override:\n        if key in result and isinstance(result[key], dict) and isinstance(override[key], dict):\n            result[key] = merge_configs(result[key], override[key])\n        else:\n            result[key] = override[key]\n    return result\n",
+          "def merge_configs(base, override):\n    result = dict(base)\n    for key, value in override.items():\n        if isinstance(value, dict) and key in result and isinstance(result[key], dict):\n            result[key] = merge_configs(result[key], value)\n        else:\n            result[key] = value\n    return result\n",
+          "def merge_configs(base, override):\n    result = {}\n    for key in base:\n        if isinstance(base[key], dict) and isinstance(override.get(key), dict):\n            result[key] = merge_configs(base[key], override[key])\n        else:\n            result[key] = base[key]\n    for key in override:\n        if key not in result:\n            result[key] = override[key]\n        elif isinstance(result[key], dict) and isinstance(override[key], dict):\n            result[key] = merge_configs(result[key], override[key])\n        else:\n            result[key] = override[key]\n    return result\n",
+          "def merge_configs(base, override):\n    result = dict(base)\n    for key, value in override.items():\n        if isinstance(value, dict) and key in result and isinstance(result[key], dict):\n            result[key] = merge_configs(result[key], value)\n        else:\n            result[key] = value\n    return result\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.8,
+        "direct_ask": 1.0,
+        "direct_ask_point": "None"
+      },
+      "full": {
+        "sources": [
+          "def merge_configs(base, override):\n    result = dict(base)\n    for key, value in override.items():\n        result[key] = value\n    return result\n",
+          "def merge_configs(base, override):\n    result = {}\n    for k, v in base.items():\n        if isinstance(v, dict) and isinstance(override.get(k), dict):\n            result[k] = merge_configs(v, override[k])\n        else:\n            result[k] = v\n    for k, v in override.items():\n        if k not in result or (k in base and not isinstance(result[k], dict)):\n            result[k] = v\n        elif k in base and isinstance(result[k], dict) and isinstance(v, dict):\n            result[k] = merge_configs(result[k], v)\n    return result\n",
+          "def merge_configs(base, override):\n    result = dict(base)\n    for key, value in override.items():\n        result[key] = value\n    return result\n",
+          "def merge_configs(base, override):\n    result = dict(base)\n    for key, value in override.items():\n        result[key] = value\n    return result\n",
+          "def merge_configs(base, override):\n    result = dict(base)\n    for key, value in override.items():\n        result[key] = value\n    return result\n",
+          "def merge_configs(base, override):\n    result = base.copy()\n    result.update(override)\n    return result\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          -0.005813124504013248
+        ],
+        "self_report": 0.95,
+        "direct_ask": 0.5,
+        "direct_ask_point": "Handling of nested dictionary values is unspecified (shallow vs deep merge)."
+      }
+    },
+    "t06_parse_range": {
+      "ambiguous": {
+        "sources": [
+          "def parse_range(spec):\n    start, end = map(int, spec.split('-'))\n    return list(range(start, end + 1))\n",
+          "def parse_range(spec):\n    start, end = map(int, spec.split('-'))\n    return list(range(start, end + 1))\n",
+          "def parse_range(spec):\n    start, end = map(int, spec.split('-'))\n    return list(range(start, end + 1))\n",
+          "def parse_range(spec):\n    start, end = map(int, spec.split('-'))\n    return list(range(start, end + 1))\n",
+          "def parse_range(spec):\n    start, end = map(int, spec.split('-'))\n    return list(range(start, end + 1))\n",
+          "def parse_range(spec):\n    start, end = map(int, spec.split('-'))\n    return list(range(start, end + 1))\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.95,
+        "direct_ask": 0.0,
+        "direct_ask_point": "NONE"
+      },
+      "full": {
+        "sources": [
+          "def parse_range(spec):\n    start, end = map(int, spec.split('-'))\n    return list(range(start, end))\n",
+          "def parse_range(spec):\n    start, end = map(int, spec.split('-'))\n    return list(range(start, end))\n",
+          "def parse_range(spec):\n    start, end = map(int, spec.split('-'))\n    return list(range(start, end))\n",
+          "def parse_range(spec):\n    start, end = map(int, spec.split('-'))\n    return list(range(start, end))\n",
+          "def parse_range(spec):\n    start, end = map(int, spec.split('-'))\n    return list(range(start, end))\n",
+          "def parse_range(spec):\n    start, end = map(int, spec.split('-'))\n    return list(range(start, end))\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.95,
+        "direct_ask": 0.0,
+        "direct_ask_point": "NONE"
+      }
+    },
+    "t07_dedupe": {
+      "ambiguous": {
+        "sources": [
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for x in xs:\n        if x not in seen:\n            seen.add(x)\n            result.append(x)\n    return result\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for x in xs:\n        if x not in seen:\n            seen.add(x)\n            result.append(x)\n    return result\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for x in xs:\n        if x not in seen:\n            seen.add(x)\n            result.append(x)\n    return result\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for x in xs:\n        if x not in seen:\n            seen.add(x)\n            result.append(x)\n    return result\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for x in xs:\n        if x not in seen:\n            seen.add(x)\n            result.append(x)\n    return result\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for x in xs:\n        if x not in seen:\n            seen.add(x)\n            result.append(x)\n    return result\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.9,
+        "direct_ask": 0.0,
+        "direct_ask_point": "NONE"
+      },
+      "full": {
+        "sources": [
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for x in reversed(xs):\n        if x not in seen:\n            seen.add(x)\n            result.append(x)\n    return list(reversed(result))\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for i in range(len(xs) - 1, -1, -1):\n        if xs[i] not in seen:\n            seen.add(xs[i])\n            result.append(xs[i])\n    return result[::-1]\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for i in range(len(xs) - 1, -1, -1):\n        if xs[i] not in seen:\n            seen.add(xs[i])\n            result.append(xs[i])\n    return result[::-1]\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for x in reversed(xs):\n        if x not in seen:\n            seen.add(x)\n            result.append(x)\n    return list(reversed(result))\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for i in range(len(xs) - 1, -1, -1):\n        if xs[i] not in seen:\n            seen.add(xs[i])\n            result.append(xs[i])\n    return result[::-1]\n",
+          "def dedupe(xs):\n    seen = set()\n    result = []\n    for x in reversed(xs):\n        if x not in seen:\n            seen.add(x)\n            result.append(x)\n    return list(reversed(result))\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.85,
+        "direct_ask": 0.0,
+        "direct_ask_point": "NONE"
+      }
+    },
+    "t08_round_price": {
+      "ambiguous": {
+        "sources": [
+          "def round_price(x):\n    return round(x, 2)\n",
+          "def round_price(x):\n    return float(round(x, 2))\n",
+          "def round_price(x):\n    return float(round(x, 2))\n",
+          "def round_price(x):\n    return float(round(x, 2))\n",
+          "def round_price(x):\n    return float(round(x, 2))\n",
+          "def round_price(x):\n    return float(round(x, 2))\n"
+        ],
+        "mean_logprobs": [
+          -3.925140827312554e-05,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.9,
+        "direct_ask": 0.5,
+        "direct_ask_point": "The rounding mode (e.g., round-half-up vs. round-half-to-even) is not specified."
+      },
+      "full": {
+        "sources": [
+          "def round_price(x):\n    if x >= 0:\n        return float(f\"{x:.2f}\") if f\"{x:.2f}\" != str(round(x, 2)) else float(str(round(x * 100 + 0.5, 0)) / 100)\n    else:\n        return -float(f\"{-x:.2f}\") if f\"{-x:.2f}\" != str(round(-x, 2)) else float(str(round(-x * 100 + 0.5, 0)) / 100)\n",
+          "def round_price(x):\n    if x >= 0:\n        return float(f\"{x:.2f}\") if f\"{x:.2f}\"[-1] != '5' else float(round(x + 0.0000001, 2))\n    else:\n        return float(f\"{x:.2f}\") if f\"{x:.2f}\"[-1] != '5' else float(round(x - 0.0000001, 2))\n",
+          "def round_price(x):\n    if x >= 0:\n        return float(round(x * 100 + 0.5) / 100)\n    else:\n        return float(round(x * 100 - 0.5) / 100)\n",
+          "import math\n\ndef round_price(x):\n    sign = 1 if x >= 0 else -1\n    abs_x = abs(x)\n    scaled = abs_x * 100\n    integer_part = int(scaled)\n    fractional_part = scaled - integer_part\n    \n    if fractional_part > 0.5:\n        rounded_scaled = integer_part + 1\n    elif fractional_part < 0.5:\n        rounded_scaled = integer_part\n    else:\n        rounded_scaled = integer_part + 1\n    \n    return sign * rounded_scaled / 100.0\n",
+          "import decimal\n\ndef round_price(x):\n    d = decimal.Decimal(str(x))\n    rounded = d.quantize(decimal.Decimal('0.01'), rounding=decimal.ROUND_HALF_UP)\n    if x < 0 and rounded == 0:\n        return -0.0\n    return float(rounded)\n",
+          "def round_price(x):\n    from decimal import Decimal, ROUND_HALF_UP\n    d = Decimal(str(x))\n    rounded = d.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)\n    return float(rounded)\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.9,
+        "direct_ask": 0.4,
+        "direct_ask_point": "Floating-point representation of decimal halves is not exact in binary, causing ambiguity for \"exactly halfway\" cases."
+      }
+    },
+    "t09_split_name": {
+      "ambiguous": {
+        "sources": [
+          "def split_name(full):\n    stripped = full.strip()\n    if ' ' in stripped:\n        first, last = stripped.split(' ', 1)\n        return [first, last]\n    else:\n        return [stripped, \"\"]\n",
+          "def split_name(full):\n    full = full.strip()\n    parts = full.split(' ', 1)\n    if len(parts) == 2:\n        return [parts[0], parts[1]]\n    elif len(parts) == 1:\n        return [parts[0], \"\"]\n    else:\n        return [\"\", \"\"]\n",
+          "def split_name(full):\n    full = full.strip()\n    parts = full.split(' ', 1)\n    if len(parts) == 2:\n        return [parts[0], parts[1]]\n    elif len(parts) == 1:\n        return [parts[0], \"\"]\n    else:\n        return [\"\", \"\"]\n",
+          "def split_name(full):\n    stripped = full.strip()\n    parts = stripped.split(' ', 1)\n    if len(parts) == 2:\n        return [parts[0], parts[1]]\n    elif len(parts) == 1:\n        return [parts[0], \"\"]\n    else:\n        return [\"\", \"\"]\n",
+          "def split_name(full):\n    stripped = full.strip()\n    parts = stripped.split(' ', 1)\n    if len(parts) == 2:\n        return [parts[0], parts[1]]\n    elif len(parts) == 1:\n        return [parts[0], '']\n    else:\n        return ['', '']\n",
+          "def split_name(full):\n    stripped = full.strip()\n    parts = stripped.split(' ', 1)\n    if len(parts) == 2:\n        return [parts[0], parts[1]]\n    else:\n        return [stripped, \"\"]\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.9,
+        "direct_ask": 1.0,
+        "direct_ask_point": "Handling of names with no spaces or multiple spaces"
+      },
+      "full": {
+        "sources": [
+          "def split_name(full):\n    full = full.strip()\n    if ' ' in full:\n        first, last = full.split(' ', 1)\n        return [first, last]\n    return ['', full]\n",
+          "def split_name(full):\n    s = full.strip()\n    if ' ' in s:\n        first, last = s.split(' ', 1)\n        return [first, last]\n    return ['', s]\n",
+          "def split_name(full):\n    full = full.strip()\n    if ' ' not in full:\n        return ['', full]\n    parts = full.split(' ', 1)\n    return [parts[0], parts[1]]\n",
+          "def split_name(full):\n    full = full.strip()\n    if ' ' in full:\n        first, last = full.split(' ', 1)\n        return [first, last]\n    else:\n        return ['', full]\n",
+          "def split_name(full):\n    full = full.strip()\n    if ' ' in full:\n        first, last = full.split(' ', 1)\n        return [first, last]\n    return ['', full]\n",
+          "def split_name(full):\n    full = full.strip()\n    if ' ' in full:\n        idx = full.index(' ')\n        return [full[:idx], full[idx+1:]]\n    return ['', full]\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          -0.005528684734880408,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.95,
+        "direct_ask": 0.0,
+        "direct_ask_point": "NONE"
+      }
+    },
+    "t10_moving_average": {
+      "ambiguous": {
+        "sources": [
+          "def moving_average(xs, w):\n    if not xs or w <= 0:\n        return []\n    result = []\n    current_sum = sum(xs[:w])\n    result.append(current_sum / w)\n    for i in range(w, len(xs)):\n        current_sum += xs[i] - xs[i - w]\n        result.append(current_sum / w)\n    return result\n",
+          "def moving_average(xs, w):\n    if w > len(xs):\n        return []\n    result = []\n    window_sum = sum(xs[:w])\n    result.append(window_sum / w)\n    for i in range(w, len(xs)):\n        window_sum = window_sum - xs[i - w] + xs[i]\n        result.append(window_sum / w)\n    return result\n",
+          "def moving_average(xs, w):\n    if w <= 0 or not xs:\n        return []\n    result = []\n    current_sum = sum(xs[:w])\n    result.append(current_sum / w)\n    for i in range(w, len(xs)):\n        current_sum += xs[i] - xs[i - w]\n        result.append(current_sum / w)\n    return result\n",
+          "def moving_average(xs, w):\n    if not xs or w <= 0:\n        return []\n    result = []\n    current_sum = sum(xs[:w])\n    result.append(current_sum / w)\n    for i in range(w, len(xs)):\n        current_sum += xs[i] - xs[i - w]\n        result.append(current_sum / w)\n    return result\n",
+          "def moving_average(xs, w):\n    if w <= 0:\n        raise ValueError(\"Window length w must be at least 1\")\n    if len(xs) < w:\n        return []\n    \n    result = []\n    current_sum = sum(xs[:w])\n    result.append(current_sum / w)\n    \n    for i in range(w, len(xs)):\n        current_sum += xs[i] - xs[i - w]\n        result.append(current_sum / w)\n    \n    return result\n",
+          "def moving_average(xs, w):\n    return [sum(xs[i:i+w]) / w for i in range(len(xs) - w + 1)]\n"
+        ],
+        "mean_logprobs": [
+          null,
+          -0.024483340278204934,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.9,
+        "direct_ask": 0.0,
+        "direct_ask_point": "NONE"
+      },
+      "full": {
+        "sources": [
+          "def moving_average(xs, w):\n    if w > len(xs) or w < 1:\n        return []\n    result = []\n    for i in range(len(xs) - w + 1):\n        window_sum = sum(xs[i:i+w])\n        result.append(window_sum / w)\n    return result\n",
+          "def moving_average(xs, w):\n    if w > len(xs) or w < 1:\n        return []\n    result = []\n    current_sum = sum(xs[:w])\n    result.append(current_sum / w)\n    for i in range(w, len(xs)):\n        current_sum += xs[i] - xs[i - w]\n        result.append(current_sum / w)\n    return result\n",
+          "def moving_average(xs, w):\n    if w > len(xs) or w < 1:\n        return []\n    result = []\n    current_sum = sum(xs[:w])\n    result.append(current_sum / w)\n    for i in range(w, len(xs)):\n        current_sum += xs[i] - xs[i - w]\n        result.append(current_sum / w)\n    return result\n",
+          "def moving_average(xs, w):\n    if w > len(xs) or w < 1:\n        return []\n    result = []\n    current_sum = sum(xs[:w])\n    result.append(current_sum / w)\n    for i in range(w, len(xs)):\n        current_sum += xs[i] - xs[i - w]\n        result.append(current_sum / w)\n    return result\n",
+          "def moving_average(xs, w):\n    if w > len(xs) or w < 1:\n        return []\n    result = []\n    for i in range(len(xs) - w + 1):\n        window_sum = sum(xs[i:i+w])\n        result.append(window_sum / w)\n    return result\n",
+          "def moving_average(xs, w):\n    if w > len(xs) or w < 1:\n        return []\n    result = []\n    current_sum = sum(xs[:w])\n    result.append(current_sum / w)\n    for i in range(w, len(xs)):\n        current_sum += xs[i] - xs[i - w]\n        result.append(current_sum / w)\n    return result\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.9,
+        "direct_ask": 0.0,
+        "direct_ask_point": "NONE"
+      }
+    },
+    "t11_truncate": {
+      "ambiguous": {
+        "sources": [
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    return s[:n-3] + '...'\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.9,
+        "direct_ask": 0.5,
+        "direct_ask_point": "What to do when n == 3 (e.g., \"...\" vs. truncating to 0 chars before ellipsis)"
+      },
+      "full": {
+        "sources": [
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    return s[:n-3] + '...'\n",
+          "def truncate(s, n):\n    if len(s) <= n:\n        return s\n    return s[:n-3] + '...'\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.9,
+        "direct_ask": 0.0,
+        "direct_ask_point": "NONE"
+      }
+    },
+    "t12_sort_scores": {
+      "ambiguous": {
+        "sources": [
+          "def sort_scores(xs):\n    return sorted(xs, reverse=True)\n",
+          "def sort_scores(xs):\n    return sorted(xs, reverse=True)\n",
+          "def sort_scores(xs):\n    return sorted(xs, reverse=True)\n",
+          "def sort_scores(xs):\n    return sorted(xs, reverse=True)\n",
+          "def sort_scores(xs):\n    return sorted(xs, reverse=True)\n",
+          "def sort_scores(xs):\n    return sorted(xs, reverse=True)\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.9,
+        "direct_ask": 0.5,
+        "direct_ask_point": "Handling of duplicate scores or ties is not specified."
+      },
+      "full": {
+        "sources": [
+          "def sort_scores(xs):\n    xs.sort(reverse=True)\n",
+          "def sort_scores(xs):\n    xs.sort(reverse=True)\n    return None\n",
+          "def sort_scores(xs):\n    xs.sort(reverse=True)\n    return None\n",
+          "def sort_scores(xs):\n    xs.sort(reverse=True)\n    return None\n",
+          "def sort_scores(xs):\n    xs.sort(reverse=True)\n    return None\n",
+          "def sort_scores(xs):\n    xs.sort(reverse=True)\n"
+        ],
+        "mean_logprobs": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "self_report": 0.95,
+        "direct_ask": 0.5,
+        "direct_ask_point": "Stability of the sort for equal elements is not specified."
+      }
+    }
+  }
+}

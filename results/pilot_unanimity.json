@@ -1,0 +1,45 @@
+{
+  "models": [
+    "claude-haiku-4-5-20251001",
+    "gemini-2.5-flash",
+    "gpt-4o",
+    "gpt-4o-mini",
+    "qwen-plus"
+  ],
+  "ambiguous": {
+    "all_tasks": {
+      "n_unanimous": 5,
+      "unanimous_correct": 1,
+      "n_split": 7,
+      "split_correct": 6,
+      "precision_unanimous": 0.2,
+      "precision_split": 0.8571428571428571
+    },
+    "excluding_designed_hard": {
+      "n_unanimous": 2,
+      "unanimous_correct": 0,
+      "n_split": 7,
+      "split_correct": 6,
+      "precision_unanimous": 0.0,
+      "precision_split": 0.8571428571428571
+    }
+  },
+  "full": {
+    "all_tasks": {
+      "n_unanimous": 3,
+      "unanimous_correct": 3,
+      "n_split": 9,
+      "split_correct": 8,
+      "precision_unanimous": 1.0,
+      "precision_split": 0.8888888888888888
+    },
+    "excluding_designed_hard": {
+      "n_unanimous": 1,
+      "unanimous_correct": 1,
+      "n_split": 8,
+      "split_correct": 7,
+      "precision_unanimous": 1.0,
+      "precision_split": 0.875
+    }
+  }
+}

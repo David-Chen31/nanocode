@@ -1,0 +1,62 @@
+[
+  {
+    "arm": "within claude-haiku-4-5-20251001",
+    "mean_classes": 1.0833333333333333,
+    "mean_bse": 0.03484713833992097,
+    "coverage": 6,
+    "majority_right": 6,
+    "reachable": 0,
+    "auroc_h1": 0.4618055555555556,
+    "n": 12
+  },
+  {
+    "arm": "within gemini-2.5-flash",
+    "mean_classes": 1.0833333333333333,
+    "mean_bse": 0.1925764589235476,
+    "coverage": 3,
+    "majority_right": 2,
+    "reachable": 1,
+    "auroc_h1": 0.5868055555555556,
+    "n": 12
+  },
+  {
+    "arm": "within gpt-4o",
+    "mean_classes": 1.1666666666666667,
+    "mean_bse": 0.05181958451376186,
+    "coverage": 6,
+    "majority_right": 6,
+    "reachable": 0,
+    "auroc_h1": 0.4930555555555556,
+    "n": 12
+  },
+  {
+    "arm": "within gpt-4o-mini",
+    "mean_classes": 1.0833333333333333,
+    "mean_bse": 0.03484713833992097,
+    "coverage": 6,
+    "majority_right": 5,
+    "reachable": 1,
+    "auroc_h1": 0.4652777777777778,
+    "n": 12
+  },
+  {
+    "arm": "within qwen-plus",
+    "mean_classes": 1.0833333333333333,
+    "mean_bse": 0.03484713833992097,
+    "coverage": 7,
+    "majority_right": 6,
+    "reachable": 1,
+    "auroc_h1": 0.4513888888888889,
+    "n": 12
+  },
+  {
+    "arm": "CROSS-MODEL ensemble",
+    "mean_classes": 1.5833333333333333,
+    "mean_bse": 0.1833120583020055,
+    "coverage": 7,
+    "majority_right": 7,
+    "reachable": 0,
+    "auroc_h1": 0.4722222222222222,
+    "n": 12
+  }
+]

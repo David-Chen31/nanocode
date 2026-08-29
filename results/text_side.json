@@ -1,0 +1,1852 @@
+{
+  "models": {
+    "gpt-4o-mini": {
+      "signals": {
+        "direct_ask": {
+          "auroc_h1": 0.6354,
+          "mean_ambiguous": 0.1833,
+          "mean_full": 0.0167,
+          "localisation": null,
+          "per_task": {
+            "t01_remove_outliers": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": "Handling cases where the list is empty or has one element.",
+                "raw": "0  \nHandling cases where the list is empty or has one element."
+              },
+              "full": {
+                "score": 0.0,
+                "point": "Handling of empty input list is specified.",
+                "raw": "0  \nHandling of empty input list is specified."
+              }
+            },
+            "t02_top_k": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": "Handling ties in scores is not specified.",
+                "raw": "0  \nHandling ties in scores is not specified."
+              },
+              "full": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0  \nNONE"
+              }
+            },
+            "t03_chunk": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": "Handling the last chunk if xs length is not a multiple of size.",
+                "raw": "0  \nHandling the last chunk if xs length is not a multiple of size."
+              },
+              "full": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0  \nNONE"
+              }
+            },
+            "t04_normalize": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "LINE 2: Handling of duplicate minimum and maximum values in the list.",
+                "raw": "LINE 1: 0  \nLINE 2: Handling of duplicate minimum and maximum values in the list."
+              },
+              "full": {
+                "score": 0.0,
+                "point": "Handling the case when all values in xs are the same.",
+                "raw": "0  \nHandling the case when all values in xs are the same."
+              }
+            },
+            "t05_merge_configs": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": "How to handle conflicting keys between base and override.",
+                "raw": "0  \nHow to handle conflicting keys between base and override."
+              },
+              "full": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0  \nNONE"
+              }
+            },
+            "t06_parse_range": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0  \nNONE"
+              },
+              "full": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0  \nNONE"
+              }
+            },
+            "t07_dedupe": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0  \nNONE"
+              },
+              "full": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0  \nNONE"
+              }
+            },
+            "t08_round_price": {
+              "ambiguous": {
+                "score": 0.5,
+                "point": "Rounding method (e.g., round half up or down) is unspecified.",
+                "raw": "0.5  \nRounding method (e.g., round half up or down) is unspecified."
+              },
+              "full": {
+                "score": 0.2,
+                "point": "Handling of negative values and their rounding behavior.",
+                "raw": "0.2  \nHandling of negative values and their rounding behavior."
+              }
+            },
+            "t09_split_name": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0  \nNONE"
+              },
+              "full": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0  \nNONE"
+              }
+            },
+            "t10_moving_average": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": "Handling cases where the length of xs is less than w.",
+                "raw": "0  \nHandling cases where the length of xs is less than w."
+              },
+              "full": {
+                "score": 0.0,
+                "point": "Handling cases where xs is empty or contains non-numeric values.",
+                "raw": "0  \nHandling cases where xs is empty or contains non-numeric values."
+              }
+            },
+            "t11_truncate": {
+              "ambiguous": {
+                "score": 0.5,
+                "point": "How to handle strings shorter than 3 characters.",
+                "raw": "0.5  \nHow to handle strings shorter than 3 characters."
+              },
+              "full": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0  \nNONE"
+              }
+            },
+            "t12_sort_scores": {
+              "ambiguous": {
+                "score": 0.2,
+                "point": "Handling of ties in scores is not specified.",
+                "raw": "0.2  \nHandling of ties in scores is not specified."
+              },
+              "full": {
+                "score": 0.0,
+                "point": "Stability of the sorting algorithm is not specified.",
+                "raw": "0  \nStability of the sorting algorithm is not specified."
+              }
+            }
+          }
+        },
+        "enumerate_gaps": {
+          "auroc_h1": 0.5,
+          "mean_ambiguous": 1.0,
+          "mean_full": 1.0,
+          "localisation": null,
+          "per_task": {
+            "t01_remove_outliers": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Handling of empty input list",
+                "raw": "- Handling of empty input list  \n- Method of calculating mean  \n- Method of calculating standard deviation  \n- Treatment of non-numeric values  \n- Rounding behavior for mean and standard deviation  \n- Inclusion of values exactly at k standard deviations  \n- Performance optimizations for large lists  \n- Use of built-in functions vs. manual calculations  \n- Handling of floating-point precision issue"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Handling of empty input list",
+                "raw": "- Handling of empty input list  \n- Definition of \"absolute distance\"  \n- Method of calculating mean  \n- Method of calculating standard deviation  \n- Treatment of non-numeric values  \n- Rounding behavior for floating-point numbers  \n- Handling of identical values in the list  \n- Inclusion or exclusion of boundary values  \n- Performance optimizations for large lists  \n- Return type for non-numeric i"
+              }
+            },
+            "t02_top_k": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Handling ties in scores differently",
+                "raw": "- Handling ties in scores differently  \n- Choosing the sorting algorithm to use  \n- Deciding whether to mutate the input list  \n- Implementing input validation for items  \n- Defining the output format for empty results  \n- Handling non-numeric scores gracefully  \n- Choosing between built-in functions or manual implementation  \n- Deciding on performance optimizations for large lists  \n- Handling du"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Handling of empty input list.",
+                "raw": "- Handling of empty input list.  \n- Method of sorting items with equal scores.  \n- Return type when k is 0.  \n- Treatment of negative scores.  \n- Use of built-in functions vs. manual implementation.  \n- Handling of non-integer scores.  \n- Performance considerations for large input lists.  \n- Inclusion of duplicates in the output.  \n- Handling of non-list input types.  \n- Output format (e.g., list "
+              }
+            },
+            "t03_chunk": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Handling of empty input list",
+                "raw": "- Handling of empty input list  \n- Behavior with non-integer size values  \n- Treatment of remaining elements in the last chunk  \n- Choice of data structure for output (list vs. array)  \n- Error handling for invalid size values  \n- Performance considerations for large input lists  \n- Inclusion of size as a parameter in the output  \n- Handling of nested lists or complex data types  \n- Function name "
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Handling empty input list behavior",
+                "raw": "- Handling empty input list behavior  \n- Choosing between mutable or immutable data structures  \n- Deciding on error handling for invalid size  \n- Implementing performance optimizations for large lists  \n- Selecting the method for iterating through the list  \n- Defining the output format for the sublists  \n- Handling nested lists or non-list inputs  \n- Choosing between recursion or iteration for i"
+              }
+            },
+            "t04_normalize": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Handling of floating-point precision in calculations",
+                "raw": "- Handling of floating-point precision in calculations  \n- Treatment of negative numbers in scaling  \n- Method of handling duplicates in the input list  \n- Choice of data structure for the output list  \n- Approach to error handling or input validation  \n- Use of built-in functions versus manual calculations  \n- Inclusion of edge cases like constant input values  \n- Performance considerations for l"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Handling of non-numeric values in the list.",
+                "raw": "- Handling of non-numeric values in the list.\n- Choice of data type for the output list.\n- Method of calculating min and max values.\n- Treatment of floating-point precision in results.\n- Approach to empty input validation (if applicable).\n- Handling of very large or very small numbers.\n- Performance considerations for large input sizes.\n- Use of built-in functions versus manual implementation.\n- N"
+              }
+            },
+            "t05_merge_configs": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- How to handle conflicting keys with different values",
+                "raw": "- How to handle conflicting keys with different values  \n- Whether to prioritize base or override values  \n- What to do with nested dictionaries  \n- How to treat non-dict values in overrides  \n- Handling of lists or other complex data types  \n- Inclusion of keys present in only one dict  \n- Treatment of mutable vs immutable types  \n- Error handling for non-dict inputs  \n- Performance consideration"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Handling of nested dictionaries in the merge",
+                "raw": "- Handling of nested dictionaries in the merge  \n- Order of keys in the resulting dictionary  \n- Type of values in the resulting dictionary  \n- Handling of non-dict values in the input  \n- Behavior with non-hashable keys  \n- Merging strategies for lists in values  \n- Handling of duplicate keys in lists  \n- Performance optimizations for large dictionaries  \n- Error handling for invalid input types "
+              }
+            },
+            "t06_parse_range": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Include or exclude the end value in the range.",
+                "raw": "- Include or exclude the end value in the range.  \n- Handle empty ranges like '5-5' differently.  \n- Return a list or a set of integers.  \n- Allow for non-integer inputs in the spec.  \n- Support ranges with non-integer steps, like '1-10:2'.  \n- Handle negative ranges like '7-3' gracefully.  \n- Consider performance for large ranges.  \n- Return results in ascending or descending order.  \n- Allow for"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Handling of whitespace around the range spec.",
+                "raw": "- Handling of whitespace around the range spec.\n- Treatment of negative numbers in the input.\n- Response to empty input or malformed strings.\n- Inclusion of non-integer characters in the input.\n- Performance considerations for large ranges.\n- Choice of data structure for the output list.\n- Handling of ranges with the same start and end.\n- Method of converting string to integers."
+              }
+            },
+            "t07_dedupe": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Handling of mutable objects within the list",
+                "raw": "- Handling of mutable objects within the list  \n- Treatment of nested lists or structures  \n- Definition of \"duplicate\" for complex objects  \n- Case sensitivity for string elements  \n- Preservation of original list's type (e.g., tuples)  \n- Handling of None or other falsy values  \n- Performance considerations for large lists  \n- Return type (list vs. another iterable)  \n- Use of built-in functions"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Handling of non-hashable elements like lists or dictionaries.",
+                "raw": "- Handling of non-hashable elements like lists or dictionaries.\n- Treatment of case sensitivity in string elements.\n- Definition of \"duplicates\" for complex objects.\n- Behavior with empty input lists.\n- Handling of mutable objects within the list."
+              }
+            },
+            "t08_round_price": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Handling of negative values",
+                "raw": "- Handling of negative values  \n- Rounding method (e.g., round half up vs. round half to even)  \n- Treatment of values exactly halfway between two decimals  \n- Input validation for non-float types  \n- Return type (float vs. Decimal)  \n- Handling of very large or very small floats  \n- Performance considerations for repeated calls  \n- Use of built-in functions vs. custom implementation  \n- Documenta"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Handling of negative values and rounding direction",
+                "raw": "- Handling of negative values and rounding direction  \n- Treatment of very small values close to zero  \n- Rounding behavior for values exactly halfway  \n- Input validation for non-float types  \n- Performance considerations for large datasets  \n- Handling of NaN or infinite float values  \n- Choice of rounding method implementation  \n- Return type consistency in edge cases  \n- Use of built-in functi"
+              }
+            },
+            "t09_split_name": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Handling multiple spaces between first and last names",
+                "raw": "- Handling multiple spaces between first and last names  \n- Deciding how to treat names without spaces  \n- Managing names with only one word  \n- Handling names with leading or trailing spaces  \n- Returning empty strings for missing names  \n- Choosing to raise an error for invalid input  \n- Deciding on case sensitivity for names  \n- Handling names with special characters or punctuation  \n- Defining"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Handling multiple spaces between first and last names",
+                "raw": "- Handling multiple spaces between first and last names  \n- Deciding on case sensitivity for names  \n- Treatment of hyphenated last names  \n- Handling names with prefixes or suffixes  \n- Managing names with special characters or punctuation  \n- Returning empty strings for invalid input  \n- Choosing to raise exceptions for invalid input  \n- Defining behavior for single-word names with spaces  \n- Ha"
+              }
+            },
+            "t10_moving_average": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Handling of empty input list xs.",
+                "raw": "- Handling of empty input list xs.  \n- Behavior with w greater than length of xs.  \n- Treatment of non-numeric values in xs.  \n- Rounding or precision of average calculations.  \n- Inclusion or exclusion of the last incomplete window.  \n- Method of calculating averages (e.g., integer division).  \n- Performance considerations for large input lists.  \n- Handling of negative numbers in xs.  \n- Return "
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Handling of empty input list xs.",
+                "raw": "- Handling of empty input list xs.  \n- Method of calculating the average (integer vs. float).  \n- Treatment of non-numeric values in xs.  \n- Performance optimizations for large lists.  \n- Choice of data structure for output (list vs. generator).  \n- Handling of overlapping windows in different ways.  \n- Inclusion of edge cases in testing.  \n- Rounding behavior of the averages.  \n- Handling of nega"
+              }
+            },
+            "t11_truncate": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- How to handle strings with fewer than 3 characters.",
+                "raw": "- How to handle strings with fewer than 3 characters.\n- What to do with strings exactly of length n.\n- Whether to include spaces in the character count.\n- How to treat strings with trailing whitespace.\n- Handling multi-byte characters or emojis.\n- Should the ellipsis be counted in the length?"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- How to handle strings shorter than n but longer than 3.",
+                "raw": "- How to handle strings shorter than n but longer than 3.\n- What to do with strings that are exactly n characters long.\n- Whether to include or exclude the last character before truncation.\n- How to handle strings with special characters or whitespace.\n- What to do with empty strings."
+              }
+            },
+            "t12_sort_scores": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Choice of sorting algorithm to implement.",
+                "raw": "- Choice of sorting algorithm to implement.  \n- Handling of duplicate scores.  \n- Treatment of non-numeric values in the list.  \n- Inclusion of error handling for invalid input.  \n- Decision on in-place vs. out-of-place sorting.  \n- Use of built-in functions versus custom implementation.  \n- Handling of empty lists.  \n- Choice of data types for input and output.  \n- Performance considerations for "
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Choice of sorting algorithm to implement.",
+                "raw": "- Choice of sorting algorithm to implement.\n- Handling of non-numeric values in the list.\n- Treatment of duplicate values in the list.\n- Use of built-in functions versus manual implementation.\n- Method of in-place sorting (e.g., swapping vs. reordering).\n- Decision on whether to raise errors for invalid input.\n- Handling of empty lists or lists with one element.\n- Choice of variable names and code"
+              }
+            }
+          }
+        },
+        "two_readings": {
+          "auroc_h1": 0.5,
+          "mean_ambiguous": 1.0,
+          "mean_full": 1.0,
+          "localisation": null,
+          "per_task": {
+            "t01_remove_outliers": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Calculate mean and standard deviation, then filter based on k times standard deviation.",
+                "raw": "1. Calculate mean and standard deviation, then filter based on k times standard deviation.  \n2. Calculate mean and standard deviation, then filter based on k times mean deviation."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "1. Calculate mean and standard deviation using all values in xs.",
+                "raw": "1. Calculate mean and standard deviation using all values in xs.  \n2. Calculate mean and standard deviation excluding outliers during filtering."
+              }
+            },
+            "t02_top_k": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Return the top k items, including ties in scores.",
+                "raw": "1. Return the top k items, including ties in scores.  \n2. Return exactly k items, ignoring ties beyond the k limit."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "1. Return the top k items based on scores, including ties.",
+                "raw": "1. Return the top k items based on scores, including ties.  \n2. Return the top k unique scores, ignoring duplicates in names."
+              }
+            },
+            "t03_chunk": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Split the list into sublists of exactly 'size' elements, discarding any remainder.",
+                "raw": "1. Split the list into sublists of exactly 'size' elements, discarding any remainder.  \n2. Split the list into sublists of 'size' elements, including the last smaller sublist."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "1. Split the list into fixed-size chunks, ignoring the last short chunk.",
+                "raw": "1. Split the list into fixed-size chunks, ignoring the last short chunk.  \n2. Include the last chunk even if it's shorter than the specified size."
+              }
+            },
+            "t04_normalize": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Normalize using the minimum and maximum of the entire list.",
+                "raw": "1. Normalize using the minimum and maximum of the entire list.  \n2. Normalize each element based on its own value relative to the list."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "1. Normalize values to [0.0, 1.0] using min and max of the list.",
+                "raw": "1. Normalize values to [0.0, 1.0] using min and max of the list.  \n2. Scale values based on their relative positions, ignoring absolute min and max."
+              }
+            },
+            "t05_merge_configs": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Merge dictionaries, overriding base values with override values for common keys.",
+                "raw": "1. Merge dictionaries, overriding base values with override values for common keys.  \n2. Merge dictionaries, keeping base values and ignoring override values for common keys."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "1. Merge dictionaries, allowing nested dictionaries to be merged recursively.",
+                "raw": "1. Merge dictionaries, allowing nested dictionaries to be merged recursively.  \n2. Merge dictionaries without considering nested structures, replacing values directly."
+              }
+            },
+            "t06_parse_range": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Include both start and end in the output list.",
+                "raw": "1. Include both start and end in the output list.  \n2. Include only the numbers between start and end, excluding end."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "1. Include only integers within the specified range, excluding the end value.",
+                "raw": "1. Include only integers within the specified range, excluding the end value.  \n2. Include the start value and exclude the end value, returning a list of integers."
+              }
+            },
+            "t07_dedupe": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Remove duplicates while preserving the original order of first occurrences.",
+                "raw": "1. Remove duplicates while preserving the original order of first occurrences.  \n2. Remove all duplicates, including the first occurrences, maintaining the order of remaining elements."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "1. Remove duplicates based on the last occurrence of each element.",
+                "raw": "1. Remove duplicates based on the last occurrence of each element.  \n2. Remove duplicates while preserving the order of their first occurrence."
+              }
+            },
+            "t08_round_price": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Round to nearest two decimal places using standard rounding rules.",
+                "raw": "Round to nearest two decimal places using standard rounding rules.  \nRound down to two decimal places, truncating any excess digits."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "1. Round using standard rounding rules, rounding 0.125 to 0.13.",
+                "raw": "1. Round using standard rounding rules, rounding 0.125 to 0.13.  \n2. Round using banker's rounding, rounding 0.125 to 0.12."
+              }
+            },
+            "t09_split_name": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Split on the first space after trimming leading/trailing spaces.",
+                "raw": "1. Split on the first space after trimming leading/trailing spaces.  \n2. Split on the first space without trimming leading/trailing spaces."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "1. Split on the first space, treating multiple spaces as a single delimiter.",
+                "raw": "1. Split on the first space, treating multiple spaces as a single delimiter.  \n2. Split on the first space, preserving all spaces in the names."
+              }
+            },
+            "t10_moving_average": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Calculate averages for overlapping windows of length w.",
+                "raw": "1. Calculate averages for overlapping windows of length w.  \n2. Calculate averages for non-overlapping windows of length w."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "1. Calculate averages using a sliding window approach over the list.",
+                "raw": "1. Calculate averages using a sliding window approach over the list.  \n2. Calculate averages using a fixed window approach, ignoring the last elements."
+              }
+            },
+            "t11_truncate": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Truncate to n characters, including '...' in the count.",
+                "raw": "1. Truncate to n characters, including '...' in the count.  \n2. Truncate to n characters, excluding '...' from the count."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "1. Return '...' if truncating, otherwise return the original string.",
+                "raw": "1. Return '...' if truncating, otherwise return the original string.  \n2. Always return a string of length n, including '...' at the end."
+              }
+            },
+            "t12_sort_scores": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Sorts scores in descending order, modifying the original list in place.",
+                "raw": "1. Sorts scores in descending order, modifying the original list in place.  \n2. Returns a new sorted list without altering the original list."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "1. Sort the list in descending order, modifying the original list.",
+                "raw": "1. Sort the list in descending order, modifying the original list.  \n2. Sort the list in ascending order, then reverse it for descending order."
+              }
+            }
+          }
+        },
+        "discriminating": {
+          "auroc_h1": 0.5417,
+          "mean_ambiguous": 1.0,
+          "mean_full": 0.9167,
+          "localisation": 0.0833,
+          "per_task": {
+            "t01_remove_outliers": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "([1, 2, 3, 4, 100], 1)",
+                "raw": "([1, 2, 3, 4, 100], 1)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "([1, 2, 3, 4, 100], 1)",
+                "raw": "([1, 2, 3, 4, 100], 1)"
+              }
+            },
+            "t02_top_k": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "([['Alice', 10], ['Bob', 10], ['Charlie', 5]], 2)",
+                "raw": "([['Alice', 10], ['Bob', 10], ['Charlie', 5]], 2)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "([['a', 10], ['b', 10]], 1)",
+                "raw": "([['a', 10], ['b', 10]], 1)"
+              }
+            },
+            "t03_chunk": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "('abc', 2)",
+                "raw": "('abc', 2)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "('abc', 2)",
+                "raw": "('abc', 2)"
+              }
+            },
+            "t04_normalize": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "(1, 2, 2, 3)",
+                "raw": "(1, 2, 2, 3)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "(1.0, 1.0, 1.0)",
+                "raw": "(1.0, 1.0, 1.0)"
+              }
+            },
+            "t05_merge_configs": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "({'a': 1}, {'a': 2})",
+                "raw": "({'a': 1}, {'a': 2})"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "({'a': 1}, {'a': [2]})",
+                "raw": "({'a': 1}, {'a': [2]})"
+              }
+            },
+            "t06_parse_range": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "('3-7',)",
+                "raw": "('3-7',)"
+              },
+              "full": {
+                "score": 0.0,
+                "point": null,
+                "raw": "NONE"
+              }
+            },
+            "t07_dedupe": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "(1, 2, 2.0)",
+                "raw": "(1, 2, 2.0)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "(1, 2, 1, 3)",
+                "raw": "(1, 2, 1, 3)"
+              }
+            },
+            "t08_round_price": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "(2.675,)",
+                "raw": "(2.675,)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "(0.125,)",
+                "raw": "(0.125,)"
+              }
+            },
+            "t09_split_name": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "('John Doe',)",
+                "raw": "('John Doe',)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "('John Doe',)",
+                "raw": "('John Doe',)"
+              }
+            },
+            "t10_moving_average": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "([1, 2, 3, 4, 5], 3)",
+                "raw": "([1, 2, 3, 4, 5], 3)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "([1, 2, 3, 4, 5], 3)",
+                "raw": "([1, 2, 3, 4, 5], 3)"
+              }
+            },
+            "t11_truncate": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "('Hello, world!', 10)",
+                "raw": "('Hello, world!', 10)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "('abcdefghij', 7)",
+                "raw": "('abcdefghij', 7)"
+              }
+            },
+            "t12_sort_scores": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "(1.0, 2.0, float('nan'))",
+                "raw": "(1.0, 2.0, float('nan'))"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "(1.0, 2.0, float('nan'))",
+                "raw": "(1.0, 2.0, float('nan'))"
+              }
+            }
+          }
+        }
+      },
+      "calls": 96,
+      "cost_usd": 0.00375,
+      "errors": 0,
+      "wall_seconds": 21.2
+    },
+    "claude-haiku-4-5-20251001": {
+      "signals": {
+        "direct_ask": {
+          "auroc_h1": 0.6562,
+          "mean_ambiguous": 0.5333,
+          "mean_full": 0.3667,
+          "localisation": null,
+          "per_task": {
+            "t01_remove_outliers": {
+              "ambiguous": {
+                "score": 0.2,
+                "point": "What happens when xs is empty or has fewer than 2 elements",
+                "raw": "0.2\nWhat happens when xs is empty or has fewer than 2 elements"
+              },
+              "full": {
+                "score": 0.2,
+                "point": "Whether to treat non-numeric values in xs as errors or skip them silently",
+                "raw": "0.2\nWhether to treat non-numeric values in xs as errors or skip them silently"
+              }
+            },
+            "t02_top_k": {
+              "ambiguous": {
+                "score": 0.3,
+                "point": "What happens when multiple items have the same score?",
+                "raw": "0.3\nWhat happens when multiple items have the same score?"
+              },
+              "full": {
+                "score": 0.2,
+                "point": "Whether to modify items in-place or return a new list",
+                "raw": "0.2\nWhether to modify items in-place or return a new list"
+              }
+            },
+            "t03_chunk": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "What happens when the final chunk is smaller than size",
+                "raw": "1\nWhat happens when the final chunk is smaller than size"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Input type: is xs a list, array, string, or any iterable? Language?",
+                "raw": "1\nInput type: is xs a list, array, string, or any iterable? Language?"
+              }
+            },
+            "t04_normalize": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "The behavior when all numbers in the list are identical is unspecified.",
+                "raw": "1\nThe behavior when all numbers in the list are identical is unspecified."
+              },
+              "full": {
+                "score": 0.5,
+                "point": "What happens if xs contains NaN or infinity values?",
+                "raw": "0.5\nWhat happens if xs contains NaN or infinity values?"
+              }
+            },
+            "t05_merge_configs": {
+              "ambiguous": {
+                "score": 0.6,
+                "point": "When base and override share a key, which value takes precedence?",
+                "raw": "0.6\nWhen base and override share a key, which value takes precedence?"
+              },
+              "full": {
+                "score": 0.3,
+                "point": "Behavior for nested dicts: should they merge recursively or replace shallowly?",
+                "raw": "0.3\nBehavior for nested dicts: should they merge recursively or replace shallowly?"
+              }
+            },
+            "t06_parse_range": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "whether to include the end value (inclusive vs exclusive range)",
+                "raw": "1\nwhether to include the end value (inclusive vs exclusive range)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "What language should the function be written in?",
+                "raw": "1\nWhat language should the function be written in?"
+              }
+            },
+            "t07_dedupe": {
+              "ambiguous": {
+                "score": 0.3,
+                "point": "Equality semantics: does dedupe use == or custom equality? How to handle NaN?",
+                "raw": "0.3\nEquality semantics: does dedupe use == or custom equality? How to handle NaN?"
+              },
+              "full": {
+                "score": 0.3,
+                "point": "What data type is xs, and what equality semantics should duplicates use?",
+                "raw": "0.3\nWhat data type is xs, and what equality semantics should duplicates use?"
+              }
+            },
+            "t08_round_price": {
+              "ambiguous": {
+                "score": 0.3,
+                "point": "Rounding direction when exactly halfway between two values (e.g., 1.125)",
+                "raw": "0.3\nRounding direction when exactly halfway between two values (e.g., 1.125)"
+              },
+              "full": {
+                "score": 0.3,
+                "point": "Whether negative halfway values round away from zero (e.g., -0.125 to -0.13)",
+                "raw": "0.3\nWhether negative halfway values round away from zero (e.g., -0.125 to -0.13)"
+              }
+            },
+            "t09_split_name": {
+              "ambiguous": {
+                "score": 0.3,
+                "point": "What should the function return if the input has no space after stripping?",
+                "raw": "0.3\nWhat should the function return if the input has no space after stripping?"
+              },
+              "full": {
+                "score": 0.2,
+                "point": "Whether multiple consecutive spaces should be treated as a single space separator.",
+                "raw": "0.2\nWhether multiple consecutive spaces should be treated as a single space separator."
+              }
+            },
+            "t10_moving_average": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Let me think through this carefully.",
+                "raw": "1. What happens when w > len(xs)? Should it return an empty list, skip windows, or raise an error?\n\nLet me think through this carefully.\n\nThe task says \"every consecutive window of length w\". If w > len(xs), there are no windows of length w that fit. The most reasonable interpretations are:\n- Return empty list (no valid windows exist)\n- Raise an error\n- Return a partial window\n\nThis is genuinely a"
+              },
+              "full": {
+                "score": 0.2,
+                "point": "Whether to return empty list when w > len(xs) or when len(xs) is empty",
+                "raw": "0.2\nWhether to return empty list when w > len(xs) or when len(xs) is empty"
+              }
+            },
+            "t11_truncate": {
+              "ambiguous": {
+                "score": 0.2,
+                "point": "Whether to truncate at word boundaries or character boundaries",
+                "raw": "0.2\nWhether to truncate at word boundaries or character boundaries"
+              },
+              "full": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0\nNONE\n\nThe task is fully specified. It clearly states:\n- Return unchanged if len(s) <= n\n- Return shortened string of exactly length n ending in '...' otherwise\n- n >= 3 is guaranteed\n\nThe only reasonable interpretation: take the first n-3 characters and append '...'. No ambiguity remains."
+              }
+            },
+            "t12_sort_scores": {
+              "ambiguous": {
+                "score": 0.2,
+                "point": "How to handle equal values (stable sort vs unstable sort)",
+                "raw": "0.2\nHow to handle equal values (stable sort vs unstable sort)"
+              },
+              "full": {
+                "score": 0.2,
+                "point": "Behavior of duplicate values and whether the sort must be stable.",
+                "raw": "0.2\nBehavior of duplicate values and whether the sort must be stable."
+              }
+            }
+          }
+        },
+        "enumerate_gaps": {
+          "auroc_h1": 0.5,
+          "mean_ambiguous": 1.0,
+          "mean_full": 1.0,
+          "localisation": null,
+          "per_task": {
+            "t01_remove_outliers": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Whether to return a new list or other sequence type (tuple, generator)",
+                "raw": "- Whether to return a new list or other sequence type (tuple, generator)\n- How to handle empty input lists (return empty or raise)\n- How to handle lists with single element (undefined standard deviation)\n- Whether NaN/infinity values in xs should be filtered or raise errors\n- Rounding behavior for floating-point mean and standard deviation calculations\n- Whether k can be negative despite task sayi"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Whether to raise an error or silently return empty list when all values are outliers",
+                "raw": "- Whether to raise an error or silently return empty list when all values are outliers\n- How to handle non-numeric types in xs (raise error vs skip vs coerce)\n- Whether NaN values should be treated as outliers, kept, or raise an error\n- How to handle infinite values (treat as outliers, keep, or raise error)\n- Whether to validate that k is non-negative or assume it per task statement"
+              }
+            },
+            "t02_top_k": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Stable sort: preserve original order for equal scores or re-sort arbitrarily",
+                "raw": "- Stable sort: preserve original order for equal scores or re-sort arbitrarily\n- Mutate input list or return new list\n- Return sorted descending or ascending for ties\n- Handle empty list: return empty or raise error\n- Return list of lists or list of tuples\n- In-place modification vs functional approach"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Whether to modify items in place or leave it unchanged",
+                "raw": "- Whether to modify items in place or leave it unchanged\n- Whether to raise an error or handle None/non-list inputs gracefully\n- Whether to validate that each item is exactly a 2-element list\n- Whether score can be any comparable type or must be numeric\n- Whether to return a new list or allow returning a view/iterator"
+              }
+            },
+            "t03_chunk": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- What happens if xs length is not divisible by size",
+                "raw": "- What happens if xs length is not divisible by size\n- Whether to mutate the input list or always return new lists\n- Data structure for sublists (array, linked list, custom type, etc.)\n- Whether to validate that size >= 1 or assume caller ensures it\n- Return type for the collection of chunks (array, iterator, lazy sequence, etc.)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Language choice (JavaScript, Python, TypeScript, etc.)",
+                "raw": "- Language choice (JavaScript, Python, TypeScript, etc.)\n- Mutating input vs. returning new structure\n- Handling non-integer size values\n- Handling negative or zero size despite \"size >= 1\"\n- Handling non-array inputs (strings, iterables, null)\n- Return type for empty input (empty array vs. undefined)"
+              }
+            },
+            "t04_normalize": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- How to handle lists with all identical values (division by zero)",
+                "raw": "- How to handle lists with all identical values (division by zero)\n- Whether to mutate the input list or always create a new one\n- How to handle NaN or infinity values in the input\n- Rounding strategy for floating-point precision issues\n- Whether to validate input type or assume correct types"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Here are the genuinely open behaviors:",
+                "raw": "Here are the genuinely open behaviors:\n\n- Mutate input list or always return a new list\n- Handle NaN or infinity values silently or raise an error\n- Use float32 or float64 precision\n- Round results or preserve full floating-point precision\n- Return list, tuple, or other sequence type\n- Validate input type or assume correct types\n- Handle negative numbers identically to positive ones"
+              }
+            },
+            "t05_merge_configs": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- How to handle nested dicts: merge recursively or treat as scalar values",
+                "raw": "- How to handle nested dicts: merge recursively or treat as scalar values\n- Behavior when both dicts have the same key with different values: override wins or raise error\n- Whether to deep copy values or use shallow references in the result\n- Handling of non-dict values that might be dict-like (e.g., OrderedDict, defaultdict)\n- Type hints: whether to include them and what signature to use\n- Whethe"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- How to handle nested dicts: shallow merge vs recursive merge",
+                "raw": "- How to handle nested dicts: shallow merge vs recursive merge\n- Behavior when values are mutable objects like lists or dicts\n- Whether to copy values or use references from inputs\n- How to handle None as an override value: replace or skip\n- Type checking: accept only dicts or any dict-like objects"
+              }
+            },
+            "t06_parse_range": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Single element ranges like '5-5' — return [5] or []?",
+                "raw": "Single element ranges like '5-5' — return [5] or []?\n\nWhitespace in spec like ' 3 - 7 ' — strip it or reject it?\n\nUnbounded ranges like '3-' or '-7' — support them or assume both bounds present?"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Whether to support single numbers without a dash (e.g., '5' returns [5])",
+                "raw": "- Whether to support single numbers without a dash (e.g., '5' returns [5])\n- Whether to support open-ended ranges (e.g., '3-' or '-7')\n- Whether to support reversed ranges that need swapping (e.g., '7-3')\n- Whether to support whitespace around the dash (e.g., '3 - 7')\n- Whether to support other range formats like '3..7' or '3,7'"
+              }
+            },
+            "t07_dedupe": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Whether to use identity (===) or equality (==) for comparison",
+                "raw": "- Whether to use identity (===) or equality (==) for comparison\n- How to handle NaN, which is not equal to itself\n- Whether to preserve the first or last occurrence of duplicates\n- Case sensitivity for string comparisons\n- How to handle objects that compare equal but are different references\n- Whether undefined and null are considered the same value\n- Type coercion behavior when comparing values o"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Whether to mutate the input list or create a new one",
+                "raw": "- Whether to mutate the input list or create a new one\n- How to handle unhashable types (lists, dicts) in the input\n- Performance tradeoff between time complexity and space usage\n- Whether to preserve element identity or just equality\n- Behavior with None, NaN, or other special values\n- Language choice for implementation\n- Whether to use a set, dict, or other data structure internally\n- How to han"
+              }
+            },
+            "t08_round_price": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "What should happen when x is already rounded to two decimal places",
+                "raw": "What should happen when x is already rounded to two decimal places\nWhether to use banker's rounding or round-half-up\nHow to handle NaN or infinity inputs\nWhether to preserve trailing zeros in the decimal representation\nHow to handle very large numbers that exceed float precision"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- How to handle NaN input (return NaN, raise error, or other)",
+                "raw": "- How to handle NaN input (return NaN, raise error, or other)\n- How to handle infinite input (return infinity, raise error, or other)\n- How to handle negative zero vs positive zero in output\n- Whether to validate input type or coerce silently"
+              }
+            },
+            "t09_split_name": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- What to return if the input contains no spaces after stripping",
+                "raw": "- What to return if the input contains no spaces after stripping\n- Whether to strip only leading/trailing spaces or all whitespace\n- What to return if input is empty or only whitespace\n- How to handle multiple consecutive spaces around the split point\n- Whether to strip spaces from the resulting first and last names"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "What if the input is None or not a string?",
+                "raw": "What if the input is None or not a string?\nWhat if there are multiple consecutive spaces between first and last name?\nWhat if the name contains only whitespace after stripping?"
+              }
+            },
+            "t10_moving_average": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Behavior when w > len(xs): return empty list, single average of all elements, or raise error",
+                "raw": "- Behavior when w > len(xs): return empty list, single average of all elements, or raise error\n- Behavior when xs is empty: return empty list or raise error\n- Whether to use floating-point or integer division for the average\n- Rounding strategy if using integer division: floor, ceil, round-to-nearest, or truncate"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Handling of empty input list (return empty vs. raise error)",
+                "raw": "- Handling of empty input list (return empty vs. raise error)\n- Behavior when w equals zero (task says w >= 1, but edge case unclear)\n- Rounding or precision for floating-point averages\n- Return type consistency (list vs. generator vs. other iterable)\n- Data type validation (reject non-numeric elements vs. let Python coerce)"
+              }
+            },
+            "t11_truncate": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Whether to count '...' towards the n-character limit or exclude it",
+                "raw": "- Whether to count '...' towards the n-character limit or exclude it\n- Truncation point when breaking mid-word vs respecting word boundaries\n- Handling of strings with only whitespace near truncation point\n- Whether to preserve trailing punctuation or allow it to be cut off\n- Behavior when n equals string length exactly (arguably len(s) <= n case)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Where to place '...' when shortening: at the end of remaining text vs. replacing final chars",
+                "raw": "- Where to place '...' when shortening: at the end of remaining text vs. replacing final chars\n- How to handle multibyte characters: truncate by byte count vs. character count\n- Behavior when '...' itself exceeds length n in edge cases near n=3\n- Whether to preserve word boundaries or truncate mid-word\n- How to handle strings with existing trailing punctuation or ellipsis"
+              }
+            },
+            "t12_sort_scores": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Whether to mutate the input list or return a new sorted list",
+                "raw": "- Whether to mutate the input list or return a new sorted list\n- How to handle non-numeric values in the list\n- How to handle empty lists\n- How to handle None or null values mixed with numbers\n- Whether to handle NaN values and where to place them\n- Whether the function should validate input types or assume correctness"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "What should happen if xs is None?",
+                "raw": "What should happen if xs is None?\nHow should the function behave with mixed numeric types (int, float)?\nShould the function handle non-numeric values, and if so, how?\nWhat's the expected behavior with NaN or infinity values?\nShould the function validate input or silently fail?\nDoes \"in place\" permit creating intermediate sorted structures?\nHow should the function handle very large lists (memory co"
+              }
+            }
+          }
+        },
+        "two_readings": {
+          "auroc_h1": 0.5,
+          "mean_ambiguous": 1.0,
+          "mean_full": 1.0,
+          "localisation": null,
+          "per_task": {
+            "t01_remove_outliers": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Outliers included if distance <= k * std, or excluded if distance < k * std.",
+                "raw": "Outliers included if distance <= k * std, or excluded if distance < k * std.\nInclude values exactly at the threshold, or exclude them as outliers."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Reading 1: Remove values where |value - mean| > k * stdev, keeping values within k standard deviations.",
+                "raw": "Reading 1: Remove values where |value - mean| > k * stdev, keeping values within k standard deviations.\n\nReading 2: Remove values where |value - mean| >= k * stdev, keeping values strictly within k standard deviations."
+              }
+            },
+            "t02_top_k": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Ambiguous scores — one reading returns ties arbitrarily, another returns all tied items.",
+                "raw": "Ambiguous scores — one reading returns ties arbitrarily, another returns all tied items.\n\nK larger than items — one reading returns all items, another returns empty list."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Here are two reasonable readings:",
+                "raw": "Here are two reasonable readings:\n\n1. Stable sort: preserve original order only among tied scores, sort all items by score first.\n2. Greedy selection: select k highest-scored items in encounter order, breaking ties by original position."
+              }
+            },
+            "t03_chunk": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Last chunk can be shorter if xs length isn't divisible by size.",
+                "raw": "1. Last chunk can be shorter if xs length isn't divisible by size.\n2. Pad last chunk with nulls or discard it if incomplete."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "What happens when xs length is not evenly divisible by size?",
+                "raw": "What happens when xs length is not evenly divisible by size?\n\nReading 1: Include the final incomplete chunk as-is (e.g., chunk([1,2,3], 2) → [[1,2], [3]])\n\nReading 2: Pad the final chunk to size length (e.g., chunk([1,2,3], 2) → [[1,2], [3, null]])\n\nThe task statement \"If the last sublist would be shorter than size, include it anyway\" rules out dropping it, but doesn't specify whether to pad. A co"
+              }
+            },
+            "t04_normalize": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Scale each number relative to the min and max of the entire list.",
+                "raw": "1. Scale each number relative to the min and max of the entire list.\n2. Scale each number relative to a global min and max provided externally."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Min-max scales each value individually as it processes the list sequentially.",
+                "raw": "Min-max scales each value individually as it processes the list sequentially.\n\nMin-max scales values relative to the global min and max of the entire list."
+              }
+            },
+            "t05_merge_configs": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Shallow merge: override replaces base keys; nested dicts are not recursed.",
+                "raw": "Shallow merge: override replaces base keys; nested dicts are not recursed.\nDeep merge: nested dicts are recursively merged; override still takes precedence."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Shallow merge: only top-level keys are merged; nested dicts are replaced entirely.",
+                "raw": "Shallow merge: only top-level keys are merged; nested dicts are replaced entirely.\n\nDeep merge: nested dicts are recursively merged; override values override base recursively."
+              }
+            },
+            "t06_parse_range": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Range includes end value: `[3, 4, 5, 6, 7]`",
+                "raw": "Range includes end value: `[3, 4, 5, 6, 7]`\nRange excludes end value: `[3, 4, 5, 6]`"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "**Inclusive end:** '3-7' means integers from 3 through 7, returning [3, 4, 5, 6, 7].",
+                "raw": "**Inclusive end:** '3-7' means integers from 3 through 7, returning [3, 4, 5, 6, 7].\n\n**Exclusive end:** '3-7' means integers from 3 up to but not including 7, returning [3, 4, 5, 6]."
+              }
+            },
+            "t07_dedupe": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Dedupe by equality: remove elements equal to previous ones.",
+                "raw": "Dedupe by equality: remove elements equal to previous ones.\n\nDedupe by reference: remove elements that are the same object."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Surviving elements keep order of first occurrence: [1, 2, 3].",
+                "raw": "Surviving elements keep order of first occurrence: [1, 2, 3].\nSurviving elements keep order of last occurrence: [2, 1, 3]."
+              }
+            },
+            "t08_round_price": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Round to nearest hundredth using standard rounding (0.5 rounds up).",
+                "raw": "Round to nearest hundredth using standard rounding (0.5 rounds up).\nRound to nearest hundredth using banker's rounding (0.5 rounds to even)."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "1. Round using banker's rounding (round-half-to-even), the default in most languages.",
+                "raw": "1. Round using banker's rounding (round-half-to-even), the default in most languages.\n2. Round using round-half-away-from-zero, as explicitly specified in the task description."
+              }
+            },
+            "t09_split_name": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "What happens if there's no space in the name?",
+                "raw": "What happens if there's no space in the name?\n\nReading 1: Return [name, \"\"] — treat single names as firstname only.\n\nReading 2: Return [name, name] — treat single names as both first and last."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "What happens if the name is only spaces after stripping?",
+                "raw": "What happens if the name is only spaces after stripping?\n\nReading 1: Return [\"\", \"\"] (empty first, empty last)\nReading 2: Return [\"\", \"\"] but treat it as an edge case requiring special handling\n\nActually, those produce identical behavior. Let me reconsider.\n\nReading 1: \"no space\" means after stripping, there's any non-space content → [\"\", full_stripped]\nReading 2: Empty string after stripping is t"
+              }
+            },
+            "t10_moving_average": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Window slides by 1 element each step, computing average of each w-length subsequence.",
+                "raw": "Window slides by 1 element each step, computing average of each w-length subsequence.\n\nWindow advances by w elements each step, computing average of non-overlapping chunks."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Window slides by one element each time.",
+                "raw": "Window slides by one element each time.\nWindow slides by w elements each time."
+              }
+            },
+            "t11_truncate": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Shorten s to exactly n characters total, with '...' at the end.",
+                "raw": "1. Shorten s to exactly n characters total, with '...' at the end.\n2. Shorten s to n-3 characters, then append '...' (total length n)."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "1. Shorten to n total chars, with '...' counted within the n chars.",
+                "raw": "1. Shorten to n total chars, with '...' counted within the n chars.\n2. Shorten to n chars, then append '...' making the result n+3 chars."
+              }
+            },
+            "t12_sort_scores": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Sort in-place, modifying the input list and returning None.",
+                "raw": "Sort in-place, modifying the input list and returning None.\n\nReturn a new sorted list, leaving the input unchanged."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Sort in place, modifying xs. Return None silently.",
+                "raw": "Sort in place, modifying xs. Return None silently.\nSort in place, modifying xs. Return None explicitly as last line."
+              }
+            }
+          }
+        },
+        "discriminating": {
+          "auroc_h1": 0.5,
+          "mean_ambiguous": 1.0,
+          "mean_full": 1.0,
+          "localisation": 0.0833,
+          "per_task": {
+            "t01_remove_outliers": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "I need to think through what could cause different implementations to return different results for the same inputs.",
+                "raw": "I need to think through what could cause different implementations to return different results for the same inputs.\n\nThe task requires:\n1. Computing the mean of xs\n2. Computing the population standard deviation (ddof=0)\n3. Filtering values where |value - mean| <= k * std_dev\n4. Preserving order without modifying xs\n\nPotential sources of divergence:\n- **Floating point precision**: Different calcula"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "([], 0)",
+                "raw": "([], 0)"
+              }
+            },
+            "t02_top_k": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "([], 0)",
+                "raw": "([], 0)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "I need to think about when two competent implementations might differ.",
+                "raw": "I need to think about when two competent implementations might differ.\n\nThe key requirements are:\n1. Return k pairs with highest scores\n2. Order by score descending\n3. When scores are equal, earlier appearance wins (stable sort)\n4. k >= 0, handle k > len(items)\n\nTwo competent implementations could differ if they handle the stable sort differently. For example:\n\n- Implementation A: Uses a stable so"
+              }
+            },
+            "t03_chunk": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "([1, 2, 3], 2.5)",
+                "raw": "([1, 2, 3], 2.5)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "I need to think about what could cause two competent implementations to differ.",
+                "raw": "I need to think about what could cause two competent implementations to differ.\n\nThe key insight is that \"competent\" implementations should handle the core logic the same way, but they could differ in edge cases or input validation.\n\nLet me consider what could vary:\n- How they handle the input type (list vs other iterables)\n- How they handle the size parameter (int vs float)\n- How they handle empt"
+              }
+            },
+            "t04_normalize": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "([1.0, 1.0, 1.0],)",
+                "raw": "([1.0, 1.0, 1.0],)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "([0.0],)",
+                "raw": "([0.0],)"
+              }
+            },
+            "t05_merge_configs": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "({'a': [1, 2]}, {'a': [1, 2, 3]})",
+                "raw": "({'a': [1, 2]}, {'a': [1, 2, 3]})"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "```",
+                "raw": "```\n({'a': [1]}, {'a': [1]})\n```\n\nOne implementation might do a shallow merge (returning `{'a': [1]}` with the same list object from override), while another might do a deep copy of values, creating a new list object. When the caller later mutates the list, the two results would differ in their side effects or state."
+              }
+            },
+            "t06_parse_range": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "('0-0',)",
+                "raw": "('0-0',)\n\nThis call would return `[0]` in implementations that include the end of the range, but `[]` in implementations that exclude it (following Python's slice convention where `range(0, 0)` is empty)."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "('0-0',)",
+                "raw": "('0-0',)\n\nThis call would return `[]` in one implementation (if the developer interprets \"end is exclusive\" strictly) but `[0]` in another (if they mistakenly treat the end as inclusive despite the spec saying otherwise, or if they have an off-by-one error in the opposite direction)."
+              }
+            },
+            "t07_dedupe": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "([1, 0, -0], )",
+                "raw": "([1, 0, -0], )"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "([1, 1.0],)",
+                "raw": "([1, 1.0],)"
+              }
+            },
+            "t08_round_price": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "I need to think about how different implementations of `round_price(x)` might handle edge cases differently.",
+                "raw": "I need to think about how different implementations of `round_price(x)` might handle edge cases differently.\n\nThe most common source of divergence in rounding implementations is how they handle the \"banker's rounding\" vs \"round half up\" problem, particularly with values that are exactly halfway between two representable floats.\n\nFor example:\n- `round(2.675, 2)` in Python uses banker's rounding (ro"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "(2.675,)",
+                "raw": "(2.675,)\n\nThis value is subject to floating-point representation issues. Some implementations using standard `round()` with banker's rounding will return 2.67, while implementations using `Decimal` for true \"round half away from zero\" will return 2.68."
+              }
+            },
+            "t09_split_name": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "('alice',)",
+                "raw": "('alice',)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "(\"John\",)",
+                "raw": "(\"John\",)"
+              }
+            },
+            "t10_moving_average": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "([1, 2, 3], 2)",
+                "raw": "([1, 2, 3], 2)\n\nThis call can produce different results depending on whether the implementation returns averages for overlapping windows `[[1, 2], [2, 3]]` with result `[1.5, 2.5]`, or non-overlapping windows `[[1, 2], [3]]` with result `[1.5, 3.0]`. The task wording \"every consecutive window\" is ambiguous about whether windows overlap or advance by stride 1 versus stride w."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "([], 0)",
+                "raw": "([], 0)"
+              }
+            },
+            "t11_truncate": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "('hello', 5)",
+                "raw": "('hello', 5)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "('ab', 3)",
+                "raw": "('ab', 3)"
+              }
+            },
+            "t12_sort_scores": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "([1, 1], )",
+                "raw": "([1, 1], )"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "([1, 2, 1],)",
+                "raw": "([1, 2, 1],)"
+              }
+            }
+          }
+        }
+      },
+      "calls": 96,
+      "cost_usd": 0.0395,
+      "errors": 0,
+      "wall_seconds": 23.0
+    },
+    "qwen-plus": {
+      "signals": {
+        "direct_ask": {
+          "auroc_h1": 0.4688,
+          "mean_ambiguous": 0.2667,
+          "mean_full": 0.3167,
+          "localisation": null,
+          "per_task": {
+            "t01_remove_outliers": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "LINE 2: The behavior when xs is empty or contains no valid values after filtering.",
+                "raw": "1\nLINE 2: The behavior when xs is empty or contains no valid values after filtering."
+              },
+              "full": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0\nNONE"
+              }
+            },
+            "t02_top_k": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0\nNONE"
+              },
+              "full": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0\nNONE"
+              }
+            },
+            "t03_chunk": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0\nNONE"
+              },
+              "full": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0  \nNONE"
+              }
+            },
+            "t04_normalize": {
+              "ambiguous": {
+                "score": 0.2,
+                "point": "Handling of NaN or infinite values in the input list",
+                "raw": "0.2\nHandling of NaN or infinite values in the input list"
+              },
+              "full": {
+                "score": 0.5,
+                "point": "Handling of NaN or infinite values in the input list is unspecified.",
+                "raw": "0.5\nHandling of NaN or infinite values in the input list is unspecified."
+              }
+            },
+            "t05_merge_configs": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0\nNONE"
+              },
+              "full": {
+                "score": 0.5,
+                "point": "Whether nested dictionaries should be merged recursively or replaced entirely is unspecified.",
+                "raw": "0.5\nWhether nested dictionaries should be merged recursively or replaced entirely is unspecified."
+              }
+            },
+            "t06_parse_range": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0\nNONE"
+              },
+              "full": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0\nNONE"
+              }
+            },
+            "t07_dedupe": {
+              "ambiguous": {
+                "score": 0.5,
+                "point": "Handling of unhashable elements like lists or dictionaries is not specified.",
+                "raw": "0.5\nHandling of unhashable elements like lists or dictionaries is not specified."
+              },
+              "full": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0\nNONE"
+              }
+            },
+            "t08_round_price": {
+              "ambiguous": {
+                "score": 0.5,
+                "point": "NONE",
+                "raw": "0.5\nNONE"
+              },
+              "full": {
+                "score": 0.8,
+                "point": "The behavior of floating-point representation and rounding for values like 0.125 is not guaranteed to be exact or consis",
+                "raw": "0.8\nThe behavior of floating-point representation and rounding for values like 0.125 is not guaranteed to be exact or consistent across all platforms."
+              }
+            },
+            "t09_split_name": {
+              "ambiguous": {
+                "score": 0.5,
+                "point": "Behavior when the string contains no spaces after stripping is unspecified.",
+                "raw": "0.5\nBehavior when the string contains no spaces after stripping is unspecified."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Middle names or multiple spaces are not defined.",
+                "raw": "1\nMiddle names or multiple spaces are not defined."
+              }
+            },
+            "t10_moving_average": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0\nNONE"
+              },
+              "full": {
+                "score": 0.5,
+                "point": "None",
+                "raw": "0.5\nNone"
+              }
+            },
+            "t11_truncate": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0\nNONE"
+              },
+              "full": {
+                "score": 0.0,
+                "point": "NONE",
+                "raw": "0\nNONE"
+              }
+            },
+            "t12_sort_scores": {
+              "ambiguous": {
+                "score": 0.5,
+                "point": "Stability of the sort for equal scores is not specified.",
+                "raw": "0.5\nStability of the sort for equal scores is not specified."
+              },
+              "full": {
+                "score": 0.5,
+                "point": "Whether to preserve the relative order of equal elements (stability) is unspecified.",
+                "raw": "0.5\nWhether to preserve the relative order of equal elements (stability) is unspecified."
+              }
+            }
+          }
+        },
+        "enumerate_gaps": {
+          "auroc_h1": 0.6667,
+          "mean_ambiguous": 1.0,
+          "mean_full": 0.6667,
+          "localisation": null,
+          "per_task": {
+            "t01_remove_outliers": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "How to handle empty input lists.",
+                "raw": "How to handle empty input lists.\nWhether to return a copy or the original list if no outliers exist.\nBehavior when k is infinite or NaN.\nPrecision handling for floating-point comparisons near the boundary."
+              },
+              "full": {
+                "score": 0.0,
+                "point": null,
+                "raw": "None"
+              }
+            },
+            "t02_top_k": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Order of ties with equal scores is not specified.",
+                "raw": "Order of ties with equal scores is not specified.\nBehavior when k equals zero is not defined.\nWhether to return a new list or the original reference is open.\nHandling of non-list input types is undefined."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- How to handle floating-point score comparisons with precision.",
+                "raw": "- How to handle floating-point score comparisons with precision.\n- Whether to mutate the input list or create a copy.\n- The exact return type for k equal to zero.\n- Handling non-comparable items like mixed number types in scores."
+              }
+            },
+            "t03_chunk": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "How to handle the final sublist if its length is less than size.",
+                "raw": "How to handle the final sublist if its length is less than size.\nWhether to include empty sublists when input is shorter than size.\nIf the function should mutate the original list or create copies.\nBehavior when size is a non-integer or negative number.\nOrder of elements in output if input order is unspecified."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Return None if input list is empty.",
+                "raw": "Return None if input list is empty.\nRaise an error on non-list input types.\nSort the result by sublist length descending."
+              }
+            },
+            "t04_normalize": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Handle division by zero if all numbers are identical.",
+                "raw": "- Handle division by zero if all numbers are identical.\n- Decide on floating-point precision for the output list.\n- Choose whether to use integer or float arithmetic internally.\n- Determine behavior for negative zero in the result.\n- Select specific rounding method for edge cases near 0 or 1."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- How to handle floating-point precision near 0.0 or 1.0 boundaries",
+                "raw": "- How to handle floating-point precision near 0.0 or 1.0 boundaries\n- Whether to use epsilon comparisons for the \"all same values\" case\n- If input list contains NaN or infinity, what behavior is expected\n- Whether to round output floats to a specific number of decimal places\n- How to handle extremely large or small numbers causing overflow"
+              }
+            },
+            "t05_merge_configs": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "How to handle conflicting keys with non-dict values",
+                "raw": "How to handle conflicting keys with non-dict values  \nWhether to deep-merge nested dictionaries or overwrite them  \nHow to handle None, NaN, or other sentinel values in override  \nWhether to copy mutable values (e.g., lists, sets) or share references  \nHow to treat keys with falsy values (e.g., 0, \"\", False) in override  \nWhether to preserve insertion order if using older Python versions  \nHow to "
+              },
+              "full": {
+                "score": 1.0,
+                "point": "How should nested dictionaries be merged?",
+                "raw": "How should nested dictionaries be merged?\nShould list values concatenate or replace entirely?\nWhat is the expected return type for non-dict values?\nDoes the function handle keys that are not hashable?"
+              }
+            },
+            "t06_parse_range": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Return a list of integers or an iterator.",
+                "raw": "- Return a list of integers or an iterator.\n- Handle single-number specs like '5' as [5].\n- Include the end value in the result range.\n- Exclude the end value from the result range.\n- Use zero-based indexing for the output list.\n- Preserve the order of numbers in the list.\n- Allow whitespace around the hyphen in the spec.\n- Raise an error if the input is empty."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Input string may contain surrounding whitespace.",
+                "raw": "Input string may contain surrounding whitespace.\nReturn type could be a generator instead of a list.\nOrder of elements might not matter if treated as a set.\nEmpty range behavior is undefined by the exclusive end rule.\nNegative integers in input are not explicitly forbidden or handled."
+              }
+            },
+            "t07_dedupe": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Handling of non-hashable elements like lists or dicts",
+                "raw": "Handling of non-hashable elements like lists or dicts\nWhether to use a set for O(1) lookups or linear scan\nBehavior when input list contains nested mutable structures\nTreatment of floating-point NaN values as distinct or equal\nOrdering stability if multiple identical objects exist in input"
+              },
+              "full": {
+                "score": 0.0,
+                "point": null,
+                "raw": "None"
+              }
+            },
+            "t08_round_price": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Rounding method for .005 cases (banker's vs arithmetic)",
+                "raw": "Rounding method for .005 cases (banker's vs arithmetic)\nHandling of negative numbers with identical absolute values\nReturn type precision limits beyond two decimal places\nBehavior when input is exactly halfway between two decimals"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "- Input NaN or infinity behavior",
+                "raw": "- Input NaN or infinity behavior\n- Negative zero preservation or conversion\n- Floating-point precision limits handling\n- Locale-specific decimal separator usage\n- Return type strictness for integers"
+              }
+            },
+            "t09_split_name": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "How to handle empty or whitespace-only strings",
+                "raw": "How to handle empty or whitespace-only strings  \nWhether to treat multiple consecutive spaces as one delimiter  \nWhat to return if no space is present in the stripped string  \nHow to handle Unicode whitespace characters beyond ASCII space"
+              },
+              "full": {
+                "score": 0.0,
+                "point": null,
+                "raw": "None"
+              }
+            },
+            "t10_moving_average": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "- Empty input list returns empty or single zero?",
+                "raw": "- Empty input list returns empty or single zero?\n- Non-integer window size floats or truncates?\n- Negative window sizes raise error or ignore?\n- Floating-point precision rounding methods vary?\n- Input types allow strings or booleans?\n- Output order reverses if w exceeds length?"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "How to handle floating-point precision in averages",
+                "raw": "How to handle floating-point precision in averages  \nWhether to use integer division for integer inputs  \nWhat type of numbers to allow (e.g., complex, Decimal)  \nWhether to validate input types or assume correctness  \nHow to handle NaN or infinite values in xs  \nWhether to compute sums incrementally or naively per window"
+              }
+            },
+            "t11_truncate": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "How to handle strings with no spaces in the truncation point.",
+                "raw": "How to handle strings with no spaces in the truncation point.\nWhether to count the ellipsis characters against the limit n.\nIf the input string is empty, whether it counts as length 0.\nHandling of non-string inputs or unexpected data types."
+              },
+              "full": {
+                "score": 0.0,
+                "point": null,
+                "raw": "None"
+              }
+            },
+            "t12_sort_scores": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Stable or unstable sorting order for equal values.",
+                "raw": "Stable or unstable sorting order for equal values.\nHandling of non-numeric input types like strings or nulls.\nPerformance optimization trade-offs between speed and memory usage.\nWhether to modify the original list or create a new one."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Stable sort order for equal scores is not specified.",
+                "raw": "Stable sort order for equal scores is not specified.\nHandling of non-numeric elements in the list is undefined.\nBehavior when the input list is empty is unspecified.\nError handling for invalid input types is not defined."
+              }
+            }
+          }
+        },
+        "two_readings": {
+          "auroc_h1": 0.625,
+          "mean_ambiguous": 1.0,
+          "mean_full": 0.875,
+          "localisation": null,
+          "per_task": {
+            "t01_remove_outliers": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Reading 1: Compute mean and standard deviation using population formulas.",
+                "raw": "Reading 1: Compute mean and standard deviation using population formulas.\nReading 2: Compute mean and standard deviation using sample formulas."
+              },
+              "full": {
+                "score": 0.5,
+                "point": "Interpretation A: Use mean of input list; Interpretation B: Use running mean excluding current value.",
+                "raw": "Interpretation A: Use mean of input list; Interpretation B: Use running mean excluding current value."
+              }
+            },
+            "t02_top_k": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Stable sort: preserve original order for equal scores.",
+                "raw": "Stable sort: preserve original order for equal scores.  \nUnstable sort: arbitrary order for equal scores."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Reading 1: Stable sort by score descending, then slice top k.",
+                "raw": "Reading 1: Stable sort by score descending, then slice top k.\nReading 2: Sort all pairs by score descending, ignoring original order ties."
+              }
+            },
+            "t03_chunk": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "First reading: Drop remaining elements if list length isn't divisible by size.",
+                "raw": "First reading: Drop remaining elements if list length isn't divisible by size.\nSecond reading: Include final sublist with fewer than size elements."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "1. Split into non-overlapping chunks of exact size, padding last if needed.",
+                "raw": "1. Split into non-overlapping chunks of exact size, padding last if needed.\n2. Split into non-overlapping chunks, leaving final chunk shorter without padding."
+              }
+            },
+            "t04_normalize": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Reading 1: Scale to [0, 1] using global min and max of input.",
+                "raw": "Reading 1: Scale to [0, 1] using global min and max of input.\nReading 2: Scale to [0, 1] using running min/max seen so far."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Reading 1: Return all zeros if min equals max.",
+                "raw": "Reading 1: Return all zeros if min equals max.\nReading 2: Return all ones if min equals max."
+              }
+            },
+            "t05_merge_configs": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Reading 1: Shallow merge where override values replace base values entirely.",
+                "raw": "Reading 1: Shallow merge where override values replace base values entirely.\nReading 2: Deep recursive merge combining nested dictionaries from both inputs."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Deep vs. shallow merge: whether nested dicts are merged recursively or replaced entirely.",
+                "raw": "Deep vs. shallow merge: whether nested dicts are merged recursively or replaced entirely.  \nMutable vs. immutable copying: whether shared mutable objects are copied or referenced."
+              }
+            },
+            "t06_parse_range": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Reading one: inclusive range returning 3,4,5,6,7.",
+                "raw": "Reading one: inclusive range returning 3,4,5,6,7.\nReading two: exclusive end returning 3,4,5,6 only."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Interprets \"end is exclusive\" as applying to the parsed numeric end value.",
+                "raw": "Interprets \"end is exclusive\" as applying to the parsed numeric end value.  \nInterprets \"end is exclusive\" as applying to the string's rightmost digit position."
+              }
+            },
+            "t07_dedupe": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Reading 1: Remove all duplicates, keeping only the first occurrence of each element.",
+                "raw": "Reading 1: Remove all duplicates, keeping only the first occurrence of each element.\nReading 2: Remove elements that appear more than once, keeping only unique items."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "\"Last occurrence\" means the final appearance of each element in xs.",
+                "raw": "\"Last occurrence\" means the final appearance of each element in xs.  \n\"Last occurrence\" means the most recent occurrence up to each position during traversal."
+              }
+            },
+            "t08_round_price": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Reading 1: Round to nearest even, truncating floating-point errors.",
+                "raw": "Reading 1: Round to nearest even, truncating floating-point errors.\nReading 2: Round half up using string formatting or decimal math."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Reading 1: Use banker's rounding, which rounds 0.125 to 0.12.",
+                "raw": "Reading 1: Use banker's rounding, which rounds 0.125 to 0.12.\nReading 2: Implement away-from-zero rounding for exact halves as specified."
+              }
+            },
+            "t09_split_name": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Split on first space, ignoring internal spaces in last name.",
+                "raw": "1. Split on first space, ignoring internal spaces in last name.\n2. Split on first space, treating empty string as invalid input."
+              },
+              "full": {
+                "score": 0.5,
+                "point": "Reading 1: Empty string if no space; Reading 2: Single-element list returned.",
+                "raw": "Reading 1: Empty string if no space; Reading 2: Single-element list returned."
+              }
+            },
+            "t10_moving_average": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "First reading: Output length equals input list length, padding with initial values.",
+                "raw": "First reading: Output length equals input list length, padding with initial values.\nSecond reading: Output length is shorter than input, containing only valid windows."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Reading 1: Window slides one element at a time.",
+                "raw": "Reading 1: Window slides one element at a time.\nReading 2: Window steps by w, skipping non-overlapping segments."
+              }
+            },
+            "t11_truncate": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "1. Truncate by character count, preserving full words only if n allows.",
+                "raw": "1. Truncate by character count, preserving full words only if n allows.\n2. Truncate by byte count, potentially cutting multi-byte characters mid-stream."
+              },
+              "full": {
+                "score": 1.0,
+                "point": "Reading 1: Truncate to n characters including the three dots.",
+                "raw": "Reading 1: Truncate to n characters including the three dots.\nReading 2: Truncate text to n characters, then append three dots."
+              }
+            },
+            "t12_sort_scores": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "Stable sort preserving relative order of equal elements.",
+                "raw": "Stable sort preserving relative order of equal elements.  \nUnstable sort, no guarantee for equal elements’ order."
+              },
+              "full": {
+                "score": 0.5,
+                "point": "Reading 1: Sort integers descending; Reading 2: Sort floats descending with stable sort.",
+                "raw": "Reading 1: Sort integers descending; Reading 2: Sort floats descending with stable sort."
+              }
+            }
+          }
+        },
+        "discriminating": {
+          "auroc_h1": 0.4167,
+          "mean_ambiguous": 0.8333,
+          "mean_full": 1.0,
+          "localisation": 0.1667,
+          "per_task": {
+            "t01_remove_outliers": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "([1.0, 2.0, 3.0], 0.5)",
+                "raw": "([1.0, 2.0, 3.0], 0.5)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "([1, 2, 3], 0)",
+                "raw": "([1, 2, 3], 0)"
+              }
+            },
+            "t02_top_k": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": null,
+                "raw": "NONE"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "([['a', 10], ['b', 10]], 2)",
+                "raw": "([['a', 10], ['b', 10]], 2)"
+              }
+            },
+            "t03_chunk": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "([1, 2, 3], 2)",
+                "raw": "([1, 2, 3], 2)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "([1, 2, 3], 2)",
+                "raw": "([1, 2, 3], 2)"
+              }
+            },
+            "t04_normalize": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "(0.0, 1.0)",
+                "raw": "(0.0, 1.0)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "(1.0, 1.0)",
+                "raw": "(1.0, 1.0)"
+              }
+            },
+            "t05_merge_configs": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "({'a': 1}, {'a': 2})",
+                "raw": "({'a': 1}, {'a': 2})"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "({1: [2]}, {1: [3]})",
+                "raw": "({1: [2]}, {1: [3]})"
+              }
+            },
+            "t06_parse_range": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "('3-7',)",
+                "raw": "('3-7',)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "('3-7',)",
+                "raw": "('3-7',)"
+              }
+            },
+            "t07_dedupe": {
+              "ambiguous": {
+                "score": 0.0,
+                "point": null,
+                "raw": "NONE"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "([1, 2],)",
+                "raw": "([1, 2],)"
+              }
+            },
+            "t08_round_price": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "(0.125,)",
+                "raw": "(0.125,)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "(0.125,)",
+                "raw": "(0.125,)"
+              }
+            },
+            "t09_split_name": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "('  John  Doe  ',)",
+                "raw": "('  John  Doe  ',)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "('  Alice  ',)",
+                "raw": "('  Alice  ',)"
+              }
+            },
+            "t10_moving_average": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "([1, 2, 3], 2)",
+                "raw": "([1, 2, 3], 2)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "([1, 2, 3], 2)",
+                "raw": "([1, 2, 3], 2)"
+              }
+            },
+            "t11_truncate": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "('a' * 10, 5)",
+                "raw": "('a' * 10, 5)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "(\"abc\", 3)",
+                "raw": "(\"abc\", 3)"
+              }
+            },
+            "t12_sort_scores": {
+              "ambiguous": {
+                "score": 1.0,
+                "point": "([1, 2],)",
+                "raw": "([1, 2],)"
+              },
+              "full": {
+                "score": 1.0,
+                "point": "([1, 2, 2])",
+                "raw": "([1, 2, 2])"
+              }
+            }
+          }
+        }
+      },
+      "calls": 96,
+      "cost_usd": 0.01253,
+      "errors": 0,
+      "wall_seconds": 24.3
+    }
+  }
+}
