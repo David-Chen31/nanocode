@@ -1,0 +1,8 @@
+# Core experiments need nothing but the standard library.
+# Figures:
+matplotlib>=3.8
+# Live model backends (optional; fixture replay is the default):
+anthropic>=0.40
+openai>=1.40
+# Tests:
+pytest>=8.0

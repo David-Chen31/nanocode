@@ -1,0 +1,33 @@
+# Credentials never enter the repository. The agent reads OPENAI_API_KEY and
+# OPENAI_BASE_URL from the environment only; there is no config file to leak.
+.env
+*.env
+secrets*
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# Raw stdout captured while a sweep was running. The structured results next to
+# them (results/*.json) are the record; these are scratch.
+results/_*
+
+# Scratch workspaces the agent runs in
+aoa-ws-*/
+aoa-traj-*/
+
+# The assignment brief itself is not part of the project
+推免考核题目学生版.pdf
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
