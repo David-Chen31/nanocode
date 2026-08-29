@@ -12,7 +12,7 @@ from typing import Any, Callable, Protocol
 
 from .context import ContextPolicy, Conversation, clip_tool_output
 from .llm import LLMBackend, ToolCall, Usage
-from .tools import AskUser, Finish, Tool, build_toolset
+from .tools import AskUser, Finish, Tool, build_toolset, check_arguments
 from .trace import Trace
 from .workspace import Workspace
 
@@ -125,7 +125,21 @@ class Agent:
             for tc in resp.tool_calls:
                 tool = self.tools.get(tc.name)
                 if tool is None:
-                    results.append((tc, "error: no such tool " + tc.name))
+                    # Name the alternatives. A model that invents `grep` can act
+                    # on "did you mean search?"; it cannot act on "no".
+                    known = ", ".join(sorted(self.tools))
+                    msg = f"no such tool {tc.name!r}. Available tools: {known}"
+                    results.append((tc, "error: " + msg))
+                    trace.record("tool", {"name": tc.name, "args": tc.arguments,
+                                          "error": msg})
+                    continue
+                bad = check_arguments(tool, tc.arguments)
+                if bad:
+                    # Caught before dispatch so the message can quote the schema
+                    # rather than a Python TypeError about a closure.
+                    results.append((tc, "error: " + bad))
+                    trace.record("tool", {"name": tc.name, "args": tc.arguments,
+                                          "error": bad})
                     continue
                 try:
                     out = tool.fn(**tc.arguments)

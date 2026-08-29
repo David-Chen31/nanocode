@@ -52,6 +52,38 @@ class ToolCall:
     id: str
     name: str
     arguments: dict[str, Any]
+    # Set when the model's arguments could not be parsed. The call still exists
+    # -- see _parse_arguments for why it must.
+    parse_error: str = ""
+
+
+# Sentinel key: an unparseable argument blob is kept under this so the loop can
+# hand the model back its own broken JSON instead of a generic complaint.
+RAW_ARGS = "__raw__"
+
+
+def _parse_arguments(blob: str | None) -> dict[str, Any]:
+    """Decode a tool call's arguments, tolerating what models actually emit.
+
+    Two failures are common enough to be routine rather than exceptional. The
+    first is truncation: a `write_file` whose `content` runs into the output
+    token limit produces JSON that simply stops. The second is a model emitting
+    a bare string or list where an object belongs.
+
+    Neither may raise. A raised exception here aborts the whole run from inside
+    the backend, which is the wrong place and the wrong severity -- the model
+    made a recoverable mistake and should be told about it on the next turn.
+    So the call is always constructed, and the problem travels on it.
+    """
+    if not blob:
+        return {}
+    try:
+        parsed = json.loads(blob)
+    except (json.JSONDecodeError, TypeError):
+        return {RAW_ARGS: blob}
+    if not isinstance(parsed, dict):
+        return {RAW_ARGS: blob}
+    return parsed
 
 
 @dataclass
@@ -166,7 +198,7 @@ class OpenAICompatBackend(LLMBackend):
         calls = []
         for tc in choice.message.tool_calls or []:
             calls.append(ToolCall(id=tc.id, name=tc.function.name,
-                                  arguments=json.loads(tc.function.arguments or "{}")))
+                                  arguments=_parse_arguments(tc.function.arguments)))
 
         mean_lp = None
         lp = getattr(choice, "logprobs", None)

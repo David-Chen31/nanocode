@@ -92,3 +92,42 @@ def test_edit_file_rejects_ambiguous_match(tmp_path):
     tools = build_toolset(ws)
     out = tools["edit_file"].fn(path="a.py", old="x = 1", new="x = 2")
     assert "not unique" in out
+
+
+def test_a_bad_call_is_survivable_and_the_agent_recovers(tmp_path):
+    """The whole point of validating arguments: the run continues.
+
+    Turn one omits `path`, turn two invents a tool. Neither may end the run --
+    the model is told what was wrong and gets to try again, which is what turn
+    three does successfully.
+    """
+    backend = _fixture(tmp_path, [
+        {"text": "", "tool_calls": [_call("write_file", content="x = 1\n")]},
+        {"text": "", "tool_calls": [_call("grep", pattern="x")]},
+        {"text": "", "tool_calls": [_call("write_file", path="sol.py", content="x = 1\n")]},
+        {"text": "", "tool_calls": [_call("finish", summary="done")]},
+    ])
+    ws = Workspace(tmp_path / "ws")
+    res = Agent(backend, ws, config=AgentConfig(max_steps=8)).run("write it", task_id="t")
+
+    assert res.outcome == "finished"
+    assert (ws.root / "sol.py").read_text(encoding="utf-8") == "x = 1\n"
+
+    errors = [s.payload["error"] for s in res.trace.steps
+              if s.kind == "tool" and "error" in s.payload]
+    assert len(errors) == 2
+    assert "path" in errors[0]
+    # The unknown-tool error must name the real tools, or the model cannot
+    # correct itself except by guessing again.
+    assert "search" in errors[1] and "no such tool" in errors[1]
+
+
+def test_every_tool_call_still_gets_a_result_after_an_error(tmp_path):
+    """An errored call is answered like any other, or the next request is malformed."""
+    backend = _fixture(tmp_path, [
+        {"text": "", "tool_calls": [_call("read_file")]},
+        {"text": "", "tool_calls": [_call("finish", summary="done")]},
+    ])
+    ws = Workspace(tmp_path / "ws")
+    res = Agent(backend, ws, config=AgentConfig(max_steps=4)).run("read it", task_id="t")
+    assert res.outcome == "finished"
