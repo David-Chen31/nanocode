@@ -71,7 +71,15 @@ def touched(ws: Workspace, task: RepoTask) -> int:
 
 
 class Meter:
+    """Counts tokens, and stops the sweep at a ceiling.
+
+    The ceiling is in tokens rather than dollars because this relay publishes
+    no price list: a dollar cap would be enforced against a number I made up.
+    Tokens are what is actually measured, so tokens are what is capped.
+    """
+
     def __init__(self, cap: float) -> None:
+        self.tokens = 0
         self.cost = 0.0
         self.done = 0
         self.errors = 0
@@ -79,13 +87,14 @@ class Meter:
         self.stopped = False
         self._lock = threading.Lock()
 
-    def add(self, c: float) -> bool:
+    def add(self, tokens: int) -> bool:
         with self._lock:
-            self.cost += c
+            self.tokens += tokens
             self.done += 1
-            # A single thrashing trajectory cost $3.8 in an earlier run, so the
-            # sweep carries a hard ceiling rather than trusting the estimate.
-            if self.cost > self.cap:
+            # One thrashing trajectory burned far more than the mean in an
+            # earlier sweep, so this carries a hard ceiling rather than
+            # trusting a per-run estimate that was already wrong by 10x once.
+            if self.tokens > self.cap:
                 self.stopped = True
             return self.stopped
 
@@ -124,10 +133,16 @@ def one_run(arm: str, task: RepoTask, rep: int, model: str, max_steps: int,
             "touched": touched(ws, task), "must_touch": len(task.touches),
             "plan_len": len(plan.splitlines()) if plan else 0,
             "plan": plan[:1200],
+            # Tokens are the primary cost unit here. This relay publishes no
+            # price list, so a dollar figure would be a guess dressed as a
+            # measurement; both arms run the same model, so tokens compare
+            # cleanly anyway.
+            "input_tokens": res.trace.usage.input_tokens,
+            "output_tokens": res.trace.usage.output_tokens,
             "cost_usd": round(res.trace.cost_usd, 5),
         }
         row.update(score(ws, task))
-        meter.add(res.trace.cost_usd)
+        meter.add(res.trace.usage.input_tokens + res.trace.usage.output_tokens)
         return row
     except Exception as exc:                       # noqa: BLE001
         meter.fail()
@@ -145,8 +160,8 @@ def main() -> int:
     ap.add_argument("--reps", type=int, default=3)
     ap.add_argument("--max-steps", type=int, default=30)
     ap.add_argument("--workers", type=int, default=4)
-    ap.add_argument("--budget", type=float, default=25.0,
-                    help="Hard USD ceiling; the sweep stops when it is crossed.")
+    ap.add_argument("--budget", type=float, default=6_000_000,
+                    help="Hard ceiling in total tokens; the sweep stops past it.")
     ap.add_argument("--tasks", nargs="+", default=None)
     ap.add_argument("--arms", nargs="+", default=list(ARMS))
     ap.add_argument("--out", default="results/architecture.json")
@@ -156,7 +171,7 @@ def main() -> int:
     arms = [a for a in ARMS if a in args.arms]
     jobs = [(a, t, r) for a in arms for t in tasks for r in range(args.reps)]
     print(f"{len(jobs)} runs: {len(arms)} arms x {len(tasks)} tasks x {args.reps} "
-          f"reps, model={args.model}, budget cap ${args.budget}", flush=True)
+          f"reps, model={args.model}, cap {args.budget/1e6:.1f}M tokens", flush=True)
 
     meter = Meter(args.budget)
     rows: list[dict[str, Any]] = []
@@ -169,7 +184,7 @@ def main() -> int:
             if row:
                 rows.append(row)
             if i % 8 == 0:
-                print(f"  {i}/{len(jobs)}  ${meter.cost:.2f}  {meter.errors} err  "
+                print(f"  {i}/{len(jobs)}  {meter.tokens/1e6:.2f}M tok  {meter.errors} err  "
                       f"{time.time() - t0:.0f}s", flush=True)
 
     if meter.stopped:
@@ -182,8 +197,8 @@ def main() -> int:
                               encoding="utf-8")
 
     print(f"\n{'arm':<14}{'correct':>9}{'regr ok':>9}{'behav ok':>10}"
-          f"{'calls':>8}{'tools':>8}{'$/run':>9}")
-    print("-" * 68)
+          f"{'calls':>8}{'tools':>8}{'ktok/run':>10}")
+    print("-" * 69)
     for arm in arms:
         g = [r for r in rows if r["arm"] == arm]
         if not g:
@@ -193,7 +208,7 @@ def main() -> int:
               f"{f('behaviour_ok'):>10.2f}"
               f"{sum(r['n_model_calls'] for r in g) / len(g):>8.1f}"
               f"{sum(r['n_tool_calls'] for r in g) / len(g):>8.1f}"
-              f"{sum(r['cost_usd'] for r in g) / len(g):>9.4f}")
+              f"{sum(r.get('input_tokens', 0) + r.get('output_tokens', 0) for r in g) / len(g) / 1000:>10.1f}")
     print(f"\nwrote {args.out}")
     return 0
 
