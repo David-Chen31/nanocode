@@ -20,6 +20,7 @@ dist/
 results/_*
 
 # Scratch workspaces the agent runs in
+nanocode-ws-*/
 aoa-ws-*/
 aoa-traj-*/
 

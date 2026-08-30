@@ -114,7 +114,7 @@ class RunResult:
 class Workspace:
     def __init__(self, root: str | Path | None = None, *, ephemeral: bool = False) -> None:
         if root is None:
-            root = tempfile.mkdtemp(prefix="aoa-ws-")
+            root = tempfile.mkdtemp(prefix="nanocode-ws-")
             ephemeral = True
         self.root = Path(root).resolve()
         self.root.mkdir(parents=True, exist_ok=True)

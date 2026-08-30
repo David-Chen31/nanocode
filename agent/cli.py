@@ -15,11 +15,33 @@ from .loop import Agent, AgentConfig, cli_responder
 from .workspace import Workspace
 
 
+def _survivable_console() -> None:
+    """Never let printing the result be the thing that fails.
+
+    The console's encoding is whatever the OS says -- cp936 on a Chinese
+    Windows box -- and a model summary containing a check mark or an emoji
+    cannot be encoded in it. `print` then raises UnicodeEncodeError *after* the
+    agent has finished the task, so a completed run ends in a traceback and the
+    work looks lost when it is actually on disk.
+
+    The encoding is left alone, because it is correct for this console and
+    changing it would turn readable Chinese into mojibake. Only the error
+    handler moves: an unencodable character becomes '?' instead of an
+    exception.
+    """
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(errors="replace")
+        except (AttributeError, ValueError):
+            pass          # not a reconfigurable stream; nothing to do
+
+
 def main(argv: list[str] | None = None) -> int:
+    _survivable_console()
     ap = argparse.ArgumentParser(prog="agent", description="Run the coding agent on one task.")
     ap.add_argument("task", help="What the agent should do.")
     ap.add_argument("--workspace", default=None, help="Directory to work in (default: temp dir).")
-    ap.add_argument("--backend", default=None, help="e.g. anthropic:claude-sonnet-5 (default: $AOA_BACKEND).")
+    ap.add_argument("--backend", default=None, help="e.g. anthropic:claude-sonnet-5 (default: $NANOCODE_BACKEND).")
     ap.add_argument("--max-steps", type=int, default=24)
     ap.add_argument("--max-asks", type=int, default=3)
     ap.add_argument("--no-ask", action="store_true", help="Remove the ask_user tool entirely.")

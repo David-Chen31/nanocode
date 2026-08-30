@@ -6,6 +6,8 @@ it retries, and keeps retrying, until the step budget is gone.
 """
 from __future__ import annotations
 
+import sys
+
 import pytest
 
 from agent.workspace import PathEscape, Workspace, _decode
@@ -105,3 +107,23 @@ def test_normal_output_is_untouched_by_the_cap(tmp_path):
     assert "line 0" in res.stdout and "line 49" in res.stdout
     assert "omitted" not in res.stdout and "looping" not in res.stderr
     assert res.returncode == 0
+
+
+def test_the_cli_console_survives_characters_it_cannot_encode():
+    """A check mark in the summary must not turn a finished run into a traceback."""
+    import io
+    from agent.cli import _survivable_console
+
+    real_out, real_err = sys.stdout, sys.stderr
+    fake = io.TextIOWrapper(io.BytesIO(), encoding="cp936")
+    try:
+        sys.stdout = sys.stderr = fake
+        _survivable_console()
+        print("summary: 完成 \u2713 \U0001f389")     # what models actually emit
+        fake.flush()
+    finally:
+        sys.stdout, sys.stderr = real_out, real_err
+
+    written = fake.buffer.getvalue().decode("cp936", errors="replace")
+    assert "完成" in written, "the Chinese was mangled instead of preserved"
+    assert "?" in written, "the unencodable characters were not replaced"

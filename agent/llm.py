@@ -173,7 +173,7 @@ class OpenAICompatBackend(LLMBackend):
         self._client = OpenAI(
             base_url=os.environ.get("OPENAI_BASE_URL") or None,
             timeout=timeout if timeout is not None
-            else float(os.environ.get("AOA_TIMEOUT", "90")),
+            else float(os.environ.get("NANOCODE_TIMEOUT", "90")),
             max_retries=max_retries,
         )
 
@@ -254,7 +254,7 @@ class FixtureBackend(LLMBackend):
         if not bucket:
             raise KeyError(
                 "no fixture for key " + repr(key) + ". Record one, or run with a live "
-                "backend, e.g. AOA_BACKEND=anthropic:claude-sonnet-5"
+                "backend, e.g. NANOCODE_BACKEND=anthropic:claude-sonnet-5"
             )
         i = self._cursor.get(key, 0)
         if key == "__sequence__" and i >= len(bucket):
@@ -279,8 +279,8 @@ def _to_openai_tool(t: dict[str, Any]) -> dict[str, Any]:
 
 
 def make_backend(spec: str | None = None) -> LLMBackend:
-    """Build a backend from a spec string, defaulting to $AOA_BACKEND."""
-    spec = spec or os.environ.get("AOA_BACKEND", "fixture:bench/fixtures/agent.json")
+    """Build a backend from a spec string, defaulting to $NANOCODE_BACKEND."""
+    spec = spec or os.environ.get("NANOCODE_BACKEND", "fixture:bench/fixtures/agent.json")
     kind, _, rest = spec.partition(":")
     if kind == "anthropic":
         return AnthropicBackend(rest or "claude-sonnet-5")
