@@ -131,3 +131,58 @@ def test_every_tool_call_still_gets_a_result_after_an_error(tmp_path):
     ws = Workspace(tmp_path / "ws")
     res = Agent(backend, ws, config=AgentConfig(max_steps=4)).run("read it", task_id="t")
     assert res.outcome == "finished"
+
+
+def test_a_preamble_is_not_mistaken_for_a_finished_task(tmp_path):
+    """The bug: "Let me start by exploring..." ended the run at step one.
+
+    A turn with no tool call is ambiguous -- done, or thinking out loud. Taking
+    it as final lost whole runs before anything had been attempted.
+    """
+    backend = _fixture(tmp_path, [
+        {"text": "Let me start by exploring the workspace...", "tool_calls": []},
+        {"text": "", "tool_calls": [_call("write_file", path="sol.py", content="x = 1\n")]},
+        {"text": "", "tool_calls": [_call("finish", summary="wrote sol.py")]},
+    ])
+    ws = Workspace(tmp_path / "ws")
+    res = Agent(backend, ws, config=AgentConfig(max_steps=6)).run("do it", task_id="t")
+
+    assert res.outcome == "finished"
+    assert (ws.root / "sol.py").exists(), "the run ended before it did anything"
+    assert sum(1 for s in res.trace.steps if s.kind == "idle") == 1
+
+
+def test_a_model_that_keeps_talking_still_terminates(tmp_path):
+    """The nudge is bounded, or a chatty model loops forever."""
+    backend = _fixture(tmp_path, [{"text": "thinking...", "tool_calls": []}] * 6)
+    res = Agent(_fixture(tmp_path, [{"text": "thinking...", "tool_calls": []}] * 6),
+                Workspace(tmp_path / "ws"),
+                config=AgentConfig(max_steps=8, max_idle_turns=2)).run("go", task_id="t")
+    assert res.outcome == "text_only"
+    assert sum(1 for s in res.trace.steps if s.kind == "idle") == 2
+
+
+def test_a_genuine_final_answer_is_still_accepted(tmp_path):
+    """After the nudge, a repeat with no tool call is taken at face value."""
+    backend = _fixture(tmp_path, [
+        {"text": "The function already handles that case.", "tool_calls": []},
+        {"text": "Nothing to change.", "tool_calls": []},
+        {"text": "Nothing to change.", "tool_calls": []},
+    ])
+    res = Agent(backend, Workspace(tmp_path / "ws"),
+                config=AgentConfig(max_steps=6, max_idle_turns=2)).run("q", task_id="t")
+    assert res.outcome == "text_only"
+    assert res.summary == "Nothing to change."
+
+
+def test_the_idle_counter_resets_after_real_work(tmp_path):
+    """Two preambles far apart must not be treated as one give-up streak."""
+    backend = _fixture(tmp_path, [
+        {"text": "Let me look...", "tool_calls": []},
+        {"text": "", "tool_calls": [_call("list_files")]},
+        {"text": "Now let me think...", "tool_calls": []},
+        {"text": "", "tool_calls": [_call("finish", summary="done")]},
+    ])
+    res = Agent(backend, Workspace(tmp_path / "ws"),
+                config=AgentConfig(max_steps=8, max_idle_turns=1)).run("go", task_id="t")
+    assert res.outcome == "finished"

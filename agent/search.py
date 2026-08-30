@@ -36,14 +36,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-from .workspace import PathEscape, Workspace
-
-# Directories that are never the answer and are expensive to walk. Skipping them
-# is not a heuristic about relevance; it is that their contents are build
-# products, vendored code, or a database.
-SKIP_DIRS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache",
-             "node_modules", ".venv", "venv", "dist", "build", ".idea", ".vscode",
-             ".tox", ".eggs", "site-packages"}
+from .workspace import SKIP_DIRS, PathEscape, Workspace
 
 # Text-ish enough to be worth scanning. A file with no extension is still read --
 # READMEs, Makefiles and scripts live there -- and the binary check below is what

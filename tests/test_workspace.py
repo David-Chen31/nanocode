@@ -161,3 +161,47 @@ def test_a_pytest_suite_in_the_workspace_actually_runs(tmp_path):
     res = ws.run("python -m pytest -q")
     assert res.returncode == 0, res.stdout + res.stderr
     assert "1 passed" in res.stdout
+
+
+def test_overview_shows_the_shape_of_the_project(tmp_path):
+    """What the agent gets instead of guessing that the root is /workspace."""
+    ws = Workspace(tmp_path)
+    ws.write("pkg/core.py", "x = 1\n")
+    ws.write("pkg/util.py", "y = 2\n")
+    ws.write("tests/test_core.py", "\n")
+    ws.write("README.md", "hi\n")
+    out = ws.overview()
+    assert "pkg/" in out and "  core.py" in out
+    assert "tests/" in out and "README.md" in out
+
+
+def test_overview_hides_what_search_also_hides(tmp_path):
+    """One source of truth: the map and the search tool agree on what is noise."""
+    ws = Workspace(tmp_path)
+    ws.write("pkg/core.py", "x = 1\n")
+    ws.write(".git/config", "[core]\n")
+    ws.write("node_modules/dep/index.js", "0\n")
+    out = ws.overview()
+    assert ".git" not in out and "node_modules" not in out
+
+
+def test_overview_is_capped_on_a_big_directory(tmp_path):
+    ws = Workspace(tmp_path)
+    for i in range(50):
+        ws.write(f"src/mod{i:02d}.py", "\n")
+    out = ws.overview(max_per_dir=5)
+    assert "and 45 more" in out
+    assert len(out.splitlines()) < 12
+
+
+def test_overview_of_an_empty_workspace_says_so(tmp_path):
+    assert Workspace(tmp_path).overview() == "(empty workspace)"
+
+
+def test_orientation_tells_the_agent_paths_are_relative(tmp_path):
+    from agent.loop import orientation
+    ws = Workspace(tmp_path)
+    ws.write("a.py", "\n")
+    text = orientation(ws)
+    assert "relative" in text and "do not use absolute paths" in text
+    assert "a.py" in text

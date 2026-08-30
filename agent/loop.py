@@ -27,6 +27,26 @@ you write -- never to confirm something you can determine yourself by reading or
 running the code."""
 
 
+IDLE_NUDGE = (
+    "You replied without calling a tool. If the task is complete, call `finish` "
+    "with a summary. If not, call the tool you need next -- describing what you "
+    "intend to do does not do it."
+)
+
+
+def orientation(ws: Workspace) -> str:
+    """Tell the agent where it is before it has to guess.
+
+    Measured on a real repository: with no orientation the agent assumed the
+    root was `/workspace`, then spent turns on `pwd && ls -la` and absolute
+    paths into the temp directory before finding anything. Those turns come out
+    of the step budget.
+    """
+    return ("\n\nYou are working in a project directory. Every path you pass to "
+            "a tool is relative to that directory -- do not use absolute paths. "
+            "Here is what it contains:\n\n" + ws.overview())
+
+
 def budget_note(used: int, total: int) -> str:
     """Tell the agent where it is in its step budget.
 
@@ -76,6 +96,10 @@ class AgentConfig:
     allow_ask: bool = True
     max_tokens: int = 4096
     seed: int | None = 0
+    # How many tool-free turns to nudge through before accepting the text as
+    # the final answer. Zero restores the old behaviour of stopping at the
+    # first one, which mistook a preamble for a conclusion.
+    max_idle_turns: int = 2
     # Show the agent its remaining step budget. Off would mean an agent that
     # cannot see the limit it is being judged against.
     show_budget: bool = True
@@ -115,19 +139,24 @@ class Agent:
             backend=self.backend.name,
             config={"max_steps": self.cfg.max_steps, "temperature": self.cfg.temperature,
                     "max_asks": self.cfg.max_asks, "allow_ask": self.cfg.allow_ask,
-                    "seed": self.cfg.seed, "show_budget": self.cfg.show_budget},
+                    "seed": self.cfg.seed, "show_budget": self.cfg.show_budget,
+                    "max_idle_turns": self.cfg.max_idle_turns},
         )
         convo = Conversation(policy=self.cfg.context, backend=self.backend.name)
         convo.add({"role": "user", "content": task})
         schemas = [t.schema() for t in self.tools.values()]
         asked: list[dict[str, Any]] = []
         outcome, summary = "max_steps", ""
+        idle = 0
+        # Built once: the layout is stable enough over one run, and rebuilding
+        # it every turn would walk the tree on every model call.
+        where = orientation(self.ws)
 
         for step in range(self.cfg.max_steps):
             # Enforce the context budget before every call, not after the API
             # has already refused one.
             convo.compact(lambda ev: trace.record("compact", ev))
-            base_system = system or SYSTEM
+            base_system = (system or SYSTEM) + where
             resp = self.backend.complete(
                 convo.render(),
                 # Appended to the system prompt rather than pushed into the
@@ -146,9 +175,20 @@ class Agent:
                          resp.usage)
 
             if not resp.tool_calls:
-                # No tool call and no finish: treat the text as the final answer.
+                # A turn with no tool call is ambiguous: the model may be done,
+                # or it may be narrating before it acts ("Let me start by
+                # exploring the workspace..."). Treating both as the final
+                # answer ended real runs at step one with nothing done, so the
+                # model is asked once, and only a repeat is taken as final.
+                if idle < self.cfg.max_idle_turns:
+                    idle += 1
+                    trace.record("idle", {"text": resp.text[:400], "nudge": idle})
+                    convo.add({"role": "assistant", "content": resp.text or "..."})
+                    convo.add({"role": "user", "content": IDLE_NUDGE})
+                    continue
                 outcome, summary = "text_only", resp.text
                 break
+            idle = 0
 
             convo.add(_assistant_turn(resp.text, resp.tool_calls, self.backend.name))
             for tc in resp.tool_calls:

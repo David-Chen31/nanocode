@@ -17,6 +17,14 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
+# Directories that are never the answer and are expensive to walk: build
+# products, vendored code, caches. Defined here rather than in search.py so the
+# repository overview and the search tool cannot drift apart about what counts
+# as noise.
+SKIP_DIRS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache",
+             "node_modules", ".venv", "venv", "dist", "build", ".idea", ".vscode",
+             ".tox", ".eggs", "site-packages"}
+
 # Per-command output ceiling. Generous enough for a verbose test suite, small
 # enough that a runaway print loop is stopped in well under a second.
 MAX_OUTPUT_BYTES = 4_000_000
@@ -179,6 +187,51 @@ class Workspace:
         for child in sorted(p.iterdir()):
             out.append(child.name + ("/" if child.is_dir() else ""))
         return out
+
+    def overview(self, *, max_lines: int = 40, max_per_dir: int = 12) -> str:
+        """A shallow map of the workspace, for orienting the agent at step one.
+
+        Without this the agent does not know where it is. Measured on a real
+        repository: it guessed the root was `/workspace`, then spent turns on
+        `pwd && ls -la` and absolute paths into the temp directory before
+        finding anything. Those turns come out of the step budget and buy
+        nothing.
+
+        Deliberately shallow and capped. The point is to answer "what kind of
+        project is this and where do things live", which two levels does; a
+        full recursive listing of a large repository would cost more context
+        than it saves and bury the answer.
+        """
+        lines: list[str] = []
+        try:
+            # Directories first, then files, each alphabetically: the shape of
+            # the project reads faster than a flat mixed list.
+            top = sorted(self.root.iterdir(), key=lambda p: (p.is_file(), p.name))
+        except OSError:
+            return "(workspace could not be listed)"
+
+        for entry in top:
+            if len(lines) >= max_lines:
+                lines.append("... (truncated; use list_files to see more)")
+                break
+            if entry.name in SKIP_DIRS:
+                continue
+            if not entry.is_dir():
+                lines.append(entry.name)
+                continue
+            lines.append(entry.name + "/")
+            try:
+                kids = sorted(entry.iterdir(), key=lambda p: (p.is_file(), p.name))
+            except OSError:
+                continue
+            shown = [k for k in kids if k.name not in SKIP_DIRS][:max_per_dir]
+            for kid in shown:
+                lines.append("  " + kid.name + ("/" if kid.is_dir() else ""))
+            hidden = len([k for k in kids if k.name not in SKIP_DIRS]) - len(shown)
+            if hidden > 0:
+                lines.append(f"  ... and {hidden} more")
+
+        return "\n".join(lines) if lines else "(empty workspace)"
 
     def run(self, command: str, *, timeout: float = 30.0,
             max_output_bytes: int = MAX_OUTPUT_BYTES) -> RunResult:
