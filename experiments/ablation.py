@@ -156,9 +156,9 @@ def score(repo, task: Task) -> dict[str, Any]:
         got = run_candidates([scoring_source(repo, task)], probes, task.entry_point)
         ref = run_candidates([task.reference], probes, task.entry_point).tokens[0]
     except Exception as exc:                       # noqa: BLE001
-        return {"scorable": False, "why": f"{type(exc).__name__}: {exc}"}
+        return {"scorable": False, "unscorable_why": f"{type(exc).__name__}: {exc}"}
     if got.invalid[0]:
-        return {"scorable": False, "why": "invalid row"}
+        return {"scorable": False, "unscorable_why": "invalid row"}
     return {"scorable": True, "correct": got.tokens[0] == ref}
 
 
