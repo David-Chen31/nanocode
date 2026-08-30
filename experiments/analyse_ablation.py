@@ -78,10 +78,13 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--path", default="results/ablation.json")
     ap.add_argument("--ceiling", default="results/ablation_ceiling.json")
+    ap.add_argument("--baseline", default="full",
+                    help="Condition every other one is compared against.")
     args = ap.parse_args()
 
     rows = load(args.path)
-    conds = sorted({r["condition"] for r in rows}, key=lambda c: c != "full")
+    base_name = args.baseline
+    conds = sorted({r["condition"] for r in rows}, key=lambda c: c != base_name)
     tasks = sorted({r["task"] for r in rows})
     print(f"{len(rows)} usable trajectories, {len(tasks)} tasks, "
           f"{len(conds)} conditions\n")
@@ -91,13 +94,14 @@ def main() -> int:
     calls = lambda r: float(r.get("n_model_calls") or 0)
 
     # ---- trigger rates: the ceiling on every effect -------------------------
-    base = [r for r in rows if r["condition"] == "full"]
-    print("TRIGGER RATES in the baseline -- no ablation can exceed these")
+    base = [r for r in rows if r["condition"] == base_name]
+    print(f"TRIGGER RATES in {base_name} -- no ablation can exceed these")
     for label, key in (("used search", "n_search"),
                        ("malformed tool call", "bad_args"),
                        ("non-UTF-8 command output", "decode_fallback"),
                        ("a command failed", "n_failed_runs")):
-        print(f"  {label:<26}{sum(1 for r in base if r.get(key)) / len(base):.2f}")
+        v = sum(1 for r in base if r.get(key)) / len(base) if base else float('nan')
+        print(f"  {label:<26}{v:.2f}")
 
     # ---- levels -------------------------------------------------------------
     print(f"\n{'condition':<17}{'correct':>18}{'finished':>18}{'model calls':>18}")
@@ -114,14 +118,14 @@ def main() -> int:
     print("\nPAIRED DIFFERENCE, full minus ablated, in percentage points")
     print("(a 95% interval containing 0 means this study cannot separate them)")
     for c in conds:
-        if c == "full":
+        if c == base_name:
             continue
         print(f"\n  {c}")
         for label, f in (("correct ", correct), ("finished", finished)):
-            p, lo, hi = cluster_boot(by_task(rows, "full", f), by_task(rows, c, f))
+            p, lo, hi = cluster_boot(by_task(rows, base_name, f), by_task(rows, c, f))
             flag = "" if lo <= 0 <= hi else "   <- excludes 0"
             print(f"    {label}  {fmt(p, lo, hi)}{flag}")
-        p, lo, hi = cluster_boot(by_task(rows, "full", calls), by_task(rows, c, calls))
+        p, lo, hi = cluster_boot(by_task(rows, base_name, calls), by_task(rows, c, calls))
         flag = "" if lo <= 0 <= hi else "   <- excludes 0"
         print(f"    calls     {p:+6.1f}  [{lo:+6.1f}, {hi:+6.1f}]{flag}")
 
@@ -130,7 +134,7 @@ def main() -> int:
     if cp.exists():
         crows = load(str(cp))
         c_ok = cluster_boot(by_task(crows, "full", correct), None)
-        b_ok = cluster_boot(by_task(rows, "full", correct), None)
+        b_ok = cluster_boot(by_task(rows, base_name, correct), None)
         print("\nMANIPULATION CHECK -- is the task winnable at all?")
         print(f"  complete requirement   correct {c_ok[0]:.2f} "
               f"[{c_ok[1]:.2f},{c_ok[2]:.2f}]  (n={len(crows)})")
