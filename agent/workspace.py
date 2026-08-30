@@ -26,6 +26,40 @@ class PathEscape(Exception):
     """Raised when an agent-supplied path resolves outside the workspace."""
 
 
+def _toolchain_env(root: Path) -> dict[str, str]:
+    """The environment a command runs in, made coherent with this process.
+
+    Two things were wrong with inheriting os.environ unchanged, and together
+    they made the workspace untestable:
+
+    - `python` in the shell is whatever PATH says, which is not necessarily the
+      interpreter running this agent. On this machine the agent runs on
+      Python3.12 while the shell's `python` is msys2's, which has no pytest --
+      so every `python -m pytest` failed with "No module named pytest" and the
+      agent had no way to discover why.
+    - The workspace root was not importable, so `pytest` (the console script,
+      which unlike `python -m pytest` does not add the working directory to
+      sys.path) could not import the package under test.
+
+    Measured consequence: in a 144-run study, trajectories that exhausted their
+    step budget had run 12.3 commands with a 92% failure rate, looping on
+    write-test / run / fail / rewrite-test. The agent was not confused; it was
+    handed a repository it could not run.
+
+    So the interpreter that is running the agent goes first on PATH along with
+    its scripts directory, and the workspace root goes on PYTHONPATH.
+    """
+    exe = Path(sys.executable)
+    ahead = os.pathsep.join([str(exe.parent), str(exe.parent / "Scripts")])
+    existing = os.environ.get("PYTHONPATH", "")
+    return {
+        **os.environ,
+        "PATH": ahead + os.pathsep + os.environ.get("PATH", ""),
+        "PYTHONPATH": str(root) + (os.pathsep + existing if existing else ""),
+        "PYTHONIOENCODING": "utf-8",
+    }
+
+
 def _size(f) -> int:
     # The child writes through its own descriptor, so this file object's
     # position never moves. fstat is what actually sees the growth.
@@ -69,9 +103,9 @@ def _decode(raw: bytes) -> str:
 
     A single shell command has two producers writing into these pipes and they
     do not agree on an encoding. The child process is told to emit UTF-8
-    (PYTHONIOENCODING below), but when the command does not exist the child
-    never runs and it is the *shell* that writes the error -- in the OEM code
-    page, which on this machine is CP936.
+    (PYTHONIOENCODING in _toolchain_env), but when the command does not exist
+    the child never runs and it is the *shell* that writes the error -- in the OEM
+    code page, which on this machine is CP936.
 
     Pinning UTF-8 therefore turns "'pytest' is not recognized" into a row of
     replacement characters, and that is not a cosmetic loss. It was measured:
@@ -172,7 +206,7 @@ class Workspace:
                 # Bytes on disk, decoded later. Text mode commits to one codec
                 # for the whole call, and the two writers into these streams do
                 # not use the same one -- see _decode.
-                env={**os.environ, "PYTHONIOENCODING": "utf-8"},
+                env=_toolchain_env(self.root),
             )
             deadline = time.monotonic() + timeout
             stopped = ""

@@ -27,6 +27,31 @@ you write -- never to confirm something you can determine yourself by reading or
 running the code."""
 
 
+def budget_note(used: int, total: int) -> str:
+    """Tell the agent where it is in its step budget.
+
+    Without this the agent cannot see the budget at all, and an agent that
+    cannot see a limit cannot manage it -- it works until it is cut off
+    mid-thought. Measured: two thirds of runs that produced correct code never
+    called `finish`, burning every remaining step.
+
+    The warning only appears near the end. Saying it every turn would make it
+    background noise, and worse, would push toward stopping early on a task
+    that has plenty of budget left -- which trades correctness for a better
+    termination number, the wrong direction.
+    """
+    left = total - used
+    line = f"\n\nStep {used + 1} of {total}."
+    if left <= 3:
+        return line + (" You are nearly out of steps. Finish now: make sure the "
+                       "file is in its best state, then call `finish` and say "
+                       "plainly what is done and what is not.")
+    if left <= total // 3:
+        return line + (" Budget is running low -- prefer completing the change "
+                       "over further exploration.")
+    return line
+
+
 class UserResponder(Protocol):
     """Answers an agent's question. A human at a terminal, or an oracle sim."""
 
@@ -51,6 +76,9 @@ class AgentConfig:
     allow_ask: bool = True
     max_tokens: int = 4096
     seed: int | None = 0
+    # Show the agent its remaining step budget. Off would mean an agent that
+    # cannot see the limit it is being judged against.
+    show_budget: bool = True
     context: ContextPolicy = field(default_factory=ContextPolicy)
 
 
@@ -87,7 +115,7 @@ class Agent:
             backend=self.backend.name,
             config={"max_steps": self.cfg.max_steps, "temperature": self.cfg.temperature,
                     "max_asks": self.cfg.max_asks, "allow_ask": self.cfg.allow_ask,
-                    "seed": self.cfg.seed},
+                    "seed": self.cfg.seed, "show_budget": self.cfg.show_budget},
         )
         convo = Conversation(policy=self.cfg.context, backend=self.backend.name)
         convo.add({"role": "user", "content": task})
@@ -95,13 +123,19 @@ class Agent:
         asked: list[dict[str, Any]] = []
         outcome, summary = "max_steps", ""
 
-        for _ in range(self.cfg.max_steps):
+        for step in range(self.cfg.max_steps):
             # Enforce the context budget before every call, not after the API
             # has already refused one.
             convo.compact(lambda ev: trace.record("compact", ev))
+            base_system = system or SYSTEM
             resp = self.backend.complete(
                 convo.render(),
-                system=system or SYSTEM,
+                # Appended to the system prompt rather than pushed into the
+                # history: the count changes every turn, and a history full of
+                # stale "step 4 of 24" messages is both wasted context and
+                # actively misleading.
+                system=(base_system + budget_note(step, self.cfg.max_steps)
+                        if self.cfg.show_budget else base_system),
                 tools=schemas,
                 temperature=self.cfg.temperature,
                 max_tokens=self.cfg.max_tokens,

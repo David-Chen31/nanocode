@@ -7,6 +7,7 @@ it retries, and keeps retrying, until the step budget is gone.
 from __future__ import annotations
 
 import sys
+from pathlib import Path
 
 import pytest
 
@@ -127,3 +128,36 @@ def test_the_cli_console_survives_characters_it_cannot_encode():
     written = fake.buffer.getvalue().decode("cp936", errors="replace")
     assert "完成" in written, "the Chinese was mangled instead of preserved"
     assert "?" in written, "the unencodable characters were not replaced"
+
+
+def test_the_agent_can_run_the_interpreter_that_runs_it(tmp_path):
+    """The defect behind the termination bug: `python` was a different Python.
+
+    The agent runs on one interpreter and the shell's `python` resolved to
+    another (msys2's, here) with none of the same packages, so every attempt to
+    run a test failed for a reason the agent could not see or fix.
+    """
+    ws = Workspace(tmp_path)
+    got = ws.run('python -c "import sys; print(sys.executable)"').stdout.strip()
+    assert Path(got).resolve() == Path(sys.executable).resolve()
+
+
+def test_the_workspace_is_importable_from_inside_itself(tmp_path):
+    """`pytest` the console script does not add cwd to sys.path; PYTHONPATH does."""
+    ws = Workspace(tmp_path)
+    ws.write("mypkg/__init__.py", "")
+    ws.write("mypkg/thing.py", "VALUE = 41\n")
+    res = ws.run('python -c "from mypkg.thing import VALUE; print(VALUE + 1)"')
+    assert "42" in res.stdout, res.stderr
+
+
+def test_a_pytest_suite_in_the_workspace_actually_runs(tmp_path):
+    """End to end: the repository handed to the agent must be testable."""
+    ws = Workspace(tmp_path)
+    ws.write("pkg/__init__.py", "")
+    ws.write("pkg/core.py", "def double(x):\n    return x * 2\n")
+    ws.write("tests/test_core.py",
+             "from pkg.core import double\n\n\ndef test_double():\n    assert double(3) == 6\n")
+    res = ws.run("python -m pytest -q")
+    assert res.returncode == 0, res.stdout + res.stderr
+    assert "1 passed" in res.stdout

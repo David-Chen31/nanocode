@@ -61,6 +61,11 @@ from bench.schema import Task, load_tasks
 
 CONDITIONS = ("full", "no_search", "garbled_errors", "no_recovery")
 
+# Round 9: the two termination fixes, crossed. `old_env` restores the broken
+# sandbox (the shell's own `python`, no PYTHONPATH) so the fix can be measured
+# against what was actually there rather than against a guess.
+TERMINATION = ("old_env_no_budget", "path_fix", "budget", "both")
+
 # Per-thread record of what the ablated components were asked to handle during
 # one trajectory. This is how trigger rates are measured rather than guessed.
 _local = threading.local()
@@ -75,6 +80,19 @@ def _counters() -> dict[str, int]:
 # ---------------------------------------------------------------------------
 # The ablations, each restoring a specific earlier behaviour.
 # ---------------------------------------------------------------------------
+
+_REAL_TOOLCHAIN = ws_mod._toolchain_env
+
+
+def _broken_toolchain(root):
+    """The environment before the fix: whatever the shell's PATH happened to say.
+
+    On this machine that resolves `python` to msys2's interpreter, which has no
+    pytest, and leaves the workspace un-importable.
+    """
+    import os
+    return {**os.environ, "PYTHONIOENCODING": "utf-8"}
+
 
 _REAL_DECODE = ws_mod._decode
 _REAL_CHECK = loop_mod.check_arguments
@@ -134,12 +152,16 @@ def _strict_parse(blob):
 
 def apply_condition(cond: str) -> None:
     """Patch the modules for one condition. Conditions never overlap in time."""
+    ws_mod._toolchain_env = (_broken_toolchain
+                             if cond in ("old_env_no_budget", "budget")
+                             else _REAL_TOOLCHAIN)
     ws_mod._decode = _broken_decode if cond == "garbled_errors" else _instrumented_decode
     loop_mod.check_arguments = _strict_check if cond == "no_recovery" else _instrumented_check
     llm_mod._parse_arguments = _strict_parse if cond == "no_recovery" else _REAL_PARSE
 
 
 def restore() -> None:
+    ws_mod._toolchain_env = _REAL_TOOLCHAIN
     ws_mod._decode = _REAL_DECODE
     loop_mod.check_arguments = _REAL_CHECK
     llm_mod._parse_arguments = _REAL_PARSE
@@ -234,7 +256,8 @@ def one_run(cond: str, task: Task, rep: int, model: str, max_steps: int,
             tools = {k: v for k, v in tools.items() if k not in ("search", "find_files")}
         agent = Agent(make_backend("openai:" + model), ws, tools=tools,
                       config=AgentConfig(max_steps=max_steps, temperature=1.0,
-                                         allow_ask=False, seed=700 + rep))
+                                         allow_ask=False, seed=700 + rep,
+                                         show_budget=cond in ("budget", "both")))
         try:
             res = agent.run(prompt_for(task, repo, unambiguous),
                             task_id=f"{task.id}|{cond}")
