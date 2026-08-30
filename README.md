@@ -7,6 +7,9 @@
 python -m agent.cli "给 utils.py 里的每个函数补上 docstring" --workspace ./sandbox
 ```
 
+**每个设计决定和支撑它的实测数据，压在一页里：[DECISIONS.md](DECISIONS.md)**
+——包括证据推翻了我理由的三行，和至今没有证据的两行。
+
 ## 它是怎么转的
 
 一个 ReAct 循环：模型看到工具清单，选一个调用，拿到结果，再选下一个。

@@ -7,12 +7,12 @@ outcome, and each returned a null on it. That looked like "the components do not
 matter". It was not. A power calculation on the designs themselves says
 correctness could only ever have resolved effects of roughly this size:
 
-    round 8    12 tasks x 3 reps, base .42    ~32-34 points
+    round 8    12 tasks x 3 reps, base .42    ~30-34 points
     round 9    12 tasks x 3 reps, base .31    ~34 points
     round 10    8 tasks x 2 reps, base .94     >70 points
 
-(Simulated, by two independent estimators that agree to within a couple
-of points; read them as "thirty-something", not as exact values. See
+(Simulated, by two independent estimators that agree to within a few
+points; read them as "thirty-something", not as exact values. See
 experiments/power.py.)
 
 No component of a coding agent plausibly moves end-to-end correctness by
