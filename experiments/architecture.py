@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shutil
 import sys
 import tempfile
@@ -46,13 +47,28 @@ def score(ws: Workspace, task: RepoTask) -> dict[str, Any]:
     behaviour = ws.run(f"python -m pytest {vf.relative_to(ws.root).as_posix()} -q",
                        timeout=180)
     vf.unlink(missing_ok=True)
+    passed, total = _counts(behaviour.stdout)
     return {
         "regression_ok": regression.returncode == 0,
         "behaviour_ok": behaviour.returncode == 0,
+        # Graded, not just pass/fail. All-or-nothing throws away the difference
+        # between a change that half worked and one that did nothing, and a
+        # binary outcome over a handful of tasks has very little power.
+        "behaviour_passed": passed,
+        "behaviour_total": total,
+        "behaviour_frac": (passed / total) if total else 0.0,
         "correct": regression.returncode == 0 and behaviour.returncode == 0,
         "regression_tail": (regression.stdout.strip().splitlines() or [""])[-1][:60],
         "behaviour_tail": (behaviour.stdout.strip().splitlines() or [""])[-1][:60],
     }
+
+
+def _counts(out: str) -> tuple[int, int]:
+    """Assertions passed and attempted, from pytest's summary line."""
+    passed = int((re.search(r"(\d+) passed", out) or [0, 0])[1] or 0)
+    failed = int((re.search(r"(\d+) failed", out) or [0, 0])[1] or 0)
+    errors = int((re.search(r"(\d+) error", out) or [0, 0])[1] or 0)
+    return passed, passed + failed + errors
 
 
 def touched(ws: Workspace, task: RepoTask) -> int:
@@ -130,6 +146,14 @@ def one_run(arm: str, task: RepoTask, rep: int, model: str, max_steps: int,
             "n_tool_calls": sum(1 for s in res.trace.steps if s.kind == "tool"),
             "n_tool_errors": sum(1 for s in res.trace.steps
                                  if s.kind == "tool" and "error" in s.payload),
+            # How much shell work the run did, and how much of it was wasted.
+            # These are where an architecture difference actually shows up:
+            # end-to-end correctness is dominated by the model, not the loop.
+            "n_runs": sum(1 for s in res.trace.steps if s.kind == "tool"
+                          and s.payload.get("name") == "run"),
+            "n_failed_runs": sum(1 for s in res.trace.steps if s.kind == "tool"
+                                 and s.payload.get("name") == "run"
+                                 and "exit code: 0" not in str(s.payload.get("result", ""))),
             "touched": touched(ws, task), "must_touch": len(task.touches),
             "plan_len": len(plan.splitlines()) if plan else 0,
             "plan": plan[:1200],
