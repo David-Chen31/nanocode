@@ -106,7 +106,7 @@ null 且触发率低 → 报告欠功效。null 且触发率高 → 承认那条
 **写于主实验之前，写于试点之后。** 隐瞒试点就是我一直在防的那种漂移，所以先写清楚。
 
 试点：`full` 条件 × 12 个任务 × 1 次 × max_steps=24，**$0.128**。
-原始数据 `results/_abl_variance.json`。
+原始数据 `results/ablation_pilot.json`。
 
 ### 为什么跑它
 
