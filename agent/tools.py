@@ -93,39 +93,73 @@ def build_toolset(ws: Workspace, *, allow_ask: bool = True) -> dict[str, Tool]:
     absent from the schema, so the agent cannot fall back on it.
     """
 
+    # Every tool below catches OSError, not only the specific errors that came
+    # to mind. Passing a directory where a file belongs raised a bare
+    # PermissionError carrying a Windows errno, which reaches the model as noise
+    # it cannot act on -- and the failures worth handling are the ones that were
+    # not anticipated.
     def list_files(path: str = ".") -> str:
         try:
             entries = ws.listdir(path)
-        except (FileNotFoundError, NotADirectoryError, PathEscape) as exc:
-            return "error: " + str(exc)
+        except NotADirectoryError:
+            return f"error: {path} is a file, not a directory. Use read_file for it."
+        except FileNotFoundError:
+            return f"error: no such directory: {path}"
+        except (PathEscape, OSError) as exc:
+            return f"error: could not list {path}: {exc}"
         return "\n".join(entries) if entries else "(empty)"
 
     def read_file(path: str) -> str:
         try:
+            if ws.resolve(path).is_dir():
+                return f"error: {path} is a directory. Use list_files to see inside it."
             content = ws.read(path)
-        except (FileNotFoundError, PathEscape) as exc:
-            return "error: " + str(exc)
+        except FileNotFoundError:
+            return f"error: no such file: {path}"
+        except (PathEscape, OSError) as exc:
+            return f"error: could not read {path}: {exc}"
         lines = content.splitlines()
         return "\n".join(f"{i:>5}\t{ln}" for i, ln in enumerate(lines, 1)) or "(empty file)"
 
     def write_file(path: str, content: str) -> str:
+        if not path.strip():
+            return "error: path is empty"
         try:
+            if ws.resolve(path).is_dir():
+                return f"error: {path} is a directory, not a file"
             ws.write(path, content)
         except PathEscape as exc:
             return "error: " + str(exc)
+        except OSError as exc:
+            return f"error: could not write {path}: {exc}"
         return f"wrote {len(content)} bytes to {path}"
 
     def edit_file(path: str, old: str, new: str) -> str:
+        # An empty anchor matches between every pair of characters, so the
+        # uniqueness check below rejects it with a match count that explains
+        # nothing. Say what is actually wrong.
+        if old == "":
+            return ("error: `old` is empty. Give the exact text to replace, or "
+                    "use write_file to replace the whole file.")
+        if old == new:
+            # Reporting "edited" for a no-op teaches the agent it made progress
+            # when it did not, which is how a loop starts.
+            return "error: `old` and `new` are identical, so this would change nothing"
         try:
             content = ws.read(path)
-        except (FileNotFoundError, PathEscape) as exc:
-            return "error: " + str(exc)
+        except FileNotFoundError:
+            return f"error: no such file: {path}"
+        except (PathEscape, OSError) as exc:
+            return f"error: could not read {path}: {exc}"
         n = content.count(old)
         if n == 0:
             return "error: old string not found"
         if n > 1:
             return f"error: old string is not unique ({n} matches); include more context"
-        ws.write(path, content.replace(old, new))
+        try:
+            ws.write(path, content.replace(old, new))
+        except OSError as exc:
+            return f"error: could not write {path}: {exc}"
         return f"edited {path}"
 
     def search(pattern: str, path: str = ".", glob: str | None = None,

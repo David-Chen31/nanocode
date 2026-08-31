@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import fnmatch
 import re
+import time
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -47,6 +48,27 @@ SKIP_SUFFIXES = {".pyc", ".pyo", ".so", ".dll", ".dylib", ".exe", ".bin", ".o",
                  ".ttf", ".class", ".jar", ".db", ".sqlite"}
 
 MAX_FILE_BYTES = 2_000_000
+
+# A search may not run forever. `run` has a timeout; this did not, and the
+# regex comes from the model.
+SEARCH_SECONDS = 10.0
+
+# Nested quantifiers -- (a+)+, (x*)* and friends -- are the classic shape that
+# makes a regex backtrack exponentially. Measured on this machine with the
+# pattern (a+)+$ : 22 characters of input took 0.5s, 26 took 7.3s, and 30 did
+# not finish inside 20s.
+_NESTED_QUANT = re.compile(r"\([^)]*[+*]\)\s*[+*]")
+
+
+def _risky(pattern: str) -> bool:
+    """Cheap screen for the catastrophic-backtracking shape.
+
+    A heuristic, and it will occasionally refuse a pattern that would have been
+    fine. That trade is deliberate: a false refusal costs the agent one turn and
+    says exactly what to do, while a false accept can hang the whole run with no
+    output and no way back.
+    """
+    return bool(_NESTED_QUANT.search(pattern))
 
 
 @dataclass
@@ -111,6 +133,11 @@ def search(ws: Workspace, pattern: str, path: str = ".", glob: str | None = None
     query from pulling half the repository into the context window.
     """
     limits = limits or SearchLimits()
+    if _risky(pattern):
+        return ("error: that pattern nests one repetition inside another, which "
+                "can take exponential time to match. Rewrite it without the "
+                "nested quantifier -- for example `a+` instead of `(a+)+`.")
+    deadline = time.monotonic() + SEARCH_SECONDS
     try:
         # The model writes these, and a malformed one is a normal event rather
         # than an exceptional one. Report it in the same channel as any other
@@ -131,8 +158,9 @@ def search(ws: Workspace, pattern: str, path: str = ".", glob: str | None = None
     files_hit = 0
     unvisited = 0             # files never scanned because the total cap was hit
 
+    timed_out = False
     for rel, p in _walk(ws, base, glob):
-        if total >= limits.total:
+        if total >= limits.total or timed_out:
             unvisited += 1
             continue
         try:
@@ -147,6 +175,14 @@ def search(ws: Workspace, pattern: str, path: str = ".", glob: str | None = None
 
         in_file = 0
         for n, line in enumerate(text.splitlines(), 1):
+            # Checked between lines rather than inside the match: Python's re
+            # cannot be interrupted mid-match, so this bounds a slow *search*
+            # but not a single pathological line. Full isolation would need a
+            # subprocess per search; the nested-quantifier screen above is what
+            # covers that case.
+            if n % 64 == 0 and time.monotonic() > deadline:
+                timed_out = True
+                break
             if not rx.search(line):
                 continue
             in_file += 1
@@ -163,6 +199,9 @@ def search(ws: Workspace, pattern: str, path: str = ".", glob: str | None = None
 
     if not lines:
         where = f" in {glob}" if glob else ""
+        if timed_out:
+            return (f"error: search for {pattern!r} exceeded {SEARCH_SECONDS:.0f}s "
+                    f"and was stopped. Narrow it with `glob` or a tighter pattern.")
         return f"no matches for {pattern!r}{where} under {path}"
 
     out = "\n".join(lines)
@@ -170,7 +209,8 @@ def search(ws: Workspace, pattern: str, path: str = ".", glob: str | None = None
     if suppressed:
         notes.append(f"{suppressed} further match(es) not shown")
     if unvisited:
-        notes.append(f"{unvisited} file(s) not scanned")
+        notes.append(f"{unvisited} file(s) not scanned"
+                     + (" (search timed out)" if timed_out else ""))
     # The count is the honest part: without it a capped result is
     # indistinguishable from a complete one.
     head = f"{total} match(es) in {files_hit} file(s)"

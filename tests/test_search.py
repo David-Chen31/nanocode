@@ -109,3 +109,27 @@ def test_find_files_reports_nothing_found(ws):
 
 def test_find_files_cannot_escape_the_workspace(ws):
     assert find_files(ws, "*.py", path="../..").startswith("error:")
+
+
+def test_a_catastrophic_pattern_is_refused_not_run(ws):
+    """(a+)+$ on 40 characters did not finish inside 90 seconds.
+
+    `run` has a timeout and this did not, while the regex comes from the model.
+    """
+    import time
+    ws.write("evil.py", "a" * 40 + "!\n")
+    t0 = time.monotonic()
+    out = search(ws, r"(a+)+$")
+    assert time.monotonic() - t0 < 5.0, "the search hung"
+    assert out.startswith("error:") and "nested" in out
+
+
+def test_the_refusal_says_how_to_fix_it(ws):
+    out = search(ws, r"(x*)*")
+    assert "a+" in out or "without the nested" in out
+
+
+def test_ordinary_repetition_is_still_allowed(ws):
+    ws.write("plain.py", "aaa bbb\n")
+    out = search(ws, r"a+")
+    assert not out.startswith("error:") and "plain.py" in out
