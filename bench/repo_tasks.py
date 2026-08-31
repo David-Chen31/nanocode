@@ -53,8 +53,16 @@ class RepoTask:
 
 
 def stage(root: Path) -> None:
-    """Copy the repository into a fresh workspace."""
+    """Copy the repository into a fresh workspace.
+
+    The destination is skipped explicitly. Staging into a directory inside the
+    repository would otherwise walk into the copy being written and recurse
+    until the path length blows up -- which it did, with an unhelpful WinError 3.
+    """
+    root = Path(root).resolve()
     for src in REPO_ROOT.rglob("*"):
+        if root == src or root in src.parents:
+            continue
         rel = src.relative_to(REPO_ROOT)
         if any(p in EXCLUDE for p in rel.parts) or not src.is_file():
             continue

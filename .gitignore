@@ -32,3 +32,6 @@ aoa-traj-*/
 .idea/
 .DS_Store
 Thumbs.db
+demo-ws/
+RECORDING.md
+scripts_demo_setup.py
