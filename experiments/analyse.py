@@ -137,7 +137,13 @@ def report(rows, key, baseline: str) -> None:
         print(label)
         print("=" * 78)
         for cond in conds:
-            print(f"\n  {baseline} minus {cond}")
+            # `cluster_boot(a=baseline, b=cond)` returns mean(cond) - mean(baseline),
+            # so the header has to name the ablated condition first. It used to read
+            # "{baseline} minus {cond}", the exact opposite of every number under it:
+            # search *raises* tool calls by 6.17 and the table announced a saving of
+            # 6.17. The prose in DECISIONS.md was read off the computation and is
+            # right; the header was the liar. Pinned by a test now.
+            print(f"\n  {cond} minus {baseline}   (the effect of ablating)")
             for name, f, why in panel:
                 p, lo, hi = cluster_boot(by_task(rows, key, baseline, f),
                                          by_task(rows, key, cond, f))
