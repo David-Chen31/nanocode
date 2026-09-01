@@ -186,3 +186,39 @@ def test_the_idle_counter_resets_after_real_work(tmp_path):
     res = Agent(backend, Workspace(tmp_path / "ws"),
                 config=AgentConfig(max_steps=8, max_idle_turns=1)).run("go", task_id="t")
     assert res.outcome == "finished"
+
+
+def test_a_token_ceiling_stops_the_run(tmp_path):
+    """The step budget bounds how often it acts, not how much that costs."""
+    turns = [{"text": "", "tool_calls": [_call("list_files")],
+              "input_tokens": 400, "output_tokens": 40} for _ in range(10)]
+    ws = Workspace(tmp_path / "ws")
+    res = Agent(_fixture(tmp_path, turns), ws,
+                config=AgentConfig(max_steps=10, max_total_tokens=1000)).run("go", task_id="t")
+
+    assert res.outcome == "token_budget"
+    assert res.trace.usage.input_tokens + res.trace.usage.output_tokens >= 1000
+    # Checked before the call, so it stops near the ceiling rather than far past it.
+    assert res.trace.usage.calls < 10
+
+
+def test_the_ceiling_says_the_work_is_still_on_disk(tmp_path):
+    turns = ([{"text": "", "tool_calls": [_call("write_file", path="kept.py", content="x = 1\n")],
+               "input_tokens": 600, "output_tokens": 60}]
+             + [{"text": "", "tool_calls": [_call("list_files")],
+                 "input_tokens": 600, "output_tokens": 60} for _ in range(6)])
+    ws = Workspace(tmp_path / "ws")
+    res = Agent(_fixture(tmp_path, turns), ws,
+                config=AgentConfig(max_steps=8, max_total_tokens=1000)).run("go", task_id="t")
+    assert res.outcome == "token_budget"
+    assert "on disk" in res.summary
+    assert (ws.root / "kept.py").exists(), "the ceiling discarded completed work"
+
+
+def test_no_ceiling_by_default(tmp_path):
+    turns = [{"text": "", "tool_calls": [_call("list_files")],
+              "input_tokens": 5000, "output_tokens": 500},
+             {"text": "", "tool_calls": [_call("finish", summary="done")]}]
+    res = Agent(_fixture(tmp_path, turns), Workspace(tmp_path / "ws"),
+                config=AgentConfig(max_steps=4)).run("go", task_id="t")
+    assert res.outcome == "finished"

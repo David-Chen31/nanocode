@@ -15,6 +15,8 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import random
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -29,6 +31,74 @@ PRICES: dict[str, tuple[float, float]] = {
     "gpt-4o-mini": (0.15, 0.6),
     "_default": (1.0, 5.0),
 }
+
+
+class Transient(Exception):
+    """An upstream failure that is worth trying again."""
+
+
+class Fatal(Exception):
+    """An upstream failure that retrying cannot fix."""
+
+
+# Retrying a dead key is not resilience, it is delay. The distinction below is
+# the whole point of classifying rather than blanket-retrying: a rate limit
+# clears on its own, an exhausted quota or a bad key never does, and today a
+# quota 403 killed four concurrent runs that each spent their retries first.
+_FATAL_MARKERS = ("quota", "insufficient_quota", "billing", "invalid_api_key",
+                  "authentication", "permission", "model_not_found",
+                  "does not exist", "model_unavailable")
+# Note the marker is `model_unavailable`, not a bare `unavailable`: a plain 503
+# "service unavailable" is exactly the kind of thing worth retrying, while this
+# relay's GROUP_MODEL_UNAVAILABLE means the model is not offered at all.
+
+
+def classify(exc: Exception) -> Exception:
+    """Sort an upstream exception into Transient or Fatal."""
+    status = getattr(exc, "status_code", None) or getattr(exc, "code", None)
+    text = str(exc).lower()
+
+    # Checked before the status code: a 403 or a 429 can carry either meaning,
+    # and the body is what says which.
+    if any(m in text for m in _FATAL_MARKERS):
+        return Fatal(str(exc)[:300])
+    if status in (429, 500, 502, 503, 504, 408, 409):
+        return Transient(str(exc)[:300])
+    if status in (400, 401, 403, 404, 422):
+        return Fatal(str(exc)[:300])
+    # Connection resets and read timeouts arrive with no status at all.
+    if any(m in text for m in ("timeout", "timed out", "connection", "reset",
+                               "temporarily", "overloaded", "rate limit")):
+        return Transient(str(exc)[:300])
+    return Fatal(str(exc)[:300])
+
+
+def with_retries(call, *, attempts: int = 4, base: float = 1.5,
+                 on_retry=None):
+    """Run `call`, retrying only what is worth retrying.
+
+    Exponential backoff with jitter. The jitter matters because the sweeps run
+    several agents at once: without it, a shared rate limit synchronises every
+    worker's retry into the same instant and they collide again.
+    """
+    last: Exception | None = None
+    for attempt in range(attempts):
+        try:
+            return call()
+        except (Transient, Fatal):
+            raise
+        except Exception as exc:                      # noqa: BLE001
+            kind = classify(exc)
+            if isinstance(kind, Fatal):
+                raise kind from exc
+            last = kind
+            if attempt == attempts - 1:
+                break
+            delay = base * (2 ** attempt) * (0.5 + random.random())
+            if on_retry:
+                on_retry(attempt + 1, delay, str(kind)[:160])
+            time.sleep(delay)
+    raise last or Transient("exhausted retries")
 
 
 @dataclass
@@ -122,6 +192,7 @@ class LLMBackend:
 
 class AnthropicBackend(LLMBackend):
     name = "anthropic"
+    on_retry = None
 
     def __init__(self, model: str) -> None:
         import anthropic  # lazy: offline runs need no SDK
@@ -142,7 +213,8 @@ class AnthropicBackend(LLMBackend):
         if tools:
             kwargs["tools"] = [_to_anthropic_tool(t) for t in tools]
 
-        resp = self._client.messages.create(**kwargs)
+        resp = with_retries(lambda: self._client.messages.create(**kwargs),
+                            on_retry=self.on_retry)
 
         text_parts: list[str] = []
         calls: list[ToolCall] = []
@@ -162,19 +234,26 @@ class AnthropicBackend(LLMBackend):
 
 class OpenAICompatBackend(LLMBackend):
     name = "openai"
+    # Set by the caller to record retries in the trace; a retry that nothing
+    # reports is indistinguishable from a slow call.
+    on_retry = None
 
     def __init__(self, model: str, *, timeout: float | None = None,
-                 max_retries: int = 2) -> None:
+                 max_retries: int = 4) -> None:
         from openai import OpenAI
 
         self.model = model
+        self.max_retries = max_retries
         # A hung upstream should fail the one call, not the whole sweep. Relays
         # in particular will happily hold a socket open forever.
         self._client = OpenAI(
             base_url=os.environ.get("OPENAI_BASE_URL") or None,
             timeout=timeout if timeout is not None
             else float(os.environ.get("NANOCODE_TIMEOUT", "90")),
-            max_retries=max_retries,
+            # The SDK's own retries are turned off so that retrying is done
+            # here, where a permanent failure can be told apart from a
+            # temporary one and where each attempt is visible.
+            max_retries=0,
         )
 
     def complete(self, messages, *, system=None, tools=None, temperature=0.0,
@@ -192,7 +271,8 @@ class OpenAICompatBackend(LLMBackend):
         if seed is not None:
             kwargs["seed"] = seed
 
-        resp = self._client.chat.completions.create(**kwargs)
+        resp = with_retries(lambda: self._client.chat.completions.create(**kwargs),
+                            attempts=self.max_retries, on_retry=self.on_retry)
         choice = resp.choices[0]
 
         calls = []

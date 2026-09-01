@@ -100,6 +100,12 @@ class AgentConfig:
     # the final answer. Zero restores the old behaviour of stopping at the
     # first one, which mistook a preamble for a conclusion.
     max_idle_turns: int = 2
+    # A ceiling on total tokens for one run, or None for no ceiling. The step
+    # budget bounds how many times the agent acts, which is not the same thing:
+    # twenty turns over a large repository cost far more than twenty over a
+    # small one, and only this bounds that. Tokens rather than dollars because
+    # the token count is measured while a price may not be known.
+    max_total_tokens: int | None = None
     # Show the agent its remaining step budget. Off would mean an agent that
     # cannot see the limit it is being judged against.
     show_budget: bool = True
@@ -130,6 +136,16 @@ class Agent:
         self.cfg = config or AgentConfig()
         self.responder = responder or cli_responder
         self.tools = tools or build_toolset(workspace, allow_ask=self.cfg.allow_ask)
+        self._trace = None
+        # A retry that nothing records is indistinguishable from a slow call,
+        # which is how a flaky upstream hides inside a latency graph.
+        if hasattr(backend, "on_retry"):
+            backend.on_retry = self._note_retry
+
+    def _note_retry(self, attempt: int, delay: float, why: str) -> None:
+        if self._trace is not None:
+            self._trace.record("retry", {"attempt": attempt,
+                                         "delay_s": round(delay, 2), "why": why})
 
     def run(self, task: str, *, task_id: str = "adhoc", system: str | None = None) -> AgentResult:
         trace = Trace(
@@ -140,8 +156,10 @@ class Agent:
             config={"max_steps": self.cfg.max_steps, "temperature": self.cfg.temperature,
                     "max_asks": self.cfg.max_asks, "allow_ask": self.cfg.allow_ask,
                     "seed": self.cfg.seed, "show_budget": self.cfg.show_budget,
-                    "max_idle_turns": self.cfg.max_idle_turns},
+                    "max_idle_turns": self.cfg.max_idle_turns,
+                    "max_total_tokens": self.cfg.max_total_tokens},
         )
+        self._trace = trace
         convo = Conversation(policy=self.cfg.context, backend=self.backend.name)
         convo.add({"role": "user", "content": task})
         schemas = [t.schema() for t in self.tools.values()]
@@ -153,6 +171,18 @@ class Agent:
         where = orientation(self.ws)
 
         for step in range(self.cfg.max_steps):
+            # Checked before the call rather than after, so the ceiling is a
+            # ceiling. Work already written to disk is kept -- the run stops,
+            # it does not roll back.
+            spent = trace.usage.input_tokens + trace.usage.output_tokens
+            if self.cfg.max_total_tokens and spent >= self.cfg.max_total_tokens:
+                outcome = "token_budget"
+                summary = (f"Stopped after {spent} tokens, at the configured "
+                           f"ceiling of {self.cfg.max_total_tokens}. Any files "
+                           f"already written are on disk.")
+                trace.record("budget", {"spent": spent,
+                                        "limit": self.cfg.max_total_tokens})
+                break
             # Enforce the context budget before every call, not after the API
             # has already refused one.
             convo.compact(lambda ev: trace.record("compact", ev))

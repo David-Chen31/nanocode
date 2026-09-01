@@ -44,6 +44,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--backend", default=None, help="e.g. anthropic:claude-sonnet-5 (default: $NANOCODE_BACKEND).")
     ap.add_argument("--max-steps", type=int, default=24)
     ap.add_argument("--max-asks", type=int, default=3)
+    ap.add_argument("--max-tokens-total", type=int, default=None,
+                    help="Stop the run once this many tokens have been spent.")
     ap.add_argument("--no-ask", action="store_true", help="Remove the ask_user tool entirely.")
     ap.add_argument("--temperature", type=float, default=0.0)
     ap.add_argument("--trace", default="results/traces/cli.jsonl")
@@ -52,7 +54,8 @@ def main(argv: list[str] | None = None) -> int:
     backend = make_backend(args.backend)
     ws = Workspace(args.workspace)
     cfg = AgentConfig(max_steps=args.max_steps, max_asks=args.max_asks,
-                      allow_ask=not args.no_ask, temperature=args.temperature)
+                      allow_ask=not args.no_ask, temperature=args.temperature,
+                      max_total_tokens=args.max_tokens_total)
     agent = Agent(backend, ws, config=cfg, responder=cli_responder)
 
     print(f"workspace: {ws.root}")
