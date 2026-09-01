@@ -76,6 +76,7 @@ class PlanExecuteAgent:
         self.cfg = config or AgentConfig()
         self.responder = responder
         self.tools = tools
+        self.last_trace = None
 
     def plan_for(self, task: str) -> tuple[str, Any]:
         """One model call, no tools, to produce the plan."""
@@ -87,7 +88,9 @@ class PlanExecuteAgent:
             system=PLANNER_SYSTEM + orientation(self.ws),
             tools=None,
             temperature=self.cfg.temperature,
-            max_tokens=self.cfg.max_tokens,
+            max_tokens=(min(self.cfg.max_tokens, self.cfg.max_total_tokens)
+                        if self.cfg.max_total_tokens is not None
+                        else self.cfg.max_tokens),
             seed=self.cfg.seed,
         )
         return resp.text.strip(), resp.usage
@@ -95,27 +98,53 @@ class PlanExecuteAgent:
     def run(self, task: str, *, task_id: str = "adhoc") -> PlanResult:
         plan, usage = self.plan_for(task)
 
+        remaining_tokens = self.cfg.max_total_tokens
+        if remaining_tokens is not None:
+            remaining_tokens = max(
+                0, remaining_tokens - usage.input_tokens - usage.output_tokens)
+        executor_steps = max(0, self.cfg.max_steps - 1)
+        # If planning exhausted the soft token budget, do not make a second
+        # model call. Zero executor steps is valid: the planning call was the
+        # arm's one allowed turn.
+        if remaining_tokens == 0:
+            executor_steps = 0
+
         agent = Agent(
             self.backend, self.ws,
             # The planning call already spent a turn; the executor gets the
             # rest, so both arms make at most max_steps model calls.
-            config=_with_steps(self.cfg, max(1, self.cfg.max_steps - 1)),
+            config=_with_steps(self.cfg, executor_steps,
+                               max_total_tokens=remaining_tokens),
             responder=self.responder, tools=self.tools,
         )
-        res = agent.run(task, task_id=task_id,
-                        system=SYSTEM + "\n\n" + PLAN_PREFACE.format(plan=plan or "(no plan)"))
+        try:
+            res = agent.run(task, task_id=task_id,
+                            system=SYSTEM + "\n\n" + PLAN_PREFACE.format(
+                                plan=plan or "(no plan)"))
+        except Exception:
+            # Preserve the planner's spend even when execution crashes before
+            # it can return an AgentResult.
+            self.last_trace = agent.last_trace
+            if self.last_trace:
+                self.last_trace.record("plan", {"plan": plan[:4000]}, usage)
+            raise
 
         # Fold the planning call into the trace so cost and call counts include
         # it. Reporting an arm's cost without the call that defines it would
         # flatter this arm for no reason.
         res.trace.record("plan", {"plan": plan[:4000]}, usage)
+        self.last_trace = res.trace
         return PlanResult(plan=plan, result=res)
 
 
-def _with_steps(cfg: AgentConfig, steps: int) -> AgentConfig:
+def _with_steps(cfg: AgentConfig, steps: int, *,
+                max_total_tokens: int | None = None) -> AgentConfig:
     return AgentConfig(
         max_steps=steps, temperature=cfg.temperature, max_asks=cfg.max_asks,
         allow_ask=cfg.allow_ask, max_tokens=cfg.max_tokens, seed=cfg.seed,
         max_idle_turns=cfg.max_idle_turns, show_budget=cfg.show_budget,
+        max_total_tokens=(cfg.max_total_tokens if max_total_tokens is None
+                          else max_total_tokens),
+        max_tool_calls=cfg.max_tool_calls,
         context=cfg.context,
     )

@@ -90,6 +90,7 @@ def cli_responder(question: str, options: list[str]) -> str:
 
 @dataclass
 class AgentConfig:
+    # Model turns, not tool actions: one response may contain several calls.
     max_steps: int = 24
     temperature: float = 0.0
     max_asks: int = 3
@@ -100,12 +101,15 @@ class AgentConfig:
     # the final answer. Zero restores the old behaviour of stopping at the
     # first one, which mistook a preamble for a conclusion.
     max_idle_turns: int = 2
-    # A ceiling on total tokens for one run, or None for no ceiling. The step
-    # budget bounds how many times the agent acts, which is not the same thing:
-    # twenty turns over a large repository cost far more than twenty over a
-    # small one, and only this bounds that. Tokens rather than dollars because
-    # the token count is measured while a price may not be known.
+    # A soft budget on recorded total tokens, or None for no budget. The model
+    # turn budget is not the same thing: one turn over a large repository costs
+    # far more than one over a small one. Exact input usage is reported only
+    # after the provider accepts a call, so this can stop between calls and cap
+    # requested output by the remainder, but cannot be a strict billing ceiling.
     max_total_tokens: int | None = None
+    # Independent cap on tool calls processed. This includes ask_user, finish,
+    # unknown tools and malformed calls: each consumes one requested action.
+    max_tool_calls: int | None = None
     # Show the agent its remaining step budget. Off would mean an agent that
     # cannot see the limit it is being judged against.
     show_budget: bool = True
@@ -136,6 +140,9 @@ class Agent:
         self.cfg = config or AgentConfig()
         self.responder = responder or cli_responder
         self.tools = tools or build_toolset(workspace, allow_ask=self.cfg.allow_ask)
+        # Available even if run() raises, so experiment harnesses can persist a
+        # partial trace instead of fabricating zero calls and zero cost.
+        self.last_trace: Trace | None = None
 
     def run(self, task: str, *, task_id: str = "adhoc", system: str | None = None) -> AgentResult:
         trace = Trace(
@@ -147,24 +154,28 @@ class Agent:
                     "max_asks": self.cfg.max_asks, "allow_ask": self.cfg.allow_ask,
                     "seed": self.cfg.seed, "show_budget": self.cfg.show_budget,
                     "max_idle_turns": self.cfg.max_idle_turns,
-                    "max_total_tokens": self.cfg.max_total_tokens},
+                    "max_total_tokens": self.cfg.max_total_tokens,
+                    "max_tool_calls": self.cfg.max_tool_calls},
         )
+        self.last_trace = trace
         convo = Conversation(policy=self.cfg.context, backend=self.backend.name)
         convo.add({"role": "user", "content": task})
         schemas = [t.schema() for t in self.tools.values()]
         asked: list[dict[str, Any]] = []
         outcome, summary = "max_steps", ""
         idle = 0
+        tool_calls_used = 0
         # Built once: the layout is stable enough over one run, and rebuilding
         # it every turn would walk the tree on every model call.
         where = orientation(self.ws)
 
         for step in range(self.cfg.max_steps):
-            # Checked before the call rather than after, so the ceiling is a
-            # ceiling. Work already written to disk is kept -- the run stops,
-            # it does not roll back.
+            # Checked between calls. Work already written to disk is kept --
+            # the run stops, it does not roll back. The previous call may have
+            # crossed the threshold because its input usage was not known yet.
             spent = trace.usage.input_tokens + trace.usage.output_tokens
-            if self.cfg.max_total_tokens and spent >= self.cfg.max_total_tokens:
+            if (self.cfg.max_total_tokens is not None
+                    and spent >= self.cfg.max_total_tokens):
                 outcome = "token_budget"
                 summary = (f"Stopped after {spent} tokens, at the configured "
                            f"ceiling of {self.cfg.max_total_tokens}. Any files "
@@ -176,6 +187,15 @@ class Agent:
             # has already refused one.
             convo.compact(lambda ev: trace.record("compact", ev))
             base_system = (system or SYSTEM) + where
+            # Provider-reported input usage is only known after a call, so a
+            # total-token budget cannot be a strict billing cap. Still, never
+            # request more output tokens than the recorded remainder; this
+            # bounds the avoidable part of an overshoot and makes the soft-cap
+            # semantics explicit.
+            call_max_tokens = self.cfg.max_tokens
+            if self.cfg.max_total_tokens is not None:
+                call_max_tokens = min(call_max_tokens,
+                                      max(1, self.cfg.max_total_tokens - spent))
             resp = self.backend.complete(
                 convo.render(),
                 # Appended to the system prompt rather than pushed into the
@@ -186,7 +206,7 @@ class Agent:
                         if self.cfg.show_budget else base_system),
                 tools=schemas,
                 temperature=self.cfg.temperature,
-                max_tokens=self.cfg.max_tokens,
+                max_tokens=call_max_tokens,
                 seed=self.cfg.seed,
                 # Passed per call rather than stored on the backend. A backend
                 # shared by two agents has one slot for a hook, so the second
@@ -222,6 +242,17 @@ class Agent:
             stop: tuple[str, str] | None = None
 
             for tc in resp.tool_calls:
+                if (self.cfg.max_tool_calls is not None
+                        and tool_calls_used >= self.cfg.max_tool_calls):
+                    summary = (f"Stopped after {tool_calls_used} tool calls, at the "
+                               f"configured action limit of {self.cfg.max_tool_calls}. "
+                               "Any files already written are on disk.")
+                    trace.record("budget", {"kind": "tool_calls",
+                                            "spent": tool_calls_used,
+                                            "limit": self.cfg.max_tool_calls})
+                    stop = ("tool_budget", summary)
+                    break
+                tool_calls_used += 1
                 tool = self.tools.get(tc.name)
                 if tool is None:
                     # Name the alternatives. A model that invents `grep` can act

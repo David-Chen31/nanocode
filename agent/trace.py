@@ -1,8 +1,8 @@
 """Trajectory recording.
 
-Every run writes a full JSONL trace: each model call, each tool call, tokens and
-dollars. Publishing traces (not just final patches) is one of the reproducibility
-requirements this project holds itself to.
+A Trace contains each model call, tool call, token and cost record. The CLI
+appends it to JSONL; live experiment harnesses persist one artifact per run with
+the trace and final patch. Agent.run itself does not choose an output path.
 """
 from __future__ import annotations
 

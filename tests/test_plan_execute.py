@@ -72,8 +72,9 @@ def test_planning_costs_a_step_from_the_same_budget(tmp_path):
                              Workspace(tmp_path / "ws"),
                              config=AgentConfig(max_steps=4))
     out = agent.run("go", task_id="t")
-    model_calls = sum(1 for s in out.result.trace.steps if s.kind == "model")
-    assert model_calls == 3, "the executor did not give back the planning turn"
+    executor_calls = sum(1 for s in out.result.trace.steps if s.kind == "model")
+    assert executor_calls == 3, "the executor did not give back the planning turn"
+    assert out.result.trace.usage.calls == 4, "the planner vanished from call accounting"
 
 
 def test_the_planning_call_is_counted_in_cost(tmp_path):
@@ -85,6 +86,40 @@ def test_the_planning_call_is_counted_in_cost(tmp_path):
     out = agent.run("go", task_id="t")
     assert out.result.trace.usage.input_tokens >= 500, \
         "the planning call was left out of the accounting"
+
+
+def test_planner_spend_is_deducted_from_the_token_budget(tmp_path):
+    agent = PlanExecuteAgent(
+        _fixture(tmp_path, [
+            {"text": "1. plan", "tool_calls": [],
+             "input_tokens": 900, "output_tokens": 100},
+            {"text": "", "tool_calls": [_call("write_file", path="x.py", content="x=1")],
+             "input_tokens": 100, "output_tokens": 10},
+        ]),
+        Workspace(tmp_path / "ws"),
+        config=AgentConfig(max_steps=6, max_total_tokens=1000))
+    out = agent.run("go", task_id="t")
+
+    assert out.result.trace.usage.calls == 1
+    assert not (out.result.workspace.root / "x.py").exists()
+
+
+def test_planner_request_respects_a_smaller_soft_token_budget(tmp_path):
+    class Capturing:
+        def __init__(self, inner):
+            self.inner = inner
+            self.name, self.model = inner.name, inner.model
+            self.max_tokens = []
+
+        def complete(self, messages, **kwargs):
+            self.max_tokens.append(kwargs["max_tokens"])
+            return self.inner.complete(messages, **kwargs)
+
+    backend = Capturing(_fixture(tmp_path, PLAN_THEN_WORK))
+    PlanExecuteAgent(backend, Workspace(tmp_path / "ws"),
+                     config=AgentConfig(max_steps=6, max_tokens=4096,
+                                        max_total_tokens=500)).run("go", task_id="t")
+    assert backend.max_tokens[0] == 500
 
 
 def test_the_planner_is_told_the_repository_layout(tmp_path):

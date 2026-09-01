@@ -15,7 +15,9 @@ import pytest
 
 import agent.workspace as ws_mod
 from agent.llm import FixtureBackend
+from agent.llm import Usage
 from agent.loop import Agent, AgentConfig
+from agent.trace import Trace
 from agent.workspace import Workspace
 
 _SPEC = importlib.util.spec_from_file_location(
@@ -52,8 +54,26 @@ def test_baseline_recovers_from_a_malformed_call(tmp_path):
 
 def test_no_recovery_aborts_where_the_old_code_aborted(tmp_path):
     abl.apply_condition("no_recovery")
+    agent = _agent(tmp_path, MALFORMED)
+    with pytest.raises(abl._AblatedCrash):
+        agent.run("go")
+    assert agent.last_trace is not None
+    assert agent.last_trace.usage.calls == 1, "the partial trajectory was lost"
+
+
+def test_argument_and_parse_recovery_can_be_ablated_separately(tmp_path):
+    import agent.llm as llm_mod
+
+    abl.apply_condition("no_argument_recovery")
     with pytest.raises(abl._AblatedCrash):
         _agent(tmp_path, MALFORMED).run("go")
+    assert llm_mod._parse_arguments("{")["__raw__"] == "{"
+
+    abl.restore()
+    abl.apply_condition("no_parse_recovery")
+    assert _agent(tmp_path, MALFORMED).run("go").outcome == "finished"
+    with pytest.raises(json.JSONDecodeError):
+        llm_mod._parse_arguments("{")
 
 
 def test_garbled_errors_really_garbles():
@@ -76,3 +96,31 @@ def test_restore_puts_every_patched_symbol_back():
     assert ws_mod._decode is abl._REAL_DECODE
     assert loop_mod.check_arguments is abl._REAL_CHECK
     assert llm_mod._parse_arguments is abl._REAL_PARSE
+
+
+def test_trajectory_features_keep_provider_token_usage():
+    trace = Trace(run_id="r", task_id="t", model="fixture", backend="fixture")
+    trace.record("model", {"text": "x"}, Usage(120, 30, 1))
+    got = abl.trajectory_features(trace)
+    assert got["input_tokens"] == 120
+    assert got["output_tokens"] == 30
+    assert got["total_tokens"] == 150
+
+
+def test_score_reports_probe_level_fraction(monkeypatch, tmp_path):
+    task = abl.load_tasks()[0]
+    repo = abl.build_repo(tmp_path, task, "findable")
+    # Use minimal stand-ins so the assertion is about score aggregation, not
+    # the candidate executor already tested elsewhere.
+    class Matrix:
+        def __init__(self, tokens):
+            self.tokens = [tokens]
+            self.invalid = [False]
+
+    matrices = iter([Matrix(["a", "wrong", "c"]), Matrix(["a", "b", "c"])])
+    monkeypatch.setattr(abl, "run_candidates", lambda *a, **k: next(matrices))
+    got = abl.score(repo, task)
+    assert got["correct"] is False
+    assert got["behaviour_matches"] == 2
+    assert got["behaviour_total"] == 3
+    assert got["behaviour_frac"] == pytest.approx(2 / 3)

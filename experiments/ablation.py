@@ -33,6 +33,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import re
 import shutil
 import statistics
 import sys
@@ -40,7 +42,7 @@ import tempfile
 import threading
 import time
 from collections import defaultdict
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
@@ -55,16 +57,25 @@ from agent.tools import build_toolset
 from agent.workspace import Workspace
 from askoract.execute import run_candidates
 from askoract.probes import filter_probes, synthesize_probes
-from bench.harness import CALIB_SEED
+from bench.harness import EVAL_SEED
 from bench.scaffold import TASK_PROMPT, agent_prompt, build_repo, scoring_source
 from bench.schema import Task, load_tasks
+from experiments.provenance import (git_is_dirty, randomized_block_schedule,
+                                    run_manifest, save_artifact, snapshot_text,
+                                    unified_patch)
 
 CONDITIONS = ("full", "no_search", "garbled_errors", "no_recovery")
+# New confirmatory runs can separate the two mechanisms that the historical
+# `no_recovery` bundle changed together.
+RECOVERY_CONDITIONS = ("full", "no_parse_recovery",
+                       "no_argument_recovery", "no_recovery")
 
 # Round 9: the two termination fixes, crossed. `old_env` restores the broken
 # sandbox (the shell's own `python`, no PYTHONPATH) so the fix can be measured
 # against what was actually there rather than against a guess.
 TERMINATION = ("old_env_no_budget", "path_fix", "budget", "both")
+KNOWN_CONDITIONS = set(CONDITIONS) | set(RECOVERY_CONDITIONS) | set(TERMINATION)
+_DATED_MODEL = re.compile(r"(?:20\d{2}-\d{2}-\d{2}|20\d{6})(?:$|[^0-9])")
 
 # Per-thread record of what the ablated components were asked to handle during
 # one trajectory. This is how trigger rates are measured rather than guessed.
@@ -156,8 +167,12 @@ def apply_condition(cond: str) -> None:
                              if cond in ("old_env_no_budget", "budget")
                              else _REAL_TOOLCHAIN)
     ws_mod._decode = _broken_decode if cond == "garbled_errors" else _instrumented_decode
-    loop_mod.check_arguments = _strict_check if cond == "no_recovery" else _instrumented_check
-    llm_mod._parse_arguments = _strict_parse if cond == "no_recovery" else _REAL_PARSE
+    loop_mod.check_arguments = (_strict_check
+                                if cond in ("no_argument_recovery", "no_recovery")
+                                else _instrumented_check)
+    llm_mod._parse_arguments = (_strict_parse
+                                if cond in ("no_parse_recovery", "no_recovery")
+                                else _REAL_PARSE)
 
 
 def restore() -> None:
@@ -172,16 +187,28 @@ def restore() -> None:
 # ---------------------------------------------------------------------------
 
 def score(repo, task: Task) -> dict[str, Any]:
+    discriminating = [a for c in task.constraints for a in c.discriminating_args]
     probes = filter_probes(
-        synthesize_probes(task.seed_args, n=24, seed=CALIB_SEED), task.precondition)
-    try:
-        got = run_candidates([scoring_source(repo, task)], probes, task.entry_point)
-        ref = run_candidates([task.reference], probes, task.entry_point).tokens[0]
-    except Exception as exc:                       # noqa: BLE001
-        return {"scorable": False, "unscorable_why": f"{type(exc).__name__}: {exc}"}
+        synthesize_probes(task.seed_args, n=40, seed=EVAL_SEED,
+                          extra=discriminating), task.precondition)
+    # Execution infrastructure failures must escape to `one_run`, which labels
+    # them outcome="error". Converting them to a missing score here would make
+    # the confirmatory analyser count infrastructure noise as model failure.
+    got = run_candidates([scoring_source(repo, task)], probes, task.entry_point)
+    ref = run_candidates([task.reference], probes, task.entry_point).tokens[0]
+    matches = sum(a == b for a, b in zip(got.tokens[0], ref))
+    total = len(ref)
+    graded = matches / total if total else 0.0
     if got.invalid[0]:
-        return {"scorable": False, "unscorable_why": "invalid row"}
-    return {"scorable": True, "correct": got.tokens[0] == ref}
+        # Invalid candidate code is a model failure, not an infrastructure
+        # failure. Keep the graded evidence instead of turning it into missing
+        # data that could be silently excluded from a condition.
+        return {"scorable": True, "correct": False,
+                "behaviour_matches": matches, "behaviour_total": total,
+                "behaviour_frac": graded, "invalid_candidate": True}
+    return {"scorable": True, "correct": got.tokens[0] == ref,
+            "behaviour_matches": matches, "behaviour_total": total,
+            "behaviour_frac": graded, "invalid_candidate": False}
 
 
 def trajectory_features(trace) -> dict[str, Any]:
@@ -201,8 +228,13 @@ def trajectory_features(trace) -> dict[str, Any]:
     # and cannot be compared against max_steps.
     model_calls = sum(1 for st in trace.steps if st.kind == "model")
     tool_calls = sum(1 for st in trace.steps if st.kind == "tool")
+    usage = trace.usage if trace else None
     return {"n_search": used_search, "n_runs": runs, "n_failed_runs": failed_runs,
-            "n_model_calls": model_calls, "n_tool_calls": tool_calls}
+            "n_model_calls": model_calls, "n_tool_calls": tool_calls,
+            "input_tokens": usage.input_tokens if usage else 0,
+            "output_tokens": usage.output_tokens if usage else 0,
+            "total_tokens": ((usage.input_tokens + usage.output_tokens)
+                             if usage else 0)}
 
 
 class Meter:
@@ -221,6 +253,7 @@ class Meter:
     def fail(self, why: str) -> None:
         with self._lock:
             self.errors[why[:100]] = self.errors.get(why[:100], 0) + 1
+            self.done += 1
 
 
 def prompt_for(task: Task, repo, unambiguous: bool) -> str:
@@ -240,22 +273,30 @@ def prompt_for(task: Task, repo, unambiguous: bool) -> str:
 
 
 def one_run(cond: str, task: Task, rep: int, model: str, max_steps: int,
-            meter: Meter, unambiguous: bool = False) -> dict[str, Any]:
+            meter: Meter, unambiguous: bool = False, temperature: float = 1.0,
+            max_tokens: int = 4096,
+            capture_artifact: bool = False) -> dict[str, Any]:
     """One trajectory. Always returns a row -- a crash is an outcome, not a gap."""
     _local.c = {"decode_fallback": 0, "bad_args": 0}
     root = Path(tempfile.mkdtemp(prefix="nanocode-abl-"))
     row: dict[str, Any] = {"condition": cond, "task": task.id, "rep": rep,
+                           "worker_pid": os.getpid(),
                            "model": model, "crashed": False, "why": ""}
+    agent: Agent | None = None
+    before: dict[str, str] = {}
     try:
         repo = build_repo(root, task, "findable")
+        before = snapshot_text(root) if capture_artifact else {}
         ws = Workspace(root)
         tools = build_toolset(ws, allow_ask=False)
         if cond == "no_search":
             # Removed from the schema, not discouraged in the prompt. A
             # capability the model cannot see is a real ablation.
             tools = {k: v for k, v in tools.items() if k not in ("search", "find_files")}
-        agent = Agent(make_backend("openai:" + model), ws, tools=tools,
-                      config=AgentConfig(max_steps=max_steps, temperature=1.0,
+        backend_spec = model if ":" in model else "openai:" + model
+        agent = Agent(make_backend(backend_spec), ws, tools=tools,
+                      config=AgentConfig(max_steps=max_steps, temperature=temperature,
+                                         max_tokens=max_tokens,
                                          allow_ask=False, seed=700 + rep,
                                          show_budget=cond in ("budget", "both")))
         try:
@@ -268,15 +309,31 @@ def one_run(cond: str, task: Task, rep: int, model: str, max_steps: int,
             # The ablation did what the old code did. Still scored below: the
             # pre-fix code also left partial work on disk, and pretending the
             # run never happened would bias the comparison.
+            trace = agent.last_trace
+            if trace:
+                trace.outcome = "crashed"
+                trace.record("error", {"why": str(exc)[:200]})
+            features = trajectory_features(trace) if trace else {
+                "n_search": 0, "n_runs": 0, "n_failed_runs": 0,
+                "n_model_calls": 0, "n_tool_calls": 0,
+                "input_tokens": 0, "output_tokens": 0, "total_tokens": 0}
+            cost = trace.cost_usd if trace else 0.0
             row.update(outcome="crashed", crashed=True, why=str(exc)[:120],
-                       cost_usd=0.0, n_search=0, n_runs=0, n_failed_runs=0,
-                       n_model_calls=0, n_tool_calls=0)
-            meter.add(0.0)
+                       cost_usd=round(cost, 6), **features)
+            meter.add(cost)
         except json.JSONDecodeError as exc:
+            trace = agent.last_trace
+            if trace:
+                trace.outcome = "crashed"
+                trace.record("error", {"why": f"JSONDecodeError: {exc}"[:200]})
+            features = trajectory_features(trace) if trace else {
+                "n_search": 0, "n_runs": 0, "n_failed_runs": 0,
+                "n_model_calls": 0, "n_tool_calls": 0,
+                "input_tokens": 0, "output_tokens": 0, "total_tokens": 0}
+            cost = trace.cost_usd if trace else 0.0
             row.update(outcome="crashed", crashed=True, why=f"JSONDecodeError: {exc}",
-                       cost_usd=0.0, n_search=0, n_runs=0, n_failed_runs=0,
-                       n_model_calls=0, n_tool_calls=0)
-            meter.add(0.0)
+                       cost_usd=round(cost, 6), **features)
+            meter.add(cost)
         row.update(score(repo, task))
         row.update(_counters())
         return row
@@ -284,13 +341,42 @@ def one_run(cond: str, task: Task, rep: int, model: str, max_steps: int,
         # Infrastructure failure, not an ablation effect. Kept and labelled so
         # it cannot be silently confused with one.
         meter.fail(f"{type(exc).__name__}: {exc}")
+        trace = agent.last_trace if agent else None
+        if trace:
+            trace.outcome = "error"
+            trace.record("error", {"why": f"{type(exc).__name__}: {exc}"[:200]})
+        features = trajectory_features(trace) if trace else {
+            "n_model_calls": 0, "n_tool_calls": 0, "n_search": 0,
+            "n_runs": 0, "n_failed_runs": 0,
+            "input_tokens": 0, "output_tokens": 0, "total_tokens": 0}
         row.update(outcome="error", why=f"{type(exc).__name__}: {exc}"[:160],
-                   scorable=False, correct=None, n_model_calls=0, n_tool_calls=0,
-                   n_search=0, n_runs=0, n_failed_runs=0, cost_usd=0.0,
+                   scorable=False, correct=None,
+                   cost_usd=round(trace.cost_usd, 6) if trace else 0.0,
                    decode_fallback=0, bad_args=0)
+        row.update(features)
         return row
     finally:
+        if capture_artifact and agent and agent.last_trace:
+            row["_artifact"] = {
+                "run_key": f"{task.id}-{cond}-r{rep}",
+                "row": {k: v for k, v in row.items() if k != "_artifact"},
+                "trace": agent.last_trace.to_dict(),
+                "patch": unified_patch(before, root),
+            }
         shutil.rmtree(root, ignore_errors=True)
+
+
+def isolated_one_run(job) -> dict[str, Any]:
+    """One condition in one process: module patches cannot cross trajectories."""
+    cond, task, rep, model, max_steps, unambiguous, temperature, max_tokens = job
+    meter = Meter(1)
+    apply_condition(cond)
+    try:
+        return one_run(cond, task, rep, model, max_steps, meter, unambiguous,
+                       temperature, max_tokens,
+                       capture_artifact=True)
+    finally:
+        restore()
 
 
 def rate(rows: list[dict], cond: str, key: str, pred=None) -> float:
@@ -338,16 +424,62 @@ def main() -> int:
     ap.add_argument("--model", default="gpt-4o-mini")
     ap.add_argument("--reps", type=int, default=3)
     ap.add_argument("--max-steps", type=int, default=18)
+    ap.add_argument("--max-tokens", type=int, default=4096,
+                    help="Maximum output tokens per model call.")
+    ap.add_argument("--temperature", type=float, default=1.0)
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--conditions", nargs="+", default=list(CONDITIONS))
     ap.add_argument("--tasks", nargs="+", default=None)
     ap.add_argument("--unambiguous", action="store_true",
                     help="Manipulation check: give the complete requirement.")
     ap.add_argument("--out", default="results/ablation.json")
+    ap.add_argument("--artifacts", default=None,
+                    help="Per-run trace/patch directory (default: OUT stem + _artifacts).")
+    ap.add_argument("--schedule-seed", type=int, default=20260901)
+    ap.add_argument("--require-clean", action="store_true",
+                    help="Abort unless the git worktree is clean.")
+    ap.add_argument("--require-model-snapshot", action="store_true",
+                    help="Abort unless MODEL contains a date-stamped snapshot id.")
+    ap.add_argument("--fail-if-output-exists", action="store_true",
+                    help="Refuse to overwrite the result or artifact directory.")
     args = ap.parse_args()
 
-    tasks = [t for t in load_tasks() if not args.tasks or t.id in args.tasks]
-    total = len(args.conditions) * len(tasks) * args.reps
+    unknown_conditions = sorted(set(args.conditions) - KNOWN_CONDITIONS)
+    if unknown_conditions:
+        ap.error(f"unknown conditions: {', '.join(unknown_conditions)}")
+    if len(set(args.conditions)) != len(args.conditions):
+        ap.error("conditions must not contain duplicates")
+    if args.reps <= 0 or args.max_steps <= 0 or args.max_tokens <= 0 or args.workers <= 0:
+        ap.error("reps, max-steps, max-tokens and workers must be positive")
+    if args.temperature < 0:
+        ap.error("temperature must be non-negative")
+    if args.require_clean and git_is_dirty():
+        ap.error("confirmatory run requires a clean git worktree")
+    if args.require_model_snapshot and not _DATED_MODEL.search(args.model):
+        ap.error("confirmatory run requires a date-stamped model snapshot")
+
+    available = load_tasks()
+    available_ids = {t.id for t in available}
+    requested = args.tasks or sorted(available_ids)
+    unknown_tasks = sorted(set(requested) - available_ids)
+    if unknown_tasks:
+        ap.error(f"unknown tasks: {', '.join(unknown_tasks)}")
+    if len(set(requested)) != len(requested):
+        ap.error("tasks must not contain duplicates")
+    tasks = [t for t in available if t.id in set(requested)]
+    out = Path(args.out)
+    artifact_dir = Path(args.artifacts) if args.artifacts else \
+        out.with_suffix("").with_name(out.stem + "_artifacts")
+    if args.fail_if_output_exists and (out.exists() or artifact_dir.exists()):
+        ap.error("result or artifact target already exists")
+
+    blocks = [(t, r) for t in tasks for r in range(args.reps)]
+    randomized = randomized_block_schedule(
+        blocks, args.conditions, seed=args.schedule_seed)
+    jobs = [(cond, task, rep, args.model, args.max_steps, args.unambiguous,
+             args.temperature, args.max_tokens)
+            for cond, (task, rep) in randomized]
+    total = len(jobs)
     print(f"{total} trajectories: {len(args.conditions)} conditions x "
           f"{len(tasks)} tasks x {args.reps} reps, model={args.model}")
 
@@ -355,26 +487,34 @@ def main() -> int:
     rows: list[dict[str, Any]] = []
     t0 = time.time()
 
-    # Sequential across conditions: the patches are module-global, so running
-    # two conditions at once would have them decode each other's output.
-    for cond in args.conditions:
-        apply_condition(cond)
-        try:
-            with ThreadPoolExecutor(args.workers) as ex:
-                futs = [ex.submit(one_run, cond, t, r, args.model, args.max_steps,
-                                  meter, args.unambiguous)
-                        for t in tasks for r in range(args.reps)]
-                for fut in as_completed(futs):
-                    rows.append(fut.result())
-        finally:
-            restore()
-        print(f"  {cond:<16} done  {meter.done}/{total}  ${meter.cost:.3f}  "
-              f"{time.time() - t0:.0f}s", flush=True)
+    # Conditions are shuffled within task x repetition blocks. Each job gets a
+    # process, so module-global ablation patches never coexist in one interpreter.
+    # `max_tasks_per_child=1` is intentional: ablation conditions patch module
+    # globals. `restore()` remains defence in depth, but a fresh interpreter is
+    # the isolation boundary promised by the confirmatory protocol.
+    with ProcessPoolExecutor(args.workers, max_tasks_per_child=1) as ex:
+        futs = [ex.submit(isolated_one_run, job) for job in jobs]
+        for fut in as_completed(futs):
+            row = fut.result()
+            artifact = row.pop("_artifact", None)
+            if artifact:
+                row["artifact"] = str(save_artifact(artifact_dir, artifact))
+            rows.append(row)
+            if row.get("outcome") == "error":
+                meter.fail(row.get("why", "error"))
+            else:
+                meter.add(float(row.get("cost_usd") or 0.0))
+            if meter.done % max(1, len(args.conditions) * 3) == 0:
+                print(f"  done {meter.done}/{total}  ${meter.cost:.3f}  "
+                      f"{time.time() - t0:.0f}s", flush=True)
 
-    out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({"model": args.model, "reps": args.reps,
-                               "rows": rows}, indent=1), encoding="utf-8")
+    schedule = [{"condition": c, "task": t.id, "rep": r}
+                for c, t, r, *_ in jobs]
+    out.write_text(json.dumps({"manifest": run_manifest(args),
+                               "model": args.model, "reps": args.reps,
+                               "schedule": schedule, "rows": rows}, indent=1),
+                   encoding="utf-8")
     print(f"\ndone: {len(rows)} rows, ${meter.cost:.3f}, {time.time() - t0:.0f}s")
     if meter.errors:
         print("infrastructure errors (excluded, not silent):")

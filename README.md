@@ -10,6 +10,11 @@ python -m agent.cli "给 utils.py 里的每个函数补上 docstring" --workspac
 **每个设计决定和支撑它的实测数据，压在一页里：[DECISIONS.md](DECISIONS.md)**
 ——包括证据推翻了我理由的三行，和至今没有证据的两行。
 
+nanocode 的竞争点不是“又一个最小 ReAct 循环”。它要回答更难也更实用的问题：
+**一个 agent 部件究竟值回了多少质量、token 和失败风险？** 因此实验会保存随机 schedule、
+完整轨迹、最终 patch、运行环境和失败关闭的统计裁决；证据不支持作者时，首页保留被推翻的理由。
+完整定位与路线图见 [docs/COMPETITIVE_STRATEGY.md](docs/COMPETITIVE_STRATEGY.md)。
+
 ## 它是怎么转的
 
 一个 ReAct 循环：模型看到工具清单，选一个调用，拿到结果，再选下一个。
@@ -23,7 +28,7 @@ agent/
   search.py     仓库搜索（正则搜内容 + glob 搜文件名）
   context.py    对话历史与上下文预算管理
   workspace.py  受限工作区：路径逃逸拦截、命令执行的时间与体积双重上限
-  trace.py      每次模型调用与工具调用的完整记录，含 token 与成本
+  trace.py      支持保存模型调用与工具调用的完整记录，含 token 与成本
 ```
 
 工具：`list_files` `read_file` `write_file` `edit_file` `search` `find_files`
@@ -92,7 +97,7 @@ python -m agent.cli "..." --workspace ./demo_ws
 `NANOCODE_BACKEND` 也接受 `anthropic:claude-sonnet-5`；OpenAI 那支认
 `OPENAI_BASE_URL`，可指向兼容端点。
 
-测试：`python -m pytest tests/ -q` → **127 passed**，全部离线、确定性、不花钱。
+测试：`python -m pytest tests/ -q` → **155 passed**，全部离线、确定性、不花钱。
 其中大部分钉的是**会安静出错**的地方：路径逃逸、edit 锚点不唯一、工具结果配对不变量、
 截断的 JSON、失控的打印循环。
 
@@ -116,6 +121,11 @@ ground truth，所以不只能测最终成功率，还能测「它有没有问�
 全部失败；唯一上过随机的信号是让它去读仓库（ranking 0.82），但那个信号对**错误的**
 约定是盲的。[docs/PREREG_*.md](docs/) 是实验前写下的预测，上半部分**至今未改**，
 包括预测错了的那些。
+
+确认性重跑的协议在 [docs/PREREG_confirmatory.md](docs/PREREG_confirmatory.md)：
+条件在 task × repetition 块内随机，带补丁的消融逐轨迹进程隔离，结果保存运行 manifest、
+完整 trace、最终 patch 和 held-out 评分。固定任务 estimand 使用 `analyse.py --fixed-tasks`，
+不再把 12 个目的性任务靠 bootstrap 解释成一般任务总体。
 
 ## 已知限制
 

@@ -188,8 +188,8 @@ def test_the_idle_counter_resets_after_real_work(tmp_path):
     assert res.outcome == "finished"
 
 
-def test_a_token_ceiling_stops_the_run(tmp_path):
-    """The step budget bounds how often it acts, not how much that costs."""
+def test_a_token_soft_budget_stops_between_calls(tmp_path):
+    """Model turns, tool actions and recorded token spend are separate budgets."""
     turns = [{"text": "", "tool_calls": [_call("list_files")],
               "input_tokens": 400, "output_tokens": 40} for _ in range(10)]
     ws = Workspace(tmp_path / "ws")
@@ -198,8 +198,51 @@ def test_a_token_ceiling_stops_the_run(tmp_path):
 
     assert res.outcome == "token_budget"
     assert res.trace.usage.input_tokens + res.trace.usage.output_tokens >= 1000
-    # Checked before the call, so it stops near the ceiling rather than far past it.
+    # Usage arrives after a call, so this is explicitly a soft budget.
     assert res.trace.usage.calls < 10
+
+
+def test_token_budget_caps_requested_output_to_the_recorded_remainder(tmp_path):
+    class Capturing:
+        def __init__(self, inner):
+            self.inner = inner
+            self.name, self.model = inner.name, inner.model
+            self.max_tokens = []
+
+        def complete(self, messages, **kwargs):
+            self.max_tokens.append(kwargs["max_tokens"])
+            return self.inner.complete(messages, **kwargs)
+
+    turns = [
+        {"text": "", "tool_calls": [_call("list_files")],
+         "input_tokens": 800, "output_tokens": 80},
+        {"text": "", "tool_calls": [_call("finish", summary="done")],
+         "input_tokens": 50, "output_tokens": 20},
+    ]
+    backend = Capturing(_fixture(tmp_path, turns))
+    Agent(backend, Workspace(tmp_path / "ws"),
+          config=AgentConfig(max_steps=4, max_tokens=4096,
+                             max_total_tokens=1000)).run("go", task_id="t")
+
+    assert backend.max_tokens == [1000, 120]
+
+
+def test_tool_call_budget_is_independent_of_model_turns(tmp_path):
+    backend = _fixture(tmp_path, [
+        {"text": "", "tool_calls": [
+            _call("write_file", path="a.py", content="a = 1\n"),
+            _call("write_file", path="b.py", content="b = 1\n"),
+            _call("write_file", path="c.py", content="c = 1\n"),
+        ]},
+    ])
+    ws = Workspace(tmp_path / "ws")
+    res = Agent(backend, ws,
+                config=AgentConfig(max_steps=4, max_tool_calls=2)).run("go", task_id="t")
+
+    assert res.outcome == "tool_budget"
+    assert (ws.root / "a.py").exists() and (ws.root / "b.py").exists()
+    assert not (ws.root / "c.py").exists()
+    assert sum(s.kind == "tool" for s in res.trace.steps) == 2
 
 
 def test_the_ceiling_says_the_work_is_still_on_disk(tmp_path):

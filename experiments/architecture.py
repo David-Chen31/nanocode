@@ -31,6 +31,8 @@ from agent.loop import Agent, AgentConfig
 from agent.plan_execute import PlanExecuteAgent
 from agent.workspace import Workspace
 from bench.repo_tasks import TASKS, RepoTask, stage
+from experiments.provenance import (randomized_block_schedule, run_manifest,
+                                    save_artifact, snapshot_text, unified_patch)
 
 ARMS = ("react", "plan_execute")
 
@@ -103,13 +105,14 @@ class Meter:
         self.stopped = False
         self._lock = threading.Lock()
 
-    def add(self, tokens: int) -> bool:
+    def add(self, tokens: int, cost: float = 0.0) -> bool:
         with self._lock:
             self.tokens += tokens
+            self.cost += cost
             self.done += 1
             # One thrashing trajectory burned far more than the mean in an
-            # earlier sweep, so this carries a hard ceiling rather than
-            # trusting a per-run estimate that was already wrong by 10x once.
+            # earlier sweep. This is a sweep-level soft stop: active workers
+            # finish, while queued jobs see `stopped` before they begin.
             if self.tokens > self.cap:
                 self.stopped = True
             return self.stopped
@@ -120,29 +123,37 @@ class Meter:
 
 
 def one_run(arm: str, task: RepoTask, rep: int, model: str, max_steps: int,
-            meter: Meter) -> dict[str, Any] | None:
+            meter: Meter, capture_artifact: bool = False) -> dict[str, Any] | None:
     if meter.stopped:
         return None
     root = Path(tempfile.mkdtemp(prefix="nanocode-arch-"))
+    row: dict[str, Any] = {"arm": arm, "task": task.id, "rep": rep, "model": model}
+    runner = None
+    before: dict[str, str] = {}
     try:
         stage(root)
+        before = snapshot_text(root) if capture_artifact else {}
         ws = Workspace(root)
         cfg = AgentConfig(max_steps=max_steps, temperature=1.0, allow_ask=False,
                           seed=1300 + rep)
-        backend = make_backend("openai:" + model)
+        backend = make_backend(model if ":" in model else "openai:" + model)
         t0 = time.monotonic()
         if arm == "react":
-            res = Agent(backend, ws, config=cfg).run(task.prompt, task_id=task.id)
+            runner = Agent(backend, ws, config=cfg)
+            res = runner.run(task.prompt, task_id=task.id)
             plan = ""
         else:
-            out = PlanExecuteAgent(backend, ws, config=cfg).run(task.prompt,
-                                                                task_id=task.id)
+            runner = PlanExecuteAgent(backend, ws, config=cfg)
+            out = runner.run(task.prompt, task_id=task.id)
             res, plan = out.result, out.plan
         secs = time.monotonic() - t0
-        row = {
-            "arm": arm, "task": task.id, "rep": rep, "model": model,
+        row.update({
             "outcome": res.outcome, "secs": round(secs, 1),
-            "n_model_calls": sum(1 for s in res.trace.steps if s.kind == "model"),
+            # Usage includes the planner call (trace kind="plan") as well as
+            # executor calls. Counting only kind="model" understated this arm
+            # by exactly one call in the original report.
+            "n_model_calls": res.trace.usage.calls,
+            "n_planning_calls": 1 if arm == "plan_execute" else 0,
             "n_tool_calls": sum(1 for s in res.trace.steps if s.kind == "tool"),
             "n_tool_errors": sum(1 for s in res.trace.steps
                                  if s.kind == "tool" and "error" in s.payload),
@@ -164,17 +175,36 @@ def one_run(arm: str, task: RepoTask, rep: int, model: str, max_steps: int,
             "input_tokens": res.trace.usage.input_tokens,
             "output_tokens": res.trace.usage.output_tokens,
             "cost_usd": round(res.trace.cost_usd, 5),
-        }
+        })
         row.update(score(ws, task))
-        meter.add(res.trace.usage.input_tokens + res.trace.usage.output_tokens)
+        meter.add(res.trace.usage.input_tokens + res.trace.usage.output_tokens,
+                  res.trace.cost_usd)
         return row
     except Exception as exc:                       # noqa: BLE001
+        trace = getattr(runner, "last_trace", None)
+        if trace:
+            meter.add(trace.usage.input_tokens + trace.usage.output_tokens,
+                      trace.cost_usd)
         meter.fail()
-        return {"arm": arm, "task": task.id, "rep": rep, "model": model,
-                "outcome": "error", "why": f"{type(exc).__name__}: {exc}"[:200],
-                "correct": False, "regression_ok": False, "behaviour_ok": False,
-                "cost_usd": 0.0, "n_model_calls": 0, "n_tool_calls": 0}
+        if trace:
+            trace.outcome = "error"
+            trace.record("error", {"why": f"{type(exc).__name__}: {exc}"[:200]})
+        row.update(outcome="error", why=f"{type(exc).__name__}: {exc}"[:200],
+                   correct=False, regression_ok=False, behaviour_ok=False,
+                   cost_usd=round(trace.cost_usd, 5) if trace else 0.0,
+                   n_model_calls=trace.usage.calls if trace else 0,
+                   n_tool_calls=(sum(s.kind == "tool" for s in trace.steps)
+                                 if trace else 0))
+        return row
     finally:
+        trace = getattr(runner, "last_trace", None)
+        if capture_artifact and trace:
+            row["_artifact"] = {
+                "run_key": f"{task.id}-{arm}-r{rep}",
+                "row": {k: v for k, v in row.items() if k != "_artifact"},
+                "trace": trace.to_dict(),
+                "patch": unified_patch(before, root),
+            }
         shutil.rmtree(root, ignore_errors=True)
 
 
@@ -185,27 +215,37 @@ def main() -> int:
     ap.add_argument("--max-steps", type=int, default=30)
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--budget", type=float, default=6_000_000,
-                    help="Hard ceiling in total tokens; the sweep stops past it.")
+                    help="Soft sweep cap; active workers may finish past it.")
     ap.add_argument("--tasks", nargs="+", default=None)
     ap.add_argument("--arms", nargs="+", default=list(ARMS))
     ap.add_argument("--out", default="results/architecture.json")
+    ap.add_argument("--artifacts", default=None,
+                    help="Per-run trace/patch directory (default: OUT stem + _artifacts).")
+    ap.add_argument("--schedule-seed", type=int, default=20260901)
     args = ap.parse_args()
 
     tasks = [t for t in TASKS if not args.tasks or t.id in args.tasks]
     arms = [a for a in ARMS if a in args.arms]
-    jobs = [(a, t, r) for a in arms for t in tasks for r in range(args.reps)]
+    blocks = [(t, r) for t in tasks for r in range(args.reps)]
+    randomized = randomized_block_schedule(blocks, arms, seed=args.schedule_seed)
+    jobs = [(arm, task, rep) for arm, (task, rep) in randomized]
     print(f"{len(jobs)} runs: {len(arms)} arms x {len(tasks)} tasks x {args.reps} "
           f"reps, model={args.model}, cap {args.budget/1e6:.1f}M tokens", flush=True)
 
     meter = Meter(args.budget)
     rows: list[dict[str, Any]] = []
     t0 = time.time()
+    artifact_dir = Path(args.artifacts) if args.artifacts else \
+        Path(args.out).with_suffix("").with_name(Path(args.out).stem + "_artifacts")
     with ThreadPoolExecutor(args.workers) as ex:
-        futs = [ex.submit(one_run, a, t, r, args.model, args.max_steps, meter)
+        futs = [ex.submit(one_run, a, t, r, args.model, args.max_steps, meter, True)
                 for a, t, r in jobs]
         for i, fut in enumerate(as_completed(futs), 1):
             row = fut.result()
             if row:
+                artifact = row.pop("_artifact", None)
+                if artifact:
+                    row["artifact"] = str(save_artifact(artifact_dir, artifact))
                 rows.append(row)
             if i % 8 == 0:
                 print(f"  {i}/{len(jobs)}  {meter.tokens/1e6:.2f}M tok  {meter.errors} err  "
@@ -217,7 +257,10 @@ def main() -> int:
           f"{time.time() - t0:.0f}s")
 
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
-    Path(args.out).write_text(json.dumps({"rows": rows}, indent=1, ensure_ascii=False),
+    schedule = [{"arm": a, "task": t.id, "rep": r} for a, t, r in jobs]
+    Path(args.out).write_text(json.dumps({"manifest": run_manifest(args),
+                                         "schedule": schedule, "rows": rows},
+                                        indent=1, ensure_ascii=False),
                               encoding="utf-8")
 
     print(f"\n{'arm':<14}{'correct':>9}{'regr ok':>9}{'behav ok':>10}"
