@@ -111,6 +111,7 @@ def select(per_repo: int = 5) -> dict[str, Any]:
     audit: dict[str, Any] = {}
     repositories = {}
     for repo in REPOS:
+        print(f"checking {repo}...", flush=True)
         license_id, repo_meta = _repo_license(repo)
         repositories[repo] = repo_meta
         if license_id not in ALLOWED_LICENSES:
@@ -124,6 +125,9 @@ def select(per_repo: int = 5) -> dict[str, Any]:
                 break
             number = int(item["number"])
             patch_url = _patch_url(repo, number)
+            if rank == 1 or rank % 10 == 0:
+                print(f"  candidate {rank}/{len(candidates)}, "
+                      f"selected {len(selected)}/{per_repo}", flush=True)
             patch = _request(patch_url, accept="application/vnd.github.patch")
             ok, reason, paths = _eligible_preview(item, patch)
             if not ok:
@@ -166,6 +170,7 @@ def select(per_repo: int = 5) -> dict[str, Any]:
             }
             selected.append(task)
             tasks.append(task)
+            print(f"    selected PR #{number} ({len(selected)}/{per_repo})", flush=True)
         audit[repo] = {"query": query, "candidate_pool": len(candidates),
                        "selected": len(selected), "excluded_before_cutoff": dict(excluded)}
     canonical = json.dumps(tasks, sort_keys=True, ensure_ascii=False,
