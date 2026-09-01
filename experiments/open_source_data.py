@@ -64,6 +64,7 @@ def _json(url: str) -> Any:
 
 def _search(repo: str) -> tuple[str, list[dict[str, Any]]]:
     query = (f"repo:{repo} is:pr is:merged "
+             f"created:{WINDOW_START}..{WINDOW_END} "
              f"merged:{WINDOW_START}..{WINDOW_END}")
     params = urllib.parse.urlencode({"q": query, "sort": "created", "order": "asc",
                                     "per_page": 100})

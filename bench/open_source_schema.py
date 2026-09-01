@@ -66,6 +66,8 @@ class OpenSourceTask:
             errors.append("license is not in the pre-registered allowlist")
         if not SNAPSHOT_AT < _time(self.merged_at) <= WINDOW_END:
             errors.append("merged_at is outside the temporal holdout")
+        if not SNAPSHOT_AT < _time(self.created_at) <= WINDOW_END:
+            errors.append("created_at is outside the temporal holdout")
         for name, value in (("base_sha", self.base_sha), ("head_sha", self.head_sha),
                             ("merge_sha", self.merge_sha)):
             if not SHA_RE.fullmatch(value or ""):

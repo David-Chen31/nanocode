@@ -40,6 +40,7 @@ def test_manifest_loader_accepts_a_valid_temporal_task(tmp_path):
 
 @pytest.mark.parametrize("updates", [
     {"merged_at": "2024-07-18T00:00:00Z"},
+    {"created_at": "2024-07-18T00:00:00Z"},
     {"test_files": ["../hidden_test.py"]},
     {"license_spdx": "NOASSERTION"},
     {"base_sha": "short"},
