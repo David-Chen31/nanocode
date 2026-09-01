@@ -183,6 +183,7 @@ class LLMBackend:
         max_tokens: int = 4096,
         seed: int | None = None,
         fixture_key: str | None = None,
+        on_retry: Any = None,
     ) -> LLMResponse:
         raise NotImplementedError
 
@@ -192,7 +193,6 @@ class LLMBackend:
 
 class AnthropicBackend(LLMBackend):
     name = "anthropic"
-    on_retry = None
 
     def __init__(self, model: str) -> None:
         import anthropic  # lazy: offline runs need no SDK
@@ -201,7 +201,8 @@ class AnthropicBackend(LLMBackend):
         self._client = anthropic.Anthropic()
 
     def complete(self, messages, *, system=None, tools=None, temperature=0.0,
-                 max_tokens=4096, seed=None, fixture_key=None) -> LLMResponse:
+                 max_tokens=4096, seed=None, fixture_key=None,
+                 on_retry=None) -> LLMResponse:
         kwargs: dict[str, Any] = {
             "model": self.model,
             "max_tokens": max_tokens,
@@ -214,7 +215,7 @@ class AnthropicBackend(LLMBackend):
             kwargs["tools"] = [_to_anthropic_tool(t) for t in tools]
 
         resp = with_retries(lambda: self._client.messages.create(**kwargs),
-                            on_retry=self.on_retry)
+                            on_retry=on_retry)
 
         text_parts: list[str] = []
         calls: list[ToolCall] = []
@@ -234,9 +235,6 @@ class AnthropicBackend(LLMBackend):
 
 class OpenAICompatBackend(LLMBackend):
     name = "openai"
-    # Set by the caller to record retries in the trace; a retry that nothing
-    # reports is indistinguishable from a slow call.
-    on_retry = None
 
     def __init__(self, model: str, *, timeout: float | None = None,
                  max_retries: int = 4) -> None:
@@ -257,7 +255,8 @@ class OpenAICompatBackend(LLMBackend):
         )
 
     def complete(self, messages, *, system=None, tools=None, temperature=0.0,
-                 max_tokens=4096, seed=None, fixture_key=None) -> LLMResponse:
+                 max_tokens=4096, seed=None, fixture_key=None,
+                 on_retry=None) -> LLMResponse:
         msgs = ([{"role": "system", "content": system}] if system else []) + messages
         kwargs: dict[str, Any] = {
             "model": self.model,
@@ -272,7 +271,7 @@ class OpenAICompatBackend(LLMBackend):
             kwargs["seed"] = seed
 
         resp = with_retries(lambda: self._client.chat.completions.create(**kwargs),
-                            attempts=self.max_retries, on_retry=self.on_retry)
+                            attempts=self.max_retries, on_retry=on_retry)
         choice = resp.choices[0]
 
         calls = []
@@ -321,7 +320,8 @@ class FixtureBackend(LLMBackend):
         return hashlib.sha256(prompt.encode("utf-8")).hexdigest()[:16]
 
     def complete(self, messages, *, system=None, tools=None, temperature=0.0,
-                 max_tokens=4096, seed=None, fixture_key: str | None = None) -> LLMResponse:
+                 max_tokens=4096, seed=None, fixture_key: str | None = None,
+                 on_retry=None) -> LLMResponse:
         # A fixture file may declare "__sequence__": responses are then replayed in
         # order regardless of the messages. That is the practical way to script a
         # multi-turn agent run, where every turn has a different prompt hash.

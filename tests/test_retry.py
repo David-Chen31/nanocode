@@ -109,3 +109,42 @@ def test_backoff_grows():
         with_retries(always, attempts=4, base=0.001,
                      on_retry=lambda n, d, why: delays.append(d))
     assert delays[-1] > delays[0], "the delay did not grow"
+
+
+def test_the_retry_hook_is_not_stored_on_the_backend(tmp_path):
+    """A backend shared by two agents must not merge their traces.
+
+    The first version hung the callback on the backend, which has one slot for
+    it: constructing a second Agent silently redirected the first Agent's
+    retries into the second one's trace.
+    """
+    import json
+
+    from agent.llm import FixtureBackend
+    from agent.loop import Agent, AgentConfig
+    from agent.workspace import Workspace
+
+    p = tmp_path / "fx.json"
+    p.write_text(json.dumps({"__sequence__": [
+        {"text": "", "tool_calls": [{"id": "t", "name": "finish",
+                                     "arguments": {"summary": "s"}}]}] * 8}),
+        encoding="utf-8")
+    backend = FixtureBackend(p)
+
+    a1 = Agent(backend, Workspace(tmp_path / "w1"), config=AgentConfig(max_steps=2))
+    a2 = Agent(backend, Workspace(tmp_path / "w2"), config=AgentConfig(max_steps=2))
+
+    assert not hasattr(backend, "on_retry") or backend.on_retry is None, \
+        "the hook was stored on the shared backend"
+    assert a1.run("x").outcome == "finished"
+    assert a2.run("y").outcome == "finished"
+
+
+def test_every_backend_accepts_the_per_call_hook():
+    """The hook travels with the call, so every backend must take it."""
+    import inspect
+
+    from agent.llm import (AnthropicBackend, FixtureBackend, LLMBackend,
+                           OpenAICompatBackend)
+    for cls in (LLMBackend, AnthropicBackend, OpenAICompatBackend, FixtureBackend):
+        assert "on_retry" in inspect.signature(cls.complete).parameters, cls.__name__

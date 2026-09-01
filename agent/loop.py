@@ -136,16 +136,6 @@ class Agent:
         self.cfg = config or AgentConfig()
         self.responder = responder or cli_responder
         self.tools = tools or build_toolset(workspace, allow_ask=self.cfg.allow_ask)
-        self._trace = None
-        # A retry that nothing records is indistinguishable from a slow call,
-        # which is how a flaky upstream hides inside a latency graph.
-        if hasattr(backend, "on_retry"):
-            backend.on_retry = self._note_retry
-
-    def _note_retry(self, attempt: int, delay: float, why: str) -> None:
-        if self._trace is not None:
-            self._trace.record("retry", {"attempt": attempt,
-                                         "delay_s": round(delay, 2), "why": why})
 
     def run(self, task: str, *, task_id: str = "adhoc", system: str | None = None) -> AgentResult:
         trace = Trace(
@@ -159,7 +149,6 @@ class Agent:
                     "max_idle_turns": self.cfg.max_idle_turns,
                     "max_total_tokens": self.cfg.max_total_tokens},
         )
-        self._trace = trace
         convo = Conversation(policy=self.cfg.context, backend=self.backend.name)
         convo.add({"role": "user", "content": task})
         schemas = [t.schema() for t in self.tools.values()]
@@ -199,6 +188,12 @@ class Agent:
                 temperature=self.cfg.temperature,
                 max_tokens=self.cfg.max_tokens,
                 seed=self.cfg.seed,
+                # Passed per call rather than stored on the backend. A backend
+                # shared by two agents has one slot for a hook, so the second
+                # agent silently inherits the first agent's retries -- and a
+                # retry that nothing records looks exactly like a slow call.
+                on_retry=lambda n, d, why: trace.record(
+                    "retry", {"attempt": n, "delay_s": round(d, 2), "why": why}),
             )
             trace.record("model", {"text": resp.text,
                                    "tool_calls": [tc.name for tc in resp.tool_calls]},
