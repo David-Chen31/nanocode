@@ -1,0 +1,110 @@
+"""Schema and fail-closed validation for the external GitHub PR task layer."""
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from pathlib import Path, PurePosixPath
+from typing import Any
+
+SNAPSHOT_AT = datetime(2024, 7, 18, 23, 59, 59, tzinfo=timezone.utc)
+WINDOW_END = datetime(2025, 7, 18, 23, 59, 59, tzinfo=timezone.utc)
+ALLOWED_LICENSES = {"MIT", "BSD-3-Clause", "Apache-2.0", "ISC"}
+SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+
+
+def _time(raw: str) -> datetime:
+    return datetime.fromisoformat(raw.replace("Z", "+00:00"))
+
+
+def _safe_path(raw: str) -> bool:
+    p = PurePosixPath(raw)
+    return bool(raw) and not p.is_absolute() and ".." not in p.parts
+
+
+def is_test_path(path: str) -> bool:
+    p = PurePosixPath(path.lower())
+    return ("tests" in p.parts or "test" in p.parts
+            or p.name.startswith("test_") or p.name.endswith("_test.py"))
+
+
+@dataclass(frozen=True)
+class OpenSourceTask:
+    id: str
+    repo: str
+    pr_number: int
+    pr_url: str
+    title: str
+    body: str
+    created_at: str
+    merged_at: str
+    base_sha: str
+    head_sha: str
+    merge_sha: str
+    license_spdx: str
+    additions: int
+    deletions: int
+    changed_files: int
+    code_files: tuple[str, ...]
+    test_files: tuple[str, ...]
+    patch_url: str
+    patch_sha256: str
+    selection_rank: int
+
+    @classmethod
+    def from_dict(cls, row: dict[str, Any]) -> "OpenSourceTask":
+        return cls(**{**row, "code_files": tuple(row["code_files"]),
+                      "test_files": tuple(row["test_files"])})
+
+    def validate(self) -> list[str]:
+        errors = []
+        if not self.id.startswith("oss_"):
+            errors.append("id must start with oss_")
+        if self.license_spdx not in ALLOWED_LICENSES:
+            errors.append("license is not in the pre-registered allowlist")
+        if not SNAPSHOT_AT < _time(self.merged_at) <= WINDOW_END:
+            errors.append("merged_at is outside the temporal holdout")
+        for name, value in (("base_sha", self.base_sha), ("head_sha", self.head_sha),
+                            ("merge_sha", self.merge_sha)):
+            if not SHA_RE.fullmatch(value or ""):
+                errors.append(f"{name} is not a full git SHA")
+        if not re.fullmatch(r"[0-9a-f]{64}", self.patch_sha256 or ""):
+            errors.append("patch_sha256 is invalid")
+        if not self.code_files or not self.test_files:
+            errors.append("task needs both code and test files")
+        if any(not _safe_path(p) for p in self.code_files + self.test_files):
+            errors.append("unsafe repository path")
+        if any(is_test_path(p) for p in self.code_files):
+            errors.append("code_files contains a test path")
+        if any(not is_test_path(p) for p in self.test_files):
+            errors.append("test_files contains a non-test path")
+        if not (2 <= self.changed_files <= 8):
+            errors.append("changed_files is outside the selection rule")
+        if self.additions > 300 or self.deletions > 200:
+            errors.append("patch size is outside the selection rule")
+        return errors
+
+
+def load_open_source_tasks(path: str | Path | None = None) -> tuple[dict, list[OpenSourceTask]]:
+    path = Path(path) if path else Path(__file__).with_name("open_source_tasks.json")
+    document = json.loads(path.read_text(encoding="utf-8"))
+    tasks = [OpenSourceTask.from_dict(row) for row in document.get("tasks", [])]
+    errors = []
+    ids = [t.id for t in tasks]
+    if len(ids) != len(set(ids)):
+        errors.append("duplicate task ids")
+    sources = [(t.repo, t.pr_number) for t in tasks]
+    if len(sources) != len(set(sources)):
+        errors.append("duplicate repository PRs")
+    for task in tasks:
+        errors.extend(f"{task.id}: {msg}" for msg in task.validate())
+    canonical = json.dumps(document.get("tasks", []), sort_keys=True,
+                           ensure_ascii=False, separators=(",", ":")).encode()
+    expected = document.get("tasks_sha256")
+    if expected != hashlib.sha256(canonical).hexdigest():
+        errors.append("tasks_sha256 does not match manifest content")
+    if errors:
+        raise ValueError("invalid open-source task manifest:\n- " + "\n- ".join(errors))
+    return document, tasks
