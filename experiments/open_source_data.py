@@ -123,7 +123,7 @@ def _safe_extract_zip(blob: bytes, destination: Path) -> str:
 
 def materialize(manifest_path: str | Path, task_id: str,
                 workspace: str | Path, grader: str | Path) -> dict[str, Any]:
-    """Fetch immutable base source and keep gold/hidden patches outside it."""
+    """Fetch immutable base/head trees and keep all answers outside the workspace."""
     _, tasks = load_open_source_tasks(manifest_path)
     matches = [task for task in tasks if task.id == task_id]
     if len(matches) != 1:
@@ -138,7 +138,10 @@ def materialize(manifest_path: str | Path, task_id: str,
 
     owner, repo_name = task.repo.split("/", 1)
     archive_url = f"https://codeload.github.com/{owner}/{repo_name}/zip/{task.base_sha}"
+    head_archive_url = (
+        f"https://codeload.github.com/{owner}/{repo_name}/zip/{task.head_sha}")
     archive = _request(archive_url, accept="application/zip")
+    head_archive = _request(head_archive_url, accept="application/zip")
     patch = _request(task.patch_url, accept="application/vnd.github.patch")
     got_patch_hash = hashlib.sha256(patch).hexdigest()
     if got_patch_hash != task.patch_sha256:
@@ -147,19 +150,35 @@ def materialize(manifest_path: str | Path, task_id: str,
     try:
         archive_root = _safe_extract_zip(archive, workspace)
         grader.mkdir(parents=True, exist_ok=False)
-        chunks = _patch_chunks(patch)
-        test_chunks = [chunk for path, chunk in chunks if path in task.test_files]
-        if len(test_chunks) != len(task.test_files):
-            raise ValueError("could not recover every frozen test-file patch")
-        hidden_patch = b"".join(test_chunks)
+        gold_source = grader / "gold_source"
+        head_archive_root = _safe_extract_zip(head_archive, gold_source)
+        hidden_root = grader / "hidden_tests"
+        hidden_files = []
+        for relative in task.test_files:
+            source = gold_source / Path(relative)
+            target = hidden_root / Path(relative)
+            if source.is_file():
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source, target)
+                hidden_files.append({
+                    "path": relative, "action": "copy",
+                    "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+                })
+            elif not source.exists():
+                hidden_files.append({"path": relative, "action": "delete"})
+            else:
+                raise ValueError(f"hidden test path is not a regular file: {relative}")
         (grader / "gold.patch").write_bytes(patch)
-        (grader / "hidden_tests.patch").write_bytes(hidden_patch)
         (grader / "prompt.md").write_text(
             f"# {task.title}\n\n{task.body.strip()}\n", encoding="utf-8")
-        record = {"task": asdict(task), "archive_url": archive_url,
+        record = {"materialization_version": 2,
+                  "task": asdict(task), "archive_url": archive_url,
                   "archive_sha256": hashlib.sha256(archive).hexdigest(),
                   "archive_root": archive_root,
-                  "hidden_tests_sha256": hashlib.sha256(hidden_patch).hexdigest()}
+                  "head_archive_url": head_archive_url,
+                  "head_archive_sha256": hashlib.sha256(head_archive).hexdigest(),
+                  "head_archive_root": head_archive_root,
+                  "hidden_tests": hidden_files}
         (grader / "materialization.json").write_text(
             json.dumps(record, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
         return record
@@ -172,44 +191,50 @@ def materialize(manifest_path: str | Path, task_id: str,
 
 def prepare_grader(workspace: str | Path, grader: str | Path,
                    output: str | Path) -> list[str]:
-    """Copy an agent result and apply only the hidden test-file changes."""
+    """Copy an agent result and overlay only the frozen hidden test files."""
     workspace, grader, output = map(lambda p: Path(p).resolve(),
                                     (workspace, grader, output))
     if output.exists():
         raise FileExistsError(f"grading target already exists: {output}")
-    patch = grader / "hidden_tests.patch"
     meta = json.loads((grader / "materialization.json").read_text(encoding="utf-8"))
-    expected = meta["hidden_tests_sha256"]
-    if hashlib.sha256(patch.read_bytes()).hexdigest() != expected:
-        raise ValueError("hidden test patch failed its materialization checksum")
     shutil.copytree(workspace, output)
     try:
-        check = subprocess.run(["git", "apply", "--check", str(patch)], cwd=output,
-                               capture_output=True, text=True, encoding="utf-8",
-                               errors="replace", timeout=60)
-        if check.returncode:
-            raise RuntimeError("hidden tests do not apply cleanly: " + check.stderr[:500])
-        subprocess.run(["git", "apply", str(patch)], cwd=output, check=True,
-                       capture_output=True, timeout=60)
+        if meta.get("materialization_version") == 2:
+            hidden_root = grader / "hidden_tests"
+            for item in meta["hidden_tests"]:
+                relative = Path(item["path"])
+                target = (output / relative).resolve()
+                if output not in target.parents:
+                    raise ValueError(f"unsafe hidden test path: {item['path']}")
+                if item["action"] == "delete":
+                    if target.is_file():
+                        target.unlink()
+                    continue
+                if item["action"] != "copy":
+                    raise ValueError(f"unknown hidden test action: {item['action']}")
+                source = (hidden_root / relative).resolve()
+                if hidden_root not in source.parents:
+                    raise ValueError(f"unsafe hidden test path: {item['path']}")
+                if hashlib.sha256(source.read_bytes()).hexdigest() != item["sha256"]:
+                    raise ValueError(f"hidden test checksum failed: {item['path']}")
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source, target)
+        else:  # Backward compatibility for already materialized v1 fixtures.
+            patch = grader / "hidden_tests.patch"
+            expected = meta["hidden_tests_sha256"]
+            if hashlib.sha256(patch.read_bytes()).hexdigest() != expected:
+                raise ValueError("hidden test patch failed its materialization checksum")
+            check = subprocess.run(["git", "apply", "--check", str(patch)], cwd=output,
+                                   capture_output=True, text=True, encoding="utf-8",
+                                   errors="replace", timeout=60)
+            if check.returncode:
+                raise RuntimeError("hidden tests do not apply cleanly: " + check.stderr[:500])
+            subprocess.run(["git", "apply", str(patch)], cwd=output, check=True,
+                           capture_output=True, timeout=60)
     except Exception:
         shutil.rmtree(output, ignore_errors=True)
         raise
     return list(meta["task"]["test_files"])
-
-
-def _apply_patch_copy(workspace: Path, patch: Path, output: Path) -> None:
-    shutil.copytree(workspace, output)
-    try:
-        check = subprocess.run(["git", "apply", "--check", str(patch)], cwd=output,
-                               capture_output=True, text=True, encoding="utf-8",
-                               errors="replace", timeout=60)
-        if check.returncode:
-            raise RuntimeError("patch does not apply cleanly: " + check.stderr[:500])
-        subprocess.run(["git", "apply", str(patch)], cwd=output, check=True,
-                       capture_output=True, timeout=60)
-    except Exception:
-        shutil.rmtree(output, ignore_errors=True)
-        raise
 
 
 def validate_red_green(manifest_path: str | Path, task_id: str,
@@ -226,12 +251,18 @@ def validate_red_green(manifest_path: str | Path, task_id: str,
     try:
         record = materialize(manifest_path, task_id, workspace, grader)
         test_files = prepare_grader(workspace, grader, baseline)
-        _apply_patch_copy(workspace, grader / "gold.patch", gold)
+        shutil.copytree(grader / "gold_source", gold)
 
         def run(root: Path) -> dict[str, Any]:
+            env = os.environ.copy()
+            # Prefer the frozen checkout over any same-named package installed on
+            # the validation host.  Include both common src-layout and flat-layout
+            # roots; ordering is significant.
+            env["PYTHONPATH"] = os.pathsep.join((str(root / "src"), str(root)))
             proc = subprocess.run([sys.executable, "-m", "pytest", "-q", *test_files],
                                   cwd=root, capture_output=True, text=True,
-                                  encoding="utf-8", errors="replace", timeout=timeout)
+                                  encoding="utf-8", errors="replace", timeout=timeout,
+                                  env=env)
             text = (proc.stdout + "\n" + proc.stderr).strip()
             return {"returncode": proc.returncode, "output_tail": text[-4000:]}
 

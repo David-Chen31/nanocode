@@ -97,7 +97,7 @@ python -m agent.cli "..." --workspace ./demo_ws
 `NANOCODE_BACKEND` 也接受 `anthropic:claude-sonnet-5`；OpenAI 那支认
 `OPENAI_BASE_URL`，可指向兼容端点。
 
-测试：`python -m pytest tests/ -q` → **155 passed**，全部离线、确定性、不花钱。
+测试：`python -m pytest tests/ -q` → **174 passed**，全部离线、确定性、不花钱。
 其中大部分钉的是**会安静出错**的地方：路径逃逸、edit 锚点不唯一、工具结果配对不变量、
 截断的 JSON、失控的打印循环。
 
@@ -130,9 +130,11 @@ ground truth，所以不只能测最终成功率，还能测「它有没有问�
 为了单独检验外部效度，仓库新增了一层**开源时间留出数据**：从 6 个第三方 Python 项目中，
 按提前提交的规则机械选出 26 个在固定模型 snapshot 之后创建并合并的真实 PR。每题冻结 base
 SHA、PR、许可证、代码/测试文件和 patch SHA-256；gold 与隐藏测试保存在 agent 工作区之外。
-选择规则和不足见 [docs/PREREG_open_source_data.md](docs/PREREG_open_source_data.md)，数据在
-[bench/open_source_tasks.json](bench/open_source_tasks.json)。它当前是候选外部集，只有通过
-base-red / gold-green 环境验证的题才会进入模型实验。
+选择规则和不足见 [docs/PREREG_open_source_data.md](docs/PREREG_open_source_data.md)，候选数据在
+[bench/open_source_tasks.json](bench/open_source_tasks.json)。当前主机审计确认 **7 题**严格满足
+base-red / gold-green；另有 3 题基线已通过、1 题 gold 未通过、15 题因仓库依赖或平台问题暂不可判。
+完整的初次审计与修正后审计分别保存在 `bench/open_source_validation_host_v1.json` 和
+`bench/open_source_validation_host_v2.json`，模型实验只能通过 fail-closed loader 取得 7 题子集。
 
 ## 已知限制
 

@@ -5,7 +5,8 @@ from zipfile import ZipFile
 
 import pytest
 
-from bench.open_source_schema import OpenSourceTask, load_open_source_tasks
+from bench.open_source_schema import (OpenSourceTask, load_open_source_tasks,
+                                      load_validated_open_source_tasks)
 from experiments.open_source_data import (_eligible_preview, _patch_chunks, _paths,
                                           _safe_extract_zip, prepare_grader)
 
@@ -57,6 +58,51 @@ def test_manifest_loader_rejects_boundary_and_provenance_violations(tmp_path, up
     p.write_text(json.dumps(_document(_row(**updates))), encoding="utf-8")
     with pytest.raises(ValueError):
         load_open_source_tasks(p)
+
+
+def _validation(manifest, *, status="VALIDATED"):
+    row = {"task_id": manifest["tasks"][0]["id"], "status": status,
+           "baseline": {"returncode": 1}, "gold": {"returncode": 0}}
+    return {"schema_version": 1,
+            "manifest_tasks_sha256": manifest["tasks_sha256"],
+            "counts": {status: 1}, "rows": [row]}
+
+
+def test_validated_loader_returns_only_audited_red_green_tasks(tmp_path):
+    manifest = _document(_row())
+    tasks_path = tmp_path / "tasks.json"
+    validation_path = tmp_path / "validation.json"
+    tasks_path.write_text(json.dumps(manifest), encoding="utf-8")
+    validation_path.write_text(json.dumps(_validation(manifest)), encoding="utf-8")
+
+    _, tasks = load_validated_open_source_tasks(tasks_path, validation_path)
+    assert [task.id for task in tasks] == ["oss_owner_repo_pr1"]
+
+
+def test_committed_validation_exposes_seven_tasks_from_two_repositories():
+    _, tasks = load_validated_open_source_tasks()
+    assert len(tasks) == 7
+    assert {task.repo for task in tasks} == {"pallets/click", "Textualize/rich"}
+
+
+@pytest.mark.parametrize("change", ["manifest_hash", "missing_row", "false_green"])
+def test_validated_loader_fails_closed_on_audit_tampering(tmp_path, change):
+    manifest = _document(_row())
+    validation = _validation(manifest)
+    if change == "manifest_hash":
+        validation["manifest_tasks_sha256"] = "0" * 64
+    elif change == "missing_row":
+        validation["rows"] = []
+        validation["counts"] = {}
+    else:
+        validation["rows"][0]["gold"]["returncode"] = 1
+    tasks_path = tmp_path / "tasks.json"
+    validation_path = tmp_path / "validation.json"
+    tasks_path.write_text(json.dumps(manifest), encoding="utf-8")
+    validation_path.write_text(json.dumps(validation), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="invalid open-source validation"):
+        load_validated_open_source_tasks(tasks_path, validation_path)
 
 
 def test_patch_preview_requires_code_and_tests_without_reading_model_outcomes():
@@ -113,3 +159,69 @@ def test_prepare_grader_applies_hidden_patch_to_a_copy(tmp_path):
     assert prepare_grader(workspace, grader, output) == ["tests/test_core.py"]
     assert (output / "tests/test_core.py").read_text() == "new\n"
     assert (workspace / "tests/test_core.py").read_text() == "old\n"
+
+
+def test_prepare_grader_overlays_sha_frozen_hidden_files(tmp_path):
+    workspace = tmp_path / "workspace"
+    grader = tmp_path / "grader"
+    hidden = grader / "hidden_tests/tests"
+    workspace.mkdir()
+    hidden.mkdir(parents=True)
+    (workspace / "tests").mkdir()
+    (workspace / "tests/test_core.py").write_text("old\n", encoding="utf-8")
+    (workspace / "tests/test_removed.py").write_text("remove me\n", encoding="utf-8")
+    payload = b"new\n"
+    (hidden / "test_core.py").write_bytes(payload)
+    meta = {
+        "materialization_version": 2,
+        "task": {"test_files": ["tests/test_core.py", "tests/test_removed.py"]},
+        "hidden_tests": [
+            {"path": "tests/test_core.py", "action": "copy",
+             "sha256": hashlib.sha256(payload).hexdigest()},
+            {"path": "tests/test_removed.py", "action": "delete"},
+        ],
+    }
+    (grader / "materialization.json").write_text(json.dumps(meta), encoding="utf-8")
+
+    output = tmp_path / "scoring"
+    assert prepare_grader(workspace, grader, output) == meta["task"]["test_files"]
+    assert (output / "tests/test_core.py").read_bytes() == payload
+    assert not (output / "tests/test_removed.py").exists()
+    assert (workspace / "tests/test_core.py").read_text() == "old\n"
+
+
+def test_prepare_grader_rejects_tampered_hidden_file(tmp_path):
+    workspace = tmp_path / "workspace"
+    grader = tmp_path / "grader"
+    hidden = grader / "hidden_tests/tests"
+    workspace.mkdir()
+    hidden.mkdir(parents=True)
+    (hidden / "test_core.py").write_bytes(b"tampered\n")
+    meta = {
+        "materialization_version": 2,
+        "task": {"test_files": ["tests/test_core.py"]},
+        "hidden_tests": [{"path": "tests/test_core.py", "action": "copy",
+                          "sha256": hashlib.sha256(b"expected\n").hexdigest()}],
+    }
+    (grader / "materialization.json").write_text(json.dumps(meta), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="checksum failed"):
+        prepare_grader(workspace, grader, tmp_path / "scoring")
+    assert not (tmp_path / "scoring").exists()
+
+
+def test_prepare_grader_rejects_escaping_hidden_path(tmp_path):
+    workspace = tmp_path / "workspace"
+    grader = tmp_path / "grader"
+    workspace.mkdir()
+    grader.mkdir()
+    meta = {
+        "materialization_version": 2,
+        "task": {"test_files": ["../escape.py"]},
+        "hidden_tests": [{"path": "../escape.py", "action": "delete"}],
+    }
+    (grader / "materialization.json").write_text(json.dumps(meta), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="unsafe hidden test path"):
+        prepare_grader(workspace, grader, tmp_path / "scoring")
+    assert not (tmp_path / "scoring").exists()

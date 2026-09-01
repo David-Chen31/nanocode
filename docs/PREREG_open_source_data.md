@@ -99,5 +99,25 @@ latest merged_at    = 2025-06-05T14:55:33Z
 py -3 experiments/open_source_data.py materialize TASK_ID \
   --workspace results/_oss_workspace --grader results/_oss_grader
 py -3 experiments/open_source_data.py validate-all \
-  --out bench/open_source_validation.json
+  --out bench/open_source_validation_host_v2.json
 ```
+
+## 验证审计（选择后记录，不改规则）
+
+第一次主机审计暴露了两个物化错误：多提交 `.patch` 中同一路径会出现多次；测试进程也可能优先
+导入主机已安装的同名包。完整 v1 记录保留在 `bench/open_source_validation_host_v1.json`。
+修正方式不改变候选、顺序或纳入规则：base/head 均直接按冻结 SHA 下载，隐藏测试取 head 树中的
+最终文件；测试时把对应工作树的 `src/` 和根目录置于 `PYTHONPATH` 最前。
+
+v2 在 Windows、Python 3.12 主机上的结果为：
+
+```text
+VALIDATED                 7
+BASELINE_ALREADY_PASSES   3
+GOLD_DOES_NOT_PASS         1
+INFRASTRUCTURE_ERROR      15
+```
+
+7 个有效任务来自 Click（4）和 Rich（3）。15 个环境错误主要来自 HTTPX 的 Trio 依赖、pytest 的
+构建期版本文件和 Pydantic/Core 版本配对；在统一冻结环境重验前，不计入成功或失败。任何模型实验
+必须用 `load_validated_open_source_tasks` 读取 v2，不能直接把 26 个候选当作评分分母。

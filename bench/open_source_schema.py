@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
@@ -13,6 +14,10 @@ SNAPSHOT_AT = datetime(2024, 7, 18, 23, 59, 59, tzinfo=timezone.utc)
 WINDOW_END = datetime(2025, 7, 18, 23, 59, 59, tzinfo=timezone.utc)
 ALLOWED_LICENSES = {"MIT", "BSD-3-Clause", "Apache-2.0", "ISC"}
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+VALIDATION_STATUSES = {
+    "VALIDATED", "BASELINE_ALREADY_PASSES", "GOLD_DOES_NOT_PASS",
+    "INFRASTRUCTURE_ERROR",
+}
 
 
 def _time(raw: str) -> datetime:
@@ -132,3 +137,47 @@ def load_open_source_tasks(path: str | Path | None = None) -> tuple[dict, list[O
     if errors:
         raise ValueError("invalid open-source task manifest:\n- " + "\n- ".join(errors))
     return document, tasks
+
+
+def load_validated_open_source_tasks(
+        manifest_path: str | Path | None = None,
+        validation_path: str | Path | None = None,
+) -> tuple[dict, list[OpenSourceTask]]:
+    """Return only red-to-green tasks after validating the complete audit record."""
+    manifest, tasks = load_open_source_tasks(manifest_path)
+    validation_path = (Path(validation_path) if validation_path else
+                       Path(__file__).with_name("open_source_validation_host_v2.json"))
+    validation = json.loads(validation_path.read_text(encoding="utf-8"))
+    rows = validation.get("rows")
+    errors = []
+    if validation.get("schema_version") != 1:
+        errors.append("unsupported validation schema_version")
+    if validation.get("manifest_tasks_sha256") != manifest["tasks_sha256"]:
+        errors.append("validation record refers to a different task manifest")
+    if not isinstance(rows, list):
+        errors.append("validation rows must be a list")
+        rows = []
+    task_by_id = {task.id: task for task in tasks}
+    row_ids = [row.get("task_id") for row in rows if isinstance(row, dict)]
+    if len(row_ids) != len(rows) or len(row_ids) != len(set(row_ids)):
+        errors.append("validation rows have missing or duplicate task ids")
+    if set(row_ids) != set(task_by_id):
+        errors.append("validation rows do not cover the frozen task set exactly")
+    statuses = [row.get("status") for row in rows if isinstance(row, dict)]
+    unknown = set(statuses) - VALIDATION_STATUSES
+    if unknown:
+        errors.append(f"validation rows contain unknown statuses: {sorted(unknown)}")
+    if validation.get("counts") != dict(Counter(statuses)):
+        errors.append("validation status counts do not match rows")
+    for row in rows:
+        if not isinstance(row, dict) or row.get("status") != "VALIDATED":
+            continue
+        if (row.get("baseline") or {}).get("returncode") != 1:
+            errors.append(f"{row.get('task_id')}: validated baseline was not red")
+        if (row.get("gold") or {}).get("returncode") != 0:
+            errors.append(f"{row.get('task_id')}: validated gold was not green")
+    if errors:
+        raise ValueError("invalid open-source validation record:\n- " +
+                         "\n- ".join(errors))
+    return validation, [task_by_id[row["task_id"]] for row in rows
+                        if row["status"] == "VALIDATED"]
