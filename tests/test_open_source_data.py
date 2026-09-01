@@ -1,10 +1,13 @@
 import hashlib
+import io
 import json
+from zipfile import ZipFile
 
 import pytest
 
 from bench.open_source_schema import OpenSourceTask, load_open_source_tasks
-from experiments.open_source_data import _eligible_preview, _paths
+from experiments.open_source_data import (_eligible_preview, _patch_chunks, _paths,
+                                          _safe_extract_zip, prepare_grader)
 
 
 def _row(**updates):
@@ -27,7 +30,11 @@ def _document(row):
     tasks = [row]
     canonical = json.dumps(tasks, sort_keys=True, ensure_ascii=False,
                            separators=(",", ":")).encode()
-    return {"schema_version": 1, "tasks": tasks,
+    return {"schema_version": 1,
+            "snapshot_model": "gpt-4o-mini-2024-07-18",
+            "window": {"start": "2024-07-19", "end": "2025-07-18"},
+            "repositories": {"owner/repo": {"license_spdx": "MIT"}},
+            "audit": {"owner/repo": {"selected": 1}}, "tasks": tasks,
             "tasks_sha256": hashlib.sha256(canonical).hexdigest()}
 
 
@@ -64,3 +71,45 @@ def test_patch_preview_excludes_bots_and_docs_only_changes():
     patch = b"diff --git a/docs/index.md b/docs/index.md\n"
     bot = {"user": {"login": "dependabot[bot]"}, "title": "Update package"}
     assert _eligible_preview(bot, patch)[1] == "bot author"
+
+
+def test_patch_chunks_can_hide_test_changes_from_the_agent():
+    patch = (b"mail header\n"
+             b"diff --git a/src/core.py b/src/core.py\ncode\n"
+             b"diff --git a/tests/test_core.py b/tests/test_core.py\ntest\n")
+    chunks = _patch_chunks(patch)
+    assert [path for path, _ in chunks] == ["src/core.py", "tests/test_core.py"]
+    assert chunks[1][1].startswith(b"diff --git a/tests/")
+    assert b"src/core.py" not in chunks[1][1]
+
+
+def test_source_archive_drops_githubs_top_directory(tmp_path):
+    buf = io.BytesIO()
+    with ZipFile(buf, "w") as zf:
+        zf.writestr("repo-sha/src/core.py", "value = 1\n")
+    dest = tmp_path / "workspace"
+    root = _safe_extract_zip(buf.getvalue(), dest)
+    assert root == "repo-sha"
+    assert (dest / "src/core.py").read_text() == "value = 1\n"
+
+
+def test_prepare_grader_applies_hidden_patch_to_a_copy(tmp_path):
+    workspace = tmp_path / "workspace"
+    grader = tmp_path / "grader"
+    workspace.mkdir()
+    grader.mkdir()
+    (workspace / "tests").mkdir()
+    (workspace / "tests/test_core.py").write_text("old\n", encoding="utf-8")
+    patch = (b"diff --git a/tests/test_core.py b/tests/test_core.py\n"
+             b"index 3367afd..3e75765 100644\n"
+             b"--- a/tests/test_core.py\n"
+             b"+++ b/tests/test_core.py\n"
+             b"@@ -1 +1 @@\n-old\n+new\n")
+    (grader / "hidden_tests.patch").write_bytes(patch)
+    meta = {"hidden_tests_sha256": hashlib.sha256(patch).hexdigest(),
+            "task": {"test_files": ["tests/test_core.py"]}}
+    (grader / "materialization.json").write_text(json.dumps(meta), encoding="utf-8")
+    output = tmp_path / "scoring"
+    assert prepare_grader(workspace, grader, output) == ["tests/test_core.py"]
+    assert (output / "tests/test_core.py").read_text() == "new\n"
+    assert (workspace / "tests/test_core.py").read_text() == "old\n"

@@ -1,0 +1,806 @@
+{
+ "schema_version": 1,
+ "created_utc": "2026-09-01T13:33:07.641823+00:00",
+ "selection_code": "experiments/open_source_data.py",
+ "selection_preregistration": "docs/PREREG_open_source_data.md",
+ "snapshot_model": "gpt-4o-mini-2024-07-18",
+ "window": {
+  "start": "2024-07-19",
+  "end": "2025-07-18"
+ },
+ "repositories": {
+  "pallets/click": {
+   "html_url": "https://github.com/pallets/click",
+   "default_branch": "main",
+   "license_spdx": "BSD-3-Clause",
+   "stars_at_selection": 17648
+  },
+  "encode/httpx": {
+   "html_url": "https://github.com/encode/httpx",
+   "default_branch": "master",
+   "license_spdx": "BSD-3-Clause",
+   "stars_at_selection": 15464
+  },
+  "pytest-dev/pytest": {
+   "html_url": "https://github.com/pytest-dev/pytest",
+   "default_branch": "main",
+   "license_spdx": "MIT",
+   "stars_at_selection": 14465
+  },
+  "pydantic/pydantic": {
+   "html_url": "https://github.com/pydantic/pydantic",
+   "default_branch": "main",
+   "license_spdx": "MIT",
+   "stars_at_selection": 28681
+  },
+  "psf/requests": {
+   "html_url": "https://github.com/psf/requests",
+   "default_branch": "main",
+   "license_spdx": "Apache-2.0",
+   "stars_at_selection": 54274
+  },
+  "Textualize/rich": {
+   "html_url": "https://github.com/Textualize/rich",
+   "default_branch": "main",
+   "license_spdx": "MIT",
+   "stars_at_selection": 57297
+  }
+ },
+ "audit": {
+  "pallets/click": {
+   "query": "repo:pallets/click is:pr is:merged created:2024-07-19..2025-07-18 merged:2024-07-19..2025-07-18",
+   "candidate_pool": 63,
+   "selected": 5,
+   "excluded_before_cutoff": {
+    "bot author": 3,
+    "no test file": 3,
+    "file count": 3
+   }
+  },
+  "encode/httpx": {
+   "query": "repo:encode/httpx is:pr is:merged created:2024-07-19..2025-07-18 merged:2024-07-19..2025-07-18",
+   "candidate_pool": 63,
+   "selected": 5,
+   "excluded_before_cutoff": {
+    "no test file": 8,
+    "file count": 9,
+    "bot author": 4,
+    "excluded title": 5,
+    "patch file metadata mismatch": 4,
+    "patch size": 1
+   }
+  },
+  "pytest-dev/pytest": {
+   "query": "repo:pytest-dev/pytest is:pr is:merged created:2024-07-19..2025-07-18 merged:2024-07-19..2025-07-18",
+   "candidate_pool": 100,
+   "selected": 5,
+   "excluded_before_cutoff": {
+    "bot author": 35,
+    "excluded title": 9,
+    "no test file": 5,
+    "file count": 4
+   }
+  },
+  "pydantic/pydantic": {
+   "query": "repo:pydantic/pydantic is:pr is:merged created:2024-07-19..2025-07-18 merged:2024-07-19..2025-07-18",
+   "candidate_pool": 100,
+   "selected": 5,
+   "excluded_before_cutoff": {
+    "file count": 8,
+    "patch file metadata mismatch": 1,
+    "excluded title": 2,
+    "no test file": 6
+   }
+  },
+  "psf/requests": {
+   "query": "repo:psf/requests is:pr is:merged created:2024-07-19..2025-07-18 merged:2024-07-19..2025-07-18",
+   "candidate_pool": 32,
+   "selected": 1,
+   "excluded_before_cutoff": {
+    "file count": 8,
+    "bot author": 10,
+    "no test file": 5,
+    "excluded title": 8
+   }
+  },
+  "Textualize/rich": {
+   "query": "repo:Textualize/rich is:pr is:merged created:2024-07-19..2025-07-18 merged:2024-07-19..2025-07-18",
+   "candidate_pool": 54,
+   "selected": 5,
+   "excluded_before_cutoff": {
+    "bot author": 2,
+    "no test file": 2,
+    "no python code file": 1
+   }
+  }
+ },
+ "tasks_sha256": "dfb9238b321ec68049ae28730a39bcd9842225825bad2c282b9aed0869f9b7b2",
+ "tasks": [
+  {
+   "id": "oss_pallets_click_pr2775",
+   "repo": "pallets/click",
+   "pr_number": 2775,
+   "pr_url": "https://github.com/pallets/click/pull/2775",
+   "title": "Improve echo_via_pager behaviour in face of errors",
+   "body": "fixes #2674 (echo_via_pager with generators leaves terminal in broken state).\r\n\r\n- [x] Add tests that demonstrate the correct behavior of the change. Tests\r\n  should fail without the change.\r\n- [x] Add or update relevant docs, in the docs folder and in code.\r\n- [x] Add an entry in CHANGES.rst summarizing the change and linking to the issue.\r\n- [x] Add `.. versionchanged::` entries in any relevant code docs.\r\n",
+   "created_at": "2024-09-07T10:40:48Z",
+   "merged_at": "2024-11-09T00:22:59Z",
+   "base_sha": "2cabbe3175026695210fe0bf9b179fd62d52634f",
+   "head_sha": "0bdd673d090e94fa7dfb34eba4ca38d0d2ec3837",
+   "merge_sha": "3b06e0b75aaa68533c7fbd4f89053309f2e4ed8a",
+   "license_spdx": "BSD-3-Clause",
+   "additions": 198,
+   "deletions": 33,
+   "changed_files": 3,
+   "code_files": [
+    "src/click/_termui_impl.py"
+   ],
+   "test_files": [
+    "tests/test_utils.py"
+   ],
+   "patch_url": "https://github.com/pallets/click/pull/2775.patch",
+   "patch_sha256": "0c353c2a4d7505be818663c4004ed721059174c6f4d2f68b6918639fc802cb05",
+   "selection_rank": 4
+  },
+  {
+   "id": "oss_pallets_click_pr2788",
+   "repo": "pallets/click",
+   "pr_number": 2788,
+   "pr_url": "https://github.com/pallets/click/pull/2788",
+   "title": "Added functionality to set flag_value correctly when using envvar",
+   "body": "```python\r\n@click.option('--upper', flag_value='upper', envvar='UPPER')\r\ndef cmd(upper):\r\n    click.echo(upper)\r\n    return upper\r\n```\r\n\r\n### Default use\r\nThe expectation of the above code when running `python cmd.py --upper` is to print to stdout `upper` (the flag value). This is default behaviour and works correctly.\r\n\r\n### Environment variable use\r\nWhat is the expectation when we run `UPPER=32 python cmd.py` ?\r\n\r\nThe program should still print to the screen `upper`, because that is the `flag_value` and there exists an env variable defined with the name `UPPER`, yet it actually prints `32`, the value of the environment variable, which i don't believe is intended.\r\n\r\n*I also added a test for this functionality called `test_envvar_flag_value`*\r\nfixes #2746 \r\n",
+   "created_at": "2024-10-13T20:47:53Z",
+   "merged_at": "2024-11-03T14:40:46Z",
+   "base_sha": "380008389b32ca2b7de7c73f670a9eee1562004e",
+   "head_sha": "fb3b72c3751491d6b1b10626a986fef3c5441e2e",
+   "merge_sha": "1787497713fa389435ed732c9b26274c3cdc458d",
+   "license_spdx": "BSD-3-Clause",
+   "additions": 25,
+   "deletions": 3,
+   "changed_files": 3,
+   "code_files": [
+    "src/click/core.py"
+   ],
+   "test_files": [
+    "tests/test_arguments.py"
+   ],
+   "patch_url": "https://github.com/pallets/click/pull/2788.patch",
+   "patch_sha256": "db7676ae5c7a2f16a73eef032f0da7ad40ac0986724f5f3722ee6dc30655f117",
+   "selection_rank": 6
+  },
+  {
+   "id": "oss_pallets_click_pr2800",
+   "repo": "pallets/click",
+   "pr_number": 2800,
+   "pr_url": "https://github.com/pallets/click/pull/2800",
+   "title": "Close contexts created during shell completion #2644.",
+   "body": "Includes a test reproducing #2644. Then continues from the work done by @akhil-vempali in #2767 to fix the issue. There was some confusion in the mess of context objects in the implementation that has been fixed in this version.\r\n\r\nResolves #2644.",
+   "created_at": "2024-11-03T13:31:59Z",
+   "merged_at": "2024-11-03T20:38:31Z",
+   "base_sha": "d8763b93021c416549b5f8b4b5497234619410db",
+   "head_sha": "e7f30b248526c361da64a11660fc67c5e5f2822c",
+   "merge_sha": "0ef55fda47bb3d0dece21197d81d8d72a4250e73",
+   "license_spdx": "BSD-3-Clause",
+   "additions": 66,
+   "deletions": 33,
+   "changed_files": 4,
+   "code_files": [
+    "src/click/core.py",
+    "src/click/shell_completion.py"
+   ],
+   "test_files": [
+    "tests/test_shell_completion.py"
+   ],
+   "patch_url": "https://github.com/pallets/click/pull/2800.patch",
+   "patch_sha256": "176e7a7e80e9d8d060f9f82604adf9f26f1de8c1493815493e0edded2ca129e5",
+   "selection_rank": 9
+  },
+  {
+   "id": "oss_pallets_click_pr2811",
+   "repo": "pallets/click",
+   "pr_number": 2811,
+   "pr_url": "https://github.com/pallets/click/pull/2811",
+   "title": "Fix eagerness of help option generated by `help_option_names`",
+   "body": "When a help option is generated by the use of `help_option_names` setting, it loose its eagerness. This issue has an effect on the order in which parameters (and their callbacks) are processed, and breaks the evaluation order described in the documentation: https://click.palletsprojects.com/en/stable/advanced/#callback-evaluation-order\r\n\r\nThat's because the utility method `iter_params_for_processing()` is comparing option objects, and the help option is generated on every  `get_help_option()` or `get_params(ctx)` call. This behavior is demonstrated by a unit-test in this PR.\r\n\r\nMy solution to fix this issue consist in caching locally the auto-generated help option. This solves the issue.\r\n\r\nI used this oportunity to clarify some documentation, and unit-test the main method responsible for the ordering of parameters.\r\n\r\nThis is more or less a follow up of #2563, which has been merged in the upcoming v8.1.8 release.\r\n\r\nChecklist:\r\n\r\n- [x] Add tests that demonstrate the correct behavior of the change. Tests should fail without the change.\r\n- [x] Add or update relevant docs, in the docs folder and in code.\r\n- [x] Add an entry in `CHANGES.rst` summarizing the change and linking to the issue.\r\n- [x] Add `.. versionchanged::` entries in any relevant code docs.\r\n- [x] Run pre-commit hooks and fix any issues.\r\n- [x] Run `pytest` and `tox`, no tests failed.",
+   "created_at": "2024-11-24T13:59:05Z",
+   "merged_at": "2024-11-30T00:45:29Z",
+   "base_sha": "273fb90106726daa16e1033eca0d677de76345eb",
+   "head_sha": "ab270b4617a4a743aecce51442cb5613d4aa33f4",
+   "merge_sha": "70c673d37eb91ba42a129be9037caf3ebed62f3e",
+   "license_spdx": "BSD-3-Clause",
+   "additions": 160,
+   "deletions": 6,
+   "changed_files": 3,
+   "code_files": [
+    "src/click/core.py"
+   ],
+   "test_files": [
+    "tests/test_commands.py"
+   ],
+   "patch_url": "https://github.com/pallets/click/pull/2811.patch",
+   "patch_sha256": "404fc6e2d2f142e88a26f5febf4a60e870e89020ef93dd9ef01e56e656d8dd1f",
+   "selection_rank": 12
+  },
+  {
+   "id": "oss_pallets_click_pr2818",
+   "repo": "pallets/click",
+   "pr_number": 2818,
+   "pr_url": "https://github.com/pallets/click/pull/2818",
+   "title": "Add CliRunner default `catch_exceptions` parameter",
+   "body": "fixes #2817\r\n\r\nAdd a `catch_exceptions` parameter to `CliRunner`.\r\nIf the `catch_exceptions` parameters from `invoke` is not explicitly set, the value from `CliRunner` is used.\r\n",
+   "created_at": "2024-12-08T22:34:59Z",
+   "merged_at": "2024-12-19T16:54:32Z",
+   "base_sha": "5961d31fb566f089ad468a5b26a32f1ebfa7f63e",
+   "head_sha": "a6ae8aaf1c24c9517585d117b493751b1bd8e867",
+   "merge_sha": "88328fc8743d43566081d9f17acad5f5552f5a87",
+   "license_spdx": "BSD-3-Clause",
+   "additions": 38,
+   "deletions": 2,
+   "changed_files": 3,
+   "code_files": [
+    "src/click/testing.py"
+   ],
+   "test_files": [
+    "tests/test_testing.py"
+   ],
+   "patch_url": "https://github.com/pallets/click/pull/2818.patch",
+   "patch_sha256": "47a2fd035ba1e6f5081a9cb03d4ed5d812f07041dcb95b360d0107661438112f",
+   "selection_rank": 14
+  },
+  {
+   "id": "oss_encode_httpx_pr3250",
+   "repo": "encode/httpx",
+   "pr_number": 3250,
+   "pr_url": "https://github.com/encode/httpx/pull/3250",
+   "title": "Improve InvalidURL error message.",
+   "body": "Prompted by https://github.com/encode/httpx/discussions/3248.\r\n\r\n*before*...\r\n\r\n```python\r\n>>> import httpx\r\n>>> httpx.get(\"https://www.example.com\\n\")\r\nTraceback (most recent call last):\r\n  ...\r\n  File \"/Users/tomchristie/GitHub/encode/httpx/httpx/_urlparse.py\", line 163, in urlparse\r\n    raise InvalidURL(error)\r\nhttpx.InvalidURL: Invalid non-printable ASCII character in URL.\r\n```\r\n\r\n*after*...\r\n\r\n```python\r\n>>> import httpx\r\n>>> httpx.get(\"https://www.example.com\\n\")\r\nTraceback (most recent call last):\r\n  ...\r\n  File \"/Users/tomchristie/GitHub/encode/httpx/httpx/_urlparse.py\", line 168, in urlparse\r\n    raise InvalidURL(error)\r\nhttpx.InvalidURL: Invalid non-printable ASCII character in URL, '\\n' at position 23.\r\n```\r\n",
+   "created_at": "2024-07-25T10:09:52Z",
+   "merged_at": "2024-07-26T08:36:03Z",
+   "base_sha": "beb501fc28cb24ef7cd584159bc6ac55d2244dea",
+   "head_sha": "c6f51c73a67acc5ca664bb19285948921239f242",
+   "merge_sha": "7c0cda153d301bde9a011e1dd7157d7e2b20889d",
+   "license_spdx": "BSD-3-Clause",
+   "additions": 21,
+   "deletions": 7,
+   "changed_files": 3,
+   "code_files": [
+    "httpx/_urlparse.py"
+   ],
+   "test_files": [
+    "tests/models/test_url.py"
+   ],
+   "patch_url": "https://github.com/encode/httpx/pull/3250.patch",
+   "patch_sha256": "d3d8d06723a8f726ac05ac10b28f5aa6b79897bcfa176276e483d7a2a1ce802d",
+   "selection_rank": 4
+  },
+  {
+   "id": "oss_encode_httpx_pr3317",
+   "repo": "encode/httpx",
+   "pr_number": 3317,
+   "pr_url": "https://github.com/encode/httpx/pull/3317",
+   "title": "Drop unneccessary 'URL.raw' property",
+   "body": "Remove the unneccessary `URL.raw` property.\r\n\r\nPreviously dropped in 0.23.1, and then reintroduced as an interim measure. See #2461 and #2462.\r\n\r\nRelated: #3314, #3315\r\n",
+   "created_at": "2024-09-24T15:24:40Z",
+   "merged_at": "2024-09-24T16:53:13Z",
+   "base_sha": "f06171fd5a86cf89387f4ee860ea0da207160418",
+   "head_sha": "c362e199368862a8bb8c52729a975a7babc9df28",
+   "merge_sha": "a18f79610141500cf540b2cf4783559731109d7d",
+   "license_spdx": "BSD-3-Clause",
+   "additions": 6,
+   "deletions": 45,
+   "changed_files": 5,
+   "code_files": [
+    "httpx/_types.py",
+    "httpx/_urls.py"
+   ],
+   "test_files": [
+    "tests/models/test_url.py"
+   ],
+   "patch_url": "https://github.com/encode/httpx/pull/3317.patch",
+   "patch_sha256": "d2cfccf73c84c1f96f10a280935b582993a8ac3d5611237e0f9eeb4ccabe2bf9",
+   "selection_rank": 14
+  },
+  {
+   "id": "oss_encode_httpx_pr3371",
+   "repo": "encode/httpx",
+   "pr_number": 3371,
+   "pr_url": "https://github.com/encode/httpx/pull/3371",
+   "title": "Review URL percent escaping sets, from whatwg.",
+   "body": "Review and update which characters should be percent escaped when parsing & normalising URLs.\r\nBased on the URL living standard... https://url.spec.whatwg.org/\r\n\r\nPrompted by https://github.com/encode/httpx/discussions/3360\r\n",
+   "created_at": "2024-10-28T14:37:35Z",
+   "merged_at": "2024-10-28T15:06:10Z",
+   "base_sha": "489fef48ba8619c7604376165c7e8007398e1b5d",
+   "head_sha": "798954ec928bfaeee7ef8ed69a86f9d91892ddcd",
+   "merge_sha": "d293374b6603816420a2bb8e7f4fe5a5f09cbfcc",
+   "license_spdx": "BSD-3-Clause",
+   "additions": 71,
+   "deletions": 27,
+   "changed_files": 2,
+   "code_files": [
+    "httpx/_urlparse.py"
+   ],
+   "test_files": [
+    "tests/models/test_url.py"
+   ],
+   "patch_url": "https://github.com/encode/httpx/pull/3371.patch",
+   "patch_sha256": "05c8bc827f363541092d257998e72d539eec621346670b855897872c34b288e6",
+   "selection_rank": 31
+  },
+  {
+   "id": "oss_encode_httpx_pr3373",
+   "repo": "encode/httpx",
+   "pr_number": 3373,
+   "pr_url": "https://github.com/encode/httpx/pull/3373",
+   "title": "Review urlescape percent-safe set, and use + behavior for form spaces.",
+   "body": "Prompted by #3369\r\n\r\n* Review the percent-safe set that we should use for urlescaping form values.\r\n* Use the stdlib `urlescape`, including form query parameters using `+` for spaces.",
+   "created_at": "2024-10-28T16:13:58Z",
+   "merged_at": "2024-10-28T16:19:59Z",
+   "base_sha": "d293374b6603816420a2bb8e7f4fe5a5f09cbfcc",
+   "head_sha": "2221e5ab2628b04ce8dbec0aeaff859e18c59ea8",
+   "merge_sha": "ba2e51215e4e619540f2a24282b84ed8a738e6fd",
+   "license_spdx": "BSD-3-Clause",
+   "additions": 28,
+   "deletions": 47,
+   "changed_files": 3,
+   "code_files": [
+    "httpx/_urlparse.py",
+    "httpx/_urls.py"
+   ],
+   "test_files": [
+    "tests/models/test_url.py"
+   ],
+   "patch_url": "https://github.com/encode/httpx/pull/3373.patch",
+   "patch_sha256": "b5e716c4f7a36b0bbe30a469e64635f15f9d4efae62872d2d556f90b90cd786f",
+   "selection_rank": 33
+  },
+  {
+   "id": "oss_encode_httpx_pr3376",
+   "repo": "encode/httpx",
+   "pr_number": 3376,
+   "pr_url": "https://github.com/encode/httpx/pull/3376",
+   "title": "Just use default `safe=...` characters for `urlescape`",
+   "body": "Don't try to be clever about which `safe=...` characters to use when calling `urlescape()`.\r\n",
+   "created_at": "2024-10-28T17:34:46Z",
+   "merged_at": "2024-10-28T17:38:16Z",
+   "base_sha": "544038155382473ce87b17ef2238c96e48dee700",
+   "head_sha": "68c18e383ce93b9e4fbe2923b80a834fe3e06923",
+   "merge_sha": "5dda2aa30692e8529555f57efa7bcd203a7d5ac1",
+   "license_spdx": "BSD-3-Clause",
+   "additions": 3,
+   "deletions": 17,
+   "changed_files": 2,
+   "code_files": [
+    "httpx/_urls.py"
+   ],
+   "test_files": [
+    "tests/models/test_url.py"
+   ],
+   "patch_url": "https://github.com/encode/httpx/pull/3376.patch",
+   "patch_sha256": "5ac060897e05937d3c8b12bb8a502e3940dc055a30a4c2fb153547ea858b7413",
+   "selection_rank": 36
+  },
+  {
+   "id": "oss_pytest-dev_pytest_pr12656",
+   "repo": "pytest-dev/pytest",
+   "pr_number": 12656,
+   "pr_url": "https://github.com/pytest-dev/pytest/pull/12656",
+   "title": "explicitly detect conda envs - fixes #12652",
+   "body": "initially we accidentially detected conda environmnts by just testing too many files\r\nafter steamlining we no longer detected conda environments\r\nnow we explicitly detect conda environments and test for support\r\n\r\n<!--\r\nThanks for submitting a PR, your contribution is really appreciated!\r\n\r\nHere is a quick checklist that should be present in PRs.\r\n\r\n- [x] Include documentation when adding new features.\r\n- [x] Include new tests or update existing tests when applicable.\r\n- [X] Allow maintainers to push and squash when merging my commits. Please uncheck this if you prefer to squash the commits yourself.\r\n\r\nIf this change fixes an issue, please:\r\n\r\n- [x] Add text like ``closes #XYZW`` to the PR description and/or commits (where ``XYZW`` is the issue number). See the [github docs](https://help.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword) for more information.\r\n\r\nUnless your change is trivial or a small documentation fix (e.g., a typo or reword of a small section) please:\r\n\r\n- [x] Create a new changelog file in the `changelog` folder, with a name like `<ISSUE NUMBER>.<TYPE>.rst`. See [changelog/README.rst](https://github.com/pytest-dev/pytest/blob/main/changelog/README.rst) for details.\r\n\r\n  Write sentences in the **past or present tense**, examples:\r\n\r\n  * *Improved verbose diff output with sequences.*\r\n  * *Terminal summary statistics now use multiple colors.*\r\n\r\n  Also make sure to end the sentence with a `.`.\r\n\r\n- [x] Add yourself to `AUTHORS` in alphabetical order.\r\n-->\r\n\r\n@jezdez - i believe this should solve it more future-proof, thanks for the input\r\n\r\nCloses #12652 ",
+   "created_at": "2024-07-23T21:46:01Z",
+   "merged_at": "2024-07-24T06:09:28Z",
+   "base_sha": "8061af84b8f80a82045095d0df9da54eba5a01d8",
+   "head_sha": "1f7c917f07716d861235770e0eeef642c0bddf33",
+   "merge_sha": "6c806b499ddbb844753b5c8c4d70a8b98b9d1c3a",
+   "license_spdx": "MIT",
+   "additions": 36,
+   "deletions": 10,
+   "changed_files": 3,
+   "code_files": [
+    "src/_pytest/main.py"
+   ],
+   "test_files": [
+    "testing/test_collection.py"
+   ],
+   "patch_url": "https://github.com/pytest-dev/pytest/pull/12656.patch",
+   "patch_sha256": "dd9076aeeb6dcc6cd9ae0da25a242ed2a08a8a32c93b2266a9dca501a442bf7c",
+   "selection_rank": 13
+  },
+  {
+   "id": "oss_pytest-dev_pytest_pr12662",
+   "repo": "pytest-dev/pytest",
+   "pr_number": 12662,
+   "pr_url": "https://github.com/pytest-dev/pytest/pull/12662",
+   "title": "Obey verbosity level when printing 'msg' part of assertions",
+   "body": "Seems like we just missed that case when more fine-grained verbosity levels were added.\r\n\r\nFixes #6682, #12307\r\n\r\n<!--\r\nThanks for submitting a PR, your contribution is really appreciated!\r\n\r\nHere is a quick checklist that should be present in PRs.\r\n\r\n- [ ] Include documentation when adding new features.\r\n- [ ] Include new tests or update existing tests when applicable.\r\n- [X] Allow maintainers to push and squash when merging my commits. Please uncheck this if you prefer to squash the commits yourself.\r\n\r\nIf this change fixes an issue, please:\r\n\r\n- [ ] Add text like ``closes #XYZW`` to the PR description and/or commits (where ``XYZW`` is the issue number). See the [github docs](https://help.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword) for more information.\r\n\r\nUnless your change is trivial or a small documentation fix (e.g., a typo or reword of a small section) please:\r\n\r\n- [ ] Create a new changelog file in the `changelog` folder, with a name like `<ISSUE NUMBER>.<TYPE>.rst`. See [changelog/README.rst](https://github.com/pytest-dev/pytest/blob/main/changelog/README.rst) for details.\r\n\r\n  Write sentences in the **past or present tense**, examples:\r\n\r\n  * *Improved verbose diff output with sequences.*\r\n  * *Terminal summary statistics now use multiple colors.*\r\n\r\n  Also make sure to end the sentence with a `.`.\r\n\r\n- [ ] Add yourself to `AUTHORS` in alphabetical order.\r\n-->\r\n",
+   "created_at": "2024-07-25T23:04:40Z",
+   "merged_at": "2024-08-05T13:40:43Z",
+   "base_sha": "6c806b499ddbb844753b5c8c4d70a8b98b9d1c3a",
+   "head_sha": "162bc825182310827c54888975030d06d5d22aa4",
+   "merge_sha": "bc1e17e90c5324797b4ebc5fd229d2662ad15e6e",
+   "license_spdx": "MIT",
+   "additions": 30,
+   "deletions": 1,
+   "changed_files": 3,
+   "code_files": [
+    "src/_pytest/assertion/rewrite.py"
+   ],
+   "test_files": [
+    "testing/test_assertrewrite.py"
+   ],
+   "patch_url": "https://github.com/pytest-dev/pytest/pull/12662.patch",
+   "patch_sha256": "b3e514783da85e86a3690f978cfc426a6c41d79ec4bb85097ff21d0445249951",
+   "selection_rank": 17
+  },
+  {
+   "id": "oss_pytest-dev_pytest_pr12708",
+   "repo": "pytest-dev/pytest",
+   "pr_number": 12708,
+   "pr_url": "https://github.com/pytest-dev/pytest/pull/12708",
+   "title": "Exception chains can be navigated when dropped into Pdb in Python 3.13+",
+   "body": "Closes #12707",
+   "created_at": "2024-08-10T06:02:22Z",
+   "merged_at": "2024-09-07T15:11:17Z",
+   "base_sha": "33db65c112e5d76e89dd45024e272df214d2ea9c",
+   "head_sha": "7d85123604a540d8b65c4a60f2b05d11beaedecd",
+   "merge_sha": "3cc88d980166e0741f69c00bd7acbb0a245dcaec",
+   "license_spdx": "MIT",
+   "additions": 63,
+   "deletions": 11,
+   "changed_files": 4,
+   "code_files": [
+    "src/_pytest/debugging.py"
+   ],
+   "test_files": [
+    "testing/test_debugging.py"
+   ],
+   "patch_url": "https://github.com/pytest-dev/pytest/pull/12708.patch",
+   "patch_sha256": "a0468ea8cdcd5c560d5d54bb6fb6fa3105fd8bdf4d3cc38a084c2382f12b71fd",
+   "selection_rank": 40
+  },
+  {
+   "id": "oss_pytest-dev_pytest_pr12716",
+   "repo": "pytest-dev/pytest",
+   "pr_number": 12716,
+   "pr_url": "https://github.com/pytest-dev/pytest/pull/12716",
+   "title": "Fix: pytest >=8.1.0 displays no diff for AssertionError with `--impor…",
+   "body": "closes #12659\r\n\r\n\r\n\r\n<!--\r\nThanks for submitting a PR, your contribution is really appreciated!\r\n\r\nHere is a quick checklist that should be present in PRs.\r\n\r\n- [ ] Include documentation when adding new features.\r\n- [X] Include new tests or update existing tests when applicable.\r\n- [X] Allow maintainers to push and squash when merging my commits. Please uncheck this if you prefer to squash the commits yourself.\r\n\r\nIf this change fixes an issue, please:\r\n\r\n- [X] Add text like ``closes #XYZW`` to the PR description and/or commits (where ``XYZW`` is the issue number). See the [github docs](https://help.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword) for more information.\r\n\r\nUnless your change is trivial or a small documentation fix (e.g., a typo or reword of a small section) please:\r\n\r\n- [X] Create a new changelog file in the `changelog` folder, with a name like `<ISSUE NUMBER>.<TYPE>.rst`. See [changelog/README.rst](https://github.com/pytest-dev/pytest/blob/main/changelog/README.rst) for details.\r\n\r\n  Write sentences in the **past or present tense**, examples:\r\n\r\n  * *Improved verbose diff output with sequences.*\r\n  * *Terminal summary statistics now use multiple colors.*\r\n\r\n  Also make sure to end the sentence with a `.`.\r\n\r\n- [X] Add yourself to `AUTHORS` in alphabetical order.\r\n-->\r\n",
+   "created_at": "2024-08-15T10:15:03Z",
+   "merged_at": "2024-08-30T14:37:18Z",
+   "base_sha": "b08b41cefb5e83271a055bf6a22c79d52a06a8c3",
+   "head_sha": "9122f6e83546ea4bd791074f4784dbec78be358c",
+   "merge_sha": "9a444d113658be6ccb8dc9f57ed118a1ef17c94c",
+   "license_spdx": "MIT",
+   "additions": 51,
+   "deletions": 1,
+   "changed_files": 5,
+   "code_files": [
+    "src/_pytest/assertion/rewrite.py",
+    "src/_pytest/pathlib.py"
+   ],
+   "test_files": [
+    "testing/test_pathlib.py"
+   ],
+   "patch_url": "https://github.com/pytest-dev/pytest/pull/12716.patch",
+   "patch_sha256": "6601f780b6f3c7d7ba6413ae5f4687b47fe6839eac8696d25d8a6ffc91b82897",
+   "selection_rank": 45
+  },
+  {
+   "id": "oss_pytest-dev_pytest_pr12752",
+   "repo": "pytest-dev/pytest",
+   "pr_number": 12752,
+   "pr_url": "https://github.com/pytest-dev/pytest/pull/12752",
+   "title": "Fixed the issue of  causes ``KeyError`` when using the parameter ``--import-mode=importlib`` in pytest>=8.2 . (#12592)",
+   "body": "closes #12592\r\n\r\n\r\n\r\n**Reproduction Steps:**\r\n\r\n1. Create a **namespace package** in a **non-root directory** and include a test file.\r\n\r\n2. Create a **directory with the same name** in that location.\r\n\r\n   \r\n\r\n**Directory Structure:**\r\n\r\n```\r\n>tree ./a\r\na\r\n└── b\r\n    └── c\r\n        ├── c\r\n        └── test_demo.py\r\n```\r\n\r\n\r\n**Execution Results：**\r\n```\r\n>pytest --import-mode=importlib\r\n\r\n==================== test session starts ===================\r\nplatform win32 -- Python 3.12.0, pytest-8.3.2, pluggy-1.5.0\r\nrootdir: D:\\app\r\nplugins: allure-pytest-2.13.5\r\ncollected 0 items / 1 error\r\n\r\n========================== ERRORS ==========================\r\n____________ ERROR collecting a/b/c/test_demo.py ____________\r\n<frozen importlib._bootstrap_external>:1533: in find_spec\r\n    ???\r\n<frozen importlib._bootstrap_external>:1334: in __init__\r\n    ???\r\n<frozen importlib._bootstrap_external>:1350: in _get_parent_path\r\n    ???\r\nE   KeyError: 'a.b'\r\n\r\n=================== short test summary info =================\r\nERROR a/b/c/test_demo.py - KeyError: 'a.b'\r\n!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!\r\n========================= 1 error in 0.10s ===================\r\n```\r\n\r\n\r\n\r\nThrough tracing, it was discovered that the error occurs during the second call to `pathlib._import_module_using_spec`.\r\n\r\n```\r\n_import_module_using_spec  # Import module\r\n -> _import_module_using_spec # Import parent module\r\n   -> PathFinder.find_spec\r\n     -> _NamespacePath.__init__\r\n       -> NamespacePath._get_parent_path\r\n         -> sys.modules[parent_module_name]  # Retrieve ancestor module from sys.modules\r\n           -> KeyError\r\n```\r\n\r\n---\r\n\r\nThis is the entire call process when the exception occurs.\r\n\r\nIn simple terms, when executing `PathFinder.find_spec('a.b.c', ['/app/a/b/c'])`:\r\n\r\n1. Python assumes that we are trying to import a module named `c` (the tail module).\r\n\r\n2. At this point, there happens to be a directory `c` in `/app/a/b/c`, which is then treated as a namespace.\r\n\r\n3. According to convention, its parent module `a.b` should already exist in `sys.modules`, and it is accessed directly using the item method.\r\n\r\n4. However, when pytest uses the `importlib` mode, it doesn't follow this convention, leading to a `KeyError`.\r\n\r\n\r\n\r\n\r\nSo, **from the observable behavior, it seems to be an upstream issue**.\r\n\r\n**However, from a deeper perspective, there might also be a problem with pytest's handling of parent module imports**.\r\n\r\nI noticed that `_import_module_using_spec` attempts to follow the convention of importing the parent module, but the error occurs precisely during this process:  \r\nhttps://github.com/pytest-dev/pytest/blob/main/src/_pytest/pathlib.py#L634-L656\r\n\r\n\r\nI searched for the usage of 'importlib', and the example provided in the Python documentation can import of any module or namespace package in this case:  \r\nhttps://docs.python.org/3/library/importlib.html#approximating-importlib-import-module.\r\n\r\n\r\nUnlike `_import_module_using_spec`, the example function in the documentation **first ensures that the necessary parent modules are present in `sys.modules`, and then imports the target module (or target namespace package)**.\r\n\r\n---\r\n\r\nBased on this, I attempted to modify the execution process in `_import_module_using_spec`, moving the **import of the parent module** to **after `insert_missing_modules()`** to avoid a `KeyError` due to `sys.modules` not being ready.\r\n\r\nFrom the test results, it works quite well, but I'm not sure if there are potential flaws or better solutions (in fact, I've tried and discarded many solutions).\r\n\r\nWelcome any further suggestions.\r\n\r\n\r\n\r\n\r\n\r\n",
+   "created_at": "2024-08-30T07:27:06Z",
+   "merged_at": "2024-09-26T01:08:42Z",
+   "base_sha": "4508d0b2d465eb02c97dc526c0bc8119e2b162f5",
+   "head_sha": "5c9a36c1d8f73bdc1ec83195d5d5e21e31369b23",
+   "merge_sha": "6486c3f3a858a0c8043f5c3f7c24297b82a0abe4",
+   "license_spdx": "MIT",
+   "additions": 171,
+   "deletions": 35,
+   "changed_files": 3,
+   "code_files": [
+    "src/_pytest/pathlib.py"
+   ],
+   "test_files": [
+    "testing/test_pathlib.py"
+   ],
+   "patch_url": "https://github.com/pytest-dev/pytest/pull/12752.patch",
+   "patch_sha256": "448dc6d8be51bc0d4d33fce50ca90266b6fbca3ca380fbd7f47bbb6077c57db3",
+   "selection_rank": 58
+  },
+  {
+   "id": "oss_pydantic_pydantic_pr9932",
+   "repo": "pydantic/pydantic",
+   "pr_number": 9932,
+   "pr_url": "https://github.com/pydantic/pydantic/pull/9932",
+   "title": "Allow usage of `type[Annotated[...]]`",
+   "body": "<!-- Thank you for your contribution! -->\r\n<!-- Unless your change is trivial, please create an issue to discuss the change before creating a PR -->\r\n\r\n## Change Summary\r\n\r\n<!-- Please give a short summary of the changes. -->\r\n\r\n## Related issue number\r\n\r\nFixes https://github.com/pydantic/pydantic/issues/9909\r\n\r\nI'm not fixing https://github.com/pydantic/pydantic/issues/9099 in this one as it probably requires more work on the validation side.\r\n\r\n## Checklist\r\n\r\n* [ ] The pull request title is a good summary of the changes - it will be used in the changelog\r\n* [ ] Unit tests for the changes exist\r\n* [ ] Tests pass on CI\r\n* [ ] Documentation reflects the changes where applicable\r\n* [ ] My PR is ready to review, **please add a comment including the phrase \"please review\" to assign reviewers**\r\n",
+   "created_at": "2024-07-22T11:57:36Z",
+   "merged_at": "2024-07-22T13:53:55Z",
+   "base_sha": "cc90fb060d9f7b9abb7cecafc118a06f2b5df4f9",
+   "head_sha": "4fd47f818e45c575d36eefdedbd4d427c08c8b28",
+   "merge_sha": "9a9f5fbabfe7e23efdd57aa28fb7533cf2e942dd",
+   "license_spdx": "MIT",
+   "additions": 22,
+   "deletions": 0,
+   "changed_files": 2,
+   "code_files": [
+    "pydantic/_internal/_generate_schema.py"
+   ],
+   "test_files": [
+    "tests/test_edge_cases.py"
+   ],
+   "patch_url": "https://github.com/pydantic/pydantic/pull/9932.patch",
+   "patch_sha256": "9b652570476a02bec00c5081bb7bf77fea4f35bcec919abdb4d18f533099ea88",
+   "selection_rank": 2
+  },
+  {
+   "id": "oss_pydantic_pydantic_pr9935",
+   "repo": "pydantic/pydantic",
+   "pr_number": 9935,
+   "pr_url": "https://github.com/pydantic/pydantic/pull/9935",
+   "title": "Handle frozen fields on a per-field basis",
+   "body": "Closes #9923 ",
+   "created_at": "2024-07-22T15:23:50Z",
+   "merged_at": "2024-07-22T17:16:54Z",
+   "base_sha": "9a9f5fbabfe7e23efdd57aa28fb7533cf2e942dd",
+   "head_sha": "3df3e2c7916fdf75e2be824f0fac0a881661f5b7",
+   "merge_sha": "92f1d51208632b42b39b22530f2871e2ab30b9c5",
+   "license_spdx": "MIT",
+   "additions": 53,
+   "deletions": 1,
+   "changed_files": 4,
+   "code_files": [
+    "pydantic/mypy.py"
+   ],
+   "test_files": [
+    "tests/mypy/modules/frozen_field.py",
+    "tests/mypy/outputs/1.0.1/mypy-plugin_ini/frozen_field.py",
+    "tests/mypy/test_mypy.py"
+   ],
+   "patch_url": "https://github.com/pydantic/pydantic/pull/9935.patch",
+   "patch_sha256": "56f608f3008cf532173c623ec8516cf1a076eaf86a52fb52ab0ec02cd677392a",
+   "selection_rank": 3
+  },
+  {
+   "id": "oss_pydantic_pydantic_pr9964",
+   "repo": "pydantic/pydantic",
+   "pr_number": 9964,
+   "pr_url": "https://github.com/pydantic/pydantic/pull/9964",
+   "title": "Add class name to \"has conflict\" warnings",
+   "body": "## Change Summary\r\n\r\nMake it easier to identify which class has the conflict when multiple classes are involved.\r\n\r\nBefore:\r\n\r\n```\r\n.../site-packages/pydantic/_internal/_fields.py:160:\r\nUserWarning: Field \"model_max_budget\"\r\nhas conflict with protected namespace \"model_\".\r\n```\r\n\r\nAfter:\r\n\r\n```\r\n.../site-packages/pydantic/_internal/_fields.py:160:\r\nUserWarning: Field \"model_max_budget\" in LiteLLM_BudgetTable\r\nhas conflict with protected namespace \"model_\".\r\n```\r\n\r\n## Related issue number\r\n\r\n#9962 \r\n\r\n## Checklist\r\n\r\n* [x] The pull request title is a good summary of the changes - it will be used in the changelog\r\n* [x] Unit tests for the changes exist\r\n* [x] Tests pass on CI\r\n* [x] Documentation reflects the changes where applicable\r\n* [x] My PR is ready to review, **please add a comment including the phrase \"please review\" to assign reviewers**\r\n",
+   "created_at": "2024-07-24T18:59:34Z",
+   "merged_at": "2024-07-24T19:17:36Z",
+   "base_sha": "630cc566a447fa072d46d274c0bca1dafde756ff",
+   "head_sha": "249faf91c9ec0ce97219a240e14c36c99ee33ae4",
+   "merge_sha": "f3dc0531344011d6cb0717e30dc2ec78d1969bcf",
+   "license_spdx": "MIT",
+   "additions": 13,
+   "deletions": 9,
+   "changed_files": 4,
+   "code_files": [
+    "pydantic/_internal/_fields.py",
+    "pydantic/config.py"
+   ],
+   "test_files": [
+    "tests/test_create_model.py",
+    "tests/test_main.py"
+   ],
+   "patch_url": "https://github.com/pydantic/pydantic/pull/9964.patch",
+   "patch_sha256": "31eaf81a8f4f8034edb0b4248b51f0034393891b7a786421bb19fd6875c82512",
+   "selection_rank": 17
+  },
+  {
+   "id": "oss_pydantic_pydantic_pr9971",
+   "repo": "pydantic/pydantic",
+   "pr_number": 9971,
+   "pr_url": "https://github.com/pydantic/pydantic/pull/9971",
+   "title": "Fix dataclass ignoring default_factory passed in Annotated",
+   "body": "<!-- Thank you for your contribution! -->\r\n<!-- Unless your change is trivial, please create an issue to discuss the change before creating a PR -->\r\n\r\n## Change Summary\r\n\r\nThis is a fix for bug reported in #9947. When using `pydantic.dataclass` with `Annotated` and `Field(default_factory=...)`, the generated field does not have correct `default_factory`. \r\n\r\nThe only change I made was changing\r\n```py\r\nif dc_field.default_factory is dataclasses.MISSING:\r\n    default_factory: typing.Callable[[], Any] | None = None\r\n```\r\nto\r\n```py\r\nif dc_field.default_factory is dataclasses.MISSING:\r\n    default_factory: typing.Callable[[], Any] | None = _Unset\r\n```\r\nin `FieldInfo._from_dataclass_field` function.\r\n\r\nThe original assignment of `None` will cause `default_factory` to be override in `FieldInfo.merge_field_infos` method, which is called in `collect_dataclass_fields`.\r\n\r\n<!-- Please give a short summary of the changes. -->\r\n\r\n## Related issue number\r\n\r\nfix #9947 \r\n\r\n<!-- WARNING: please use \"fix #123\" style references so the issue is closed when this PR is merged. -->\r\n\r\n## Checklist\r\n\r\n* [x] The pull request title is a good summary of the changes - it will be used in the changelog\r\n* [x] Unit tests for the changes exist\r\n* [x] Tests pass on CI\r\n* [x] Documentation reflects the changes where applicable\r\n* [x] My PR is ready to review, **please add a comment including the phrase \"please review\" to assign reviewers**\r\n",
+   "created_at": "2024-07-25T04:45:04Z",
+   "merged_at": "2024-07-25T15:04:26Z",
+   "base_sha": "d92d34197a0d34ad0d0358e6de9b284482674a95",
+   "head_sha": "6b3b1fbe0b8ab347b9564a5fe494908ce8875f3f",
+   "merge_sha": "d7931c064db56cef78b62f9ed662469a37638b5a",
+   "license_spdx": "MIT",
+   "additions": 36,
+   "deletions": 2,
+   "changed_files": 2,
+   "code_files": [
+    "pydantic/fields.py"
+   ],
+   "test_files": [
+    "tests/test_dataclasses.py"
+   ],
+   "patch_url": "https://github.com/pydantic/pydantic/pull/9971.patch",
+   "patch_sha256": "5ef83d2b73aa03a224e9b46ef6a4b1d70795b5c2f4292a09a9728b6a975721d3",
+   "selection_rank": 18
+  },
+  {
+   "id": "oss_pydantic_pydantic_pr9977",
+   "repo": "pydantic/pydantic",
+   "pr_number": 9977,
+   "pr_url": "https://github.com/pydantic/pydantic/pull/9977",
+   "title": "Move `decimal.Decimal` validation to `_generate_schema.py`",
+   "body": "Along the same lines as https://github.com/pydantic/pydantic/pull/9975 and https://github.com/pydantic/pydantic/pull/9976.\r\n\r\nI've marked one test as xfail - we're no longer checking for the appropriate decimal constraints here, but this isn't a reflection of a problem with decimal, but rather our known annotated metadata application process. I've explained this reason in the xfail comment, and plan to write up a report discussing how we apply annotated metadata and the current shortcomings.\r\n\r\nUpon `codspeed` completion, I'm seeing a 7% improvement on this function: https://codspeed.io/pydantic/pydantic/branches/move-dec. We're slowly chipping away!",
+   "created_at": "2024-07-25T17:01:37Z",
+   "merged_at": "2024-07-25T17:45:12Z",
+   "base_sha": "90e263f1d2ef57176b994145476d443a377a77a4",
+   "head_sha": "b3eb92e575702986f6de2393f8638d80cb219a13",
+   "merge_sha": "cfe663550fb06203ff8b53e0228de7363fa5b7c3",
+   "license_spdx": "MIT",
+   "additions": 12,
+   "deletions": 22,
+   "changed_files": 4,
+   "code_files": [
+    "pydantic/_internal/_generate_schema.py",
+    "pydantic/_internal/_std_types_schema.py",
+    "pydantic/config.py"
+   ],
+   "test_files": [
+    "tests/test_types.py"
+   ],
+   "patch_url": "https://github.com/pydantic/pydantic/pull/9977.patch",
+   "patch_sha256": "f9858e3fdc57f1d7ba17d137417c7bdd9b55df96948d2a1f78304bf1226b347c",
+   "selection_rank": 22
+  },
+  {
+   "id": "oss_psf_requests_pr6963",
+   "repo": "psf/requests",
+   "pr_number": 6963,
+   "pr_url": "https://github.com/psf/requests/pull/6963",
+   "title": "fix CVE 2024 47081: manual url parsing leads to netloc credentials leak",
+   "body": "https://seclists.org/fulldisclosure/2025/Jun/2\r\n\r\nHonestly I have no idea why this lib used `netloc` + manual parsing instead of `hostname` as I can see references to `hostname` as early as from [the python 2.6 docs](https://docs.python.org/2.6/library/urlparse.html).",
+   "created_at": "2025-06-04T10:59:08Z",
+   "merged_at": "2025-06-05T14:55:33Z",
+   "base_sha": "7bc45877a86192af77645e156eb3744f95b47dae",
+   "head_sha": "92bab7d1142db0c807060577233568e5f7734c9b",
+   "merge_sha": "5b4b64c3467fd7a3c03f91ee641aaa348b6bed3b",
+   "license_spdx": "Apache-2.0",
+   "additions": 20,
+   "deletions": 8,
+   "changed_files": 2,
+   "code_files": [
+    "src/requests/utils.py"
+   ],
+   "test_files": [
+    "tests/test_utils.py"
+   ],
+   "patch_url": "https://github.com/psf/requests/pull/6963.patch",
+   "patch_sha256": "166c46d69cdf4f14e63e05bebc2433227deb1ac98e674d64fd01ba6b9fc36169",
+   "selection_rank": 26
+  },
+  {
+   "id": "oss_textualize_rich_pr3454",
+   "repo": "Textualize/rich",
+   "pr_number": 3454,
+   "pr_url": "https://github.com/Textualize/rich/pull/3454",
+   "title": "Fix [BUG] @ breaks highlighting in hyperlink #3327",
+   "body": "## Type of changes\r\n\r\n- [x] Bug fix\r\n- [ ] New feature\r\n- [ ] Documentation / docstrings\r\n- [x] Tests\r\n- [ ] Other\r\n\r\n## Checklist\r\n\r\n- [ ] I've run the latest [black](https://github.com/psf/black) with default args on new code.\r\n- [ ] I've updated CHANGELOG.md and CONTRIBUTORS.md where appropriate.\r\n- [x] I've added tests for new code.\r\n- [x] I accept that @willmcgugan may be pedantic in the code review.\r\n\r\n## Description\r\nFixed the bug [#3327](https://github.com/Textualize/rich/issues/3327).\r\n\r\nChanges -\r\n1. Added '@' in rich.highlighter:ReprHighlighter url regex pattern.\r\n2. Added a test case in test_highlighter for the url with '@'.\r\n\r\n## Note\r\nPoetry installed black v22.12.0 and its formatting differs a bit from the latest version v24.8.0. Hence I've formatted with the prior to keep it consistent.",
+   "created_at": "2024-08-15T16:22:06Z",
+   "merged_at": "2024-08-26T15:48:31Z",
+   "base_sha": "e1e6d745f670ff3df6b8f47377c0a4006cb74066",
+   "head_sha": "f591471cf005062c9068f5ac348c01aec4ca13ef",
+   "merge_sha": "b6f2f7aa5b27f612f391cd28212aff51ad0d42d1",
+   "license_spdx": "MIT",
+   "additions": 2,
+   "deletions": 1,
+   "changed_files": 2,
+   "code_files": [
+    "rich/highlighter.py"
+   ],
+   "test_files": [
+    "tests/test_highlighter.py"
+   ],
+   "patch_url": "https://github.com/Textualize/rich/pull/3454.patch",
+   "patch_sha256": "b87639d2991bd90334de6562602c863e0a790c447dc5fd5e432446545b7fce37",
+   "selection_rank": 4
+  },
+  {
+   "id": "oss_textualize_rich_pr3468",
+   "repo": "Textualize/rich",
+   "pr_number": 3468,
+   "pr_url": "https://github.com/Textualize/rich/pull/3468",
+   "title": "handle broken pipe",
+   "body": "Handle BrokenPipe exceptions\r\n\r\nFixes https://github.com/Textualize/rich/issues/1591\r\n\r\nThanks to @lmmx for doing the legwork.",
+   "created_at": "2024-08-26T12:34:21Z",
+   "merged_at": "2024-08-26T13:28:30Z",
+   "base_sha": "ae15db600976a7999d21653002f338d0761b180c",
+   "head_sha": "c5d86554b3758e6dc739438ddd85cafa4ff93b1f",
+   "merge_sha": "c478588f3c228a4e86741a057c42b452d7bc6bce",
+   "license_spdx": "MIT",
+   "additions": 59,
+   "deletions": 6,
+   "changed_files": 3,
+   "code_files": [
+    "rich/console.py"
+   ],
+   "test_files": [
+    "tests/test_console.py"
+   ],
+   "patch_url": "https://github.com/Textualize/rich/pull/3468.patch",
+   "patch_sha256": "f7c944a4364c1766b377ea411c9433d4b9ad89b96ebd8f6eb97d55dccfc8100e",
+   "selection_rank": 7
+  },
+  {
+   "id": "oss_textualize_rich_pr3469",
+   "repo": "Textualize/rich",
+   "pr_number": 3469,
+   "pr_url": "https://github.com/Textualize/rich/pull/3469",
+   "title": "fix superfluous space",
+   "body": "Fixes https://github.com/Textualize/rich/issues/3027",
+   "created_at": "2024-08-26T14:09:37Z",
+   "merged_at": "2024-08-26T14:22:19Z",
+   "base_sha": "c478588f3c228a4e86741a057c42b452d7bc6bce",
+   "head_sha": "6f529d3110319e10f1daf1bfd11d8e1e569c98c2",
+   "merge_sha": "0ba607dc080c9f102b5ae5346bcdb70d6e9c969d",
+   "license_spdx": "MIT",
+   "additions": 30,
+   "deletions": 4,
+   "changed_files": 3,
+   "code_files": [
+    "rich/markdown.py"
+   ],
+   "test_files": [
+    "tests/test_markdown.py"
+   ],
+   "patch_url": "https://github.com/Textualize/rich/pull/3469.patch",
+   "patch_sha256": "b45dd47994ed973df1152b63bc4f8e34fb99e80ed3d11cfa2e591314931c3a67",
+   "selection_rank": 8
+  },
+  {
+   "id": "oss_textualize_rich_pr3470",
+   "repo": "Textualize/rich",
+   "pr_number": 3470,
+   "pr_url": "https://github.com/Textualize/rich/pull/3470",
+   "title": "Fix record and capture",
+   "body": "Fix https://github.com/Textualize/rich/issues/2563",
+   "created_at": "2024-08-26T14:45:39Z",
+   "merged_at": "2024-08-26T14:56:49Z",
+   "base_sha": "0ba607dc080c9f102b5ae5346bcdb70d6e9c969d",
+   "head_sha": "05428ec17ad8b05005a3dc69a76ba158be38d362",
+   "merge_sha": "e2a982d5ea747f0deb7f78e8eaa5b4be7d9194cf",
+   "license_spdx": "MIT",
+   "additions": 23,
+   "deletions": 18,
+   "changed_files": 3,
+   "code_files": [
+    "rich/console.py"
+   ],
+   "test_files": [
+    "tests/test_console.py"
+   ],
+   "patch_url": "https://github.com/Textualize/rich/pull/3470.patch",
+   "patch_sha256": "ed5e24b9708031e17e8ad8de80ba9bc6ca8d16ce4c5448131b3c50cb7ff972b8",
+   "selection_rank": 9
+  },
+  {
+   "id": "oss_textualize_rich_pr3471",
+   "repo": "Textualize/rich",
+   "pr_number": 3471,
+   "pr_url": "https://github.com/Textualize/rich/pull/3471",
+   "title": "Fixed exception in append_tokens",
+   "body": "Fixes https://github.com/Textualize/rich/issues/3014",
+   "created_at": "2024-08-26T15:12:38Z",
+   "merged_at": "2024-08-26T15:14:23Z",
+   "base_sha": "e2a982d5ea747f0deb7f78e8eaa5b4be7d9194cf",
+   "head_sha": "e96ae134b194b4bfb6b0341411abccd0124472df",
+   "merge_sha": "1b2dada1c9fa6f16ec319a8d370458c8bde203f7",
+   "license_spdx": "MIT",
+   "additions": 22,
+   "deletions": 0,
+   "changed_files": 3,
+   "code_files": [
+    "rich/text.py"
+   ],
+   "test_files": [
+    "tests/test_text.py"
+   ],
+   "patch_url": "https://github.com/Textualize/rich/pull/3471.patch",
+   "patch_sha256": "eec8d466acdf73ba9ed0ff961fc630d85241fc327d79ebd5dd125cf39659875d",
+   "selection_rank": 10
+  }
+ ]
+}

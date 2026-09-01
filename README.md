@@ -127,6 +127,13 @@ ground truth，所以不只能测最终成功率，还能测「它有没有问�
 完整 trace、最终 patch 和 held-out 评分。固定任务 estimand 使用 `analyse.py --fixed-tasks`，
 不再把 12 个目的性任务靠 bootstrap 解释成一般任务总体。
 
+为了单独检验外部效度，仓库新增了一层**开源时间留出数据**：从 6 个第三方 Python 项目中，
+按提前提交的规则机械选出 26 个在固定模型 snapshot 之后创建并合并的真实 PR。每题冻结 base
+SHA、PR、许可证、代码/测试文件和 patch SHA-256；gold 与隐藏测试保存在 agent 工作区之外。
+选择规则和不足见 [docs/PREREG_open_source_data.md](docs/PREREG_open_source_data.md)，数据在
+[bench/open_source_tasks.json](bench/open_source_tasks.json)。它当前是候选外部集，只有通过
+base-red / gold-green 环境验证的题才会进入模型实验。
+
 ## 已知限制
 
 - **搜索是最近才加的**，此前的轨迹实验里「智能体不去探索」这个结论因此有混淆变量：

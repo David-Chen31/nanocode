@@ -10,14 +10,20 @@ import hashlib
 import json
 import os
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
+import platform
 import urllib.error
 import urllib.parse
 import urllib.request
 from collections import Counter
 from datetime import datetime, timezone
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any
+from zipfile import ZipFile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -79,6 +85,204 @@ def _paths(patch: bytes) -> list[str]:
 
 def _patch_url(repo: str, number: int) -> str:
     return f"https://github.com/{repo}/pull/{number}.patch"
+
+
+def _patch_chunks(patch: bytes) -> list[tuple[str, bytes]]:
+    matches = list(DIFF_HEADER.finditer(patch.decode("utf-8", "replace")))
+    chunks = []
+    for i, match in enumerate(matches):
+        start = match.start()
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(patch)
+        chunks.append((match.group(2), patch[start:end]))
+    return chunks
+
+
+def _safe_extract_zip(blob: bytes, destination: Path) -> str:
+    """Extract a GitHub source archive without trusting member paths."""
+    destination.mkdir(parents=True, exist_ok=False)
+    with tempfile.TemporaryDirectory(prefix="nanocode-oss-archive-") as td:
+        archive = Path(td) / "source.zip"
+        archive.write_bytes(blob)
+        unpacked = Path(td) / "unpacked"
+        unpacked.mkdir()
+        with ZipFile(archive) as zf:
+            for info in zf.infolist():
+                target = (unpacked / info.filename).resolve()
+                if unpacked.resolve() not in target.parents and target != unpacked.resolve():
+                    raise ValueError(f"unsafe archive member: {info.filename}")
+            zf.extractall(unpacked)
+        roots = [p for p in unpacked.iterdir() if p.is_dir()]
+        if len(roots) != 1:
+            raise ValueError("GitHub archive did not contain exactly one root directory")
+        archive_root = roots[0]
+        top_name = archive_root.name
+        for child in archive_root.iterdir():
+            shutil.move(str(child), destination / child.name)
+        return top_name
+
+
+def materialize(manifest_path: str | Path, task_id: str,
+                workspace: str | Path, grader: str | Path) -> dict[str, Any]:
+    """Fetch immutable base source and keep gold/hidden patches outside it."""
+    _, tasks = load_open_source_tasks(manifest_path)
+    matches = [task for task in tasks if task.id == task_id]
+    if len(matches) != 1:
+        raise ValueError(f"unknown or duplicate task id: {task_id}")
+    task = matches[0]
+    workspace = Path(workspace).resolve()
+    grader = Path(grader).resolve()
+    if workspace.exists() or grader.exists():
+        raise FileExistsError("workspace and grader targets must not already exist")
+    if workspace in grader.parents or grader in workspace.parents:
+        raise ValueError("grader and agent workspace must not contain each other")
+
+    owner, repo_name = task.repo.split("/", 1)
+    archive_url = f"https://codeload.github.com/{owner}/{repo_name}/zip/{task.base_sha}"
+    archive = _request(archive_url, accept="application/zip")
+    patch = _request(task.patch_url, accept="application/vnd.github.patch")
+    got_patch_hash = hashlib.sha256(patch).hexdigest()
+    if got_patch_hash != task.patch_sha256:
+        raise ValueError("upstream PR patch no longer matches the frozen SHA-256")
+
+    try:
+        archive_root = _safe_extract_zip(archive, workspace)
+        grader.mkdir(parents=True, exist_ok=False)
+        chunks = _patch_chunks(patch)
+        test_chunks = [chunk for path, chunk in chunks if path in task.test_files]
+        if len(test_chunks) != len(task.test_files):
+            raise ValueError("could not recover every frozen test-file patch")
+        hidden_patch = b"".join(test_chunks)
+        (grader / "gold.patch").write_bytes(patch)
+        (grader / "hidden_tests.patch").write_bytes(hidden_patch)
+        (grader / "prompt.md").write_text(
+            f"# {task.title}\n\n{task.body.strip()}\n", encoding="utf-8")
+        record = {"task": asdict(task), "archive_url": archive_url,
+                  "archive_sha256": hashlib.sha256(archive).hexdigest(),
+                  "archive_root": archive_root,
+                  "hidden_tests_sha256": hashlib.sha256(hidden_patch).hexdigest()}
+        (grader / "materialization.json").write_text(
+            json.dumps(record, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+        return record
+    except Exception:
+        # A half-staged workspace could otherwise be mistaken for valid data.
+        shutil.rmtree(workspace, ignore_errors=True)
+        shutil.rmtree(grader, ignore_errors=True)
+        raise
+
+
+def prepare_grader(workspace: str | Path, grader: str | Path,
+                   output: str | Path) -> list[str]:
+    """Copy an agent result and apply only the hidden test-file changes."""
+    workspace, grader, output = map(lambda p: Path(p).resolve(),
+                                    (workspace, grader, output))
+    if output.exists():
+        raise FileExistsError(f"grading target already exists: {output}")
+    patch = grader / "hidden_tests.patch"
+    meta = json.loads((grader / "materialization.json").read_text(encoding="utf-8"))
+    expected = meta["hidden_tests_sha256"]
+    if hashlib.sha256(patch.read_bytes()).hexdigest() != expected:
+        raise ValueError("hidden test patch failed its materialization checksum")
+    shutil.copytree(workspace, output)
+    try:
+        check = subprocess.run(["git", "apply", "--check", str(patch)], cwd=output,
+                               capture_output=True, text=True, encoding="utf-8",
+                               errors="replace", timeout=60)
+        if check.returncode:
+            raise RuntimeError("hidden tests do not apply cleanly: " + check.stderr[:500])
+        subprocess.run(["git", "apply", str(patch)], cwd=output, check=True,
+                       capture_output=True, timeout=60)
+    except Exception:
+        shutil.rmtree(output, ignore_errors=True)
+        raise
+    return list(meta["task"]["test_files"])
+
+
+def _apply_patch_copy(workspace: Path, patch: Path, output: Path) -> None:
+    shutil.copytree(workspace, output)
+    try:
+        check = subprocess.run(["git", "apply", "--check", str(patch)], cwd=output,
+                               capture_output=True, text=True, encoding="utf-8",
+                               errors="replace", timeout=60)
+        if check.returncode:
+            raise RuntimeError("patch does not apply cleanly: " + check.stderr[:500])
+        subprocess.run(["git", "apply", str(patch)], cwd=output, check=True,
+                       capture_output=True, timeout=60)
+    except Exception:
+        shutil.rmtree(output, ignore_errors=True)
+        raise
+
+
+def validate_red_green(manifest_path: str | Path, task_id: str,
+                       scratch: str | Path, *, timeout: int = 300) -> dict[str, Any]:
+    """Check that hidden tests fail on base and pass with the public gold patch."""
+    scratch = Path(scratch).resolve()
+    if scratch.exists():
+        raise FileExistsError(f"scratch target already exists: {scratch}")
+    workspace = scratch / "workspace"
+    grader = scratch / "grader"
+    baseline = scratch / "baseline"
+    gold = scratch / "gold"
+    scratch.mkdir(parents=True)
+    try:
+        record = materialize(manifest_path, task_id, workspace, grader)
+        test_files = prepare_grader(workspace, grader, baseline)
+        _apply_patch_copy(workspace, grader / "gold.patch", gold)
+
+        def run(root: Path) -> dict[str, Any]:
+            proc = subprocess.run([sys.executable, "-m", "pytest", "-q", *test_files],
+                                  cwd=root, capture_output=True, text=True,
+                                  encoding="utf-8", errors="replace", timeout=timeout)
+            text = (proc.stdout + "\n" + proc.stderr).strip()
+            return {"returncode": proc.returncode, "output_tail": text[-4000:]}
+
+        before = run(baseline)
+        after = run(gold)
+        assertion_red = before["returncode"] == 1 and bool(
+            re.search(r"\b\d+ failed\b", before["output_tail"]))
+        if before["returncode"] == 0:
+            status = "BASELINE_ALREADY_PASSES"
+        elif not assertion_red:
+            status = "INFRASTRUCTURE_ERROR"
+        elif after["returncode"] != 0:
+            status = "GOLD_DOES_NOT_PASS"
+        else:
+            status = "VALIDATED"
+        return {"task_id": task_id, "repo": record["task"]["repo"],
+                "status": status, "test_files": test_files,
+                "baseline": before, "gold": after}
+    finally:
+        shutil.rmtree(scratch, ignore_errors=True)
+
+
+def validate_all(manifest_path: str | Path, out: str | Path, *,
+                 timeout: int = 300) -> dict[str, Any]:
+    document, tasks = load_open_source_tasks(manifest_path)
+    out = Path(out)
+    if out.exists():
+        raise FileExistsError(f"refusing to overwrite validation record: {out}")
+    rows = []
+    for i, task in enumerate(tasks, 1):
+        print(f"validating {i}/{len(tasks)} {task.id}...", flush=True)
+        try:
+            with tempfile.TemporaryDirectory(prefix="nanocode-oss-validate-parent-") as td:
+                row = validate_red_green(manifest_path, task.id, Path(td) / "run",
+                                         timeout=timeout)
+        except Exception as exc:  # infrastructure is data, never a silent deletion
+            row = {"task_id": task.id, "repo": task.repo,
+                   "status": "INFRASTRUCTURE_ERROR",
+                   "error": f"{type(exc).__name__}: {exc}"[:1000]}
+        rows.append(row)
+        print(f"  {row['status']}", flush=True)
+    counts = Counter(row["status"] for row in rows)
+    result = {"schema_version": 1,
+              "created_utc": datetime.now(timezone.utc).isoformat(),
+              "manifest_tasks_sha256": document["tasks_sha256"],
+              "python": sys.version, "platform": platform.platform(),
+              "timeout_seconds": timeout, "counts": dict(counts), "rows": rows}
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(result, indent=1, ensure_ascii=False) + "\n",
+                   encoding="utf-8")
+    return result
 
 
 def _eligible_preview(item: dict[str, Any], patch: bytes) -> tuple[bool, str, list[str]]:
@@ -198,6 +402,24 @@ def main() -> int:
     choose.add_argument("--per-repo", type=int, default=5)
     check = sub.add_parser("validate")
     check.add_argument("path", nargs="?", default="bench/open_source_tasks.json")
+    fetch = sub.add_parser("materialize")
+    fetch.add_argument("task_id")
+    fetch.add_argument("--manifest", default="bench/open_source_tasks.json")
+    fetch.add_argument("--workspace", required=True)
+    fetch.add_argument("--grader", required=True)
+    grade = sub.add_parser("prepare-grader")
+    grade.add_argument("--workspace", required=True)
+    grade.add_argument("--grader", required=True)
+    grade.add_argument("--out", required=True)
+    one = sub.add_parser("validate-task")
+    one.add_argument("task_id")
+    one.add_argument("--manifest", default="bench/open_source_tasks.json")
+    one.add_argument("--scratch", required=True)
+    one.add_argument("--timeout", type=int, default=300)
+    all_tasks = sub.add_parser("validate-all")
+    all_tasks.add_argument("--manifest", default="bench/open_source_tasks.json")
+    all_tasks.add_argument("--out", default="bench/open_source_validation.json")
+    all_tasks.add_argument("--timeout", type=int, default=300)
     args = ap.parse_args()
     if args.command == "select":
         out = Path(args.out)
@@ -213,9 +435,27 @@ def main() -> int:
         for repo, audit in document["audit"].items():
             print(f"  {repo:<24} {audit.get('selected', 0)} selected")
         return 0 if len(document["tasks"]) == len(REPOS) * args.per_repo else 2
-    document, tasks = load_open_source_tasks(args.path)
-    print(f"valid: {len(tasks)} tasks, sha256={document['tasks_sha256']}")
-    return 0
+    if args.command == "validate":
+        document, tasks = load_open_source_tasks(args.path)
+        print(f"valid: {len(tasks)} tasks, sha256={document['tasks_sha256']}")
+        return 0
+    if args.command == "materialize":
+        record = materialize(args.manifest, args.task_id, args.workspace, args.grader)
+        print(f"materialized {args.task_id} at {record['task']['base_sha']}")
+        return 0
+    if args.command == "prepare-grader":
+        tests = prepare_grader(args.workspace, args.grader, args.out)
+        print("hidden tests applied; suggested command:")
+        print("  py -3 -m pytest " + " ".join(tests))
+        return 0
+    if args.command == "validate-task":
+        result = validate_red_green(args.manifest, args.task_id, args.scratch,
+                                    timeout=args.timeout)
+        print(json.dumps(result, indent=1, ensure_ascii=False))
+        return 0 if result["status"] == "VALIDATED" else 2
+    result = validate_all(args.manifest, args.out, timeout=args.timeout)
+    print("validation counts: " + json.dumps(result["counts"], sort_keys=True))
+    return 0 if result["counts"] == {"VALIDATED": len(result["rows"])} else 2
 
 
 if __name__ == "__main__":

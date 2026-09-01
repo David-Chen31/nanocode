@@ -68,6 +68,8 @@ class OpenSourceTask:
             errors.append("merged_at is outside the temporal holdout")
         if not SNAPSHOT_AT < _time(self.created_at) <= WINDOW_END:
             errors.append("created_at is outside the temporal holdout")
+        if _time(self.created_at) > _time(self.merged_at):
+            errors.append("created_at is after merged_at")
         for name, value in (("base_sha", self.base_sha), ("head_sha", self.head_sha),
                             ("merge_sha", self.merge_sha)):
             if not SHA_RE.fullmatch(value or ""):
@@ -86,6 +88,12 @@ class OpenSourceTask:
             errors.append("changed_files is outside the selection rule")
         if self.additions > 300 or self.deletions > 200:
             errors.append("patch size is outside the selection rule")
+        if (self.pr_number <= 0 or self.selection_rank <= 0
+                or self.additions < 0 or self.deletions < 0):
+            errors.append("numeric provenance fields must be non-negative")
+        expected_pr = f"https://github.com/{self.repo}/pull/{self.pr_number}"
+        if self.pr_url != expected_pr or self.patch_url != expected_pr + ".patch":
+            errors.append("PR URLs do not match repository and number")
         return errors
 
 
@@ -94,6 +102,12 @@ def load_open_source_tasks(path: str | Path | None = None) -> tuple[dict, list[O
     document = json.loads(path.read_text(encoding="utf-8"))
     tasks = [OpenSourceTask.from_dict(row) for row in document.get("tasks", [])]
     errors = []
+    if document.get("schema_version") != 1:
+        errors.append("unsupported schema_version")
+    if document.get("snapshot_model") != "gpt-4o-mini-2024-07-18":
+        errors.append("snapshot_model does not match the temporal design")
+    if document.get("window") != {"start": "2024-07-19", "end": "2025-07-18"}:
+        errors.append("selection window does not match the temporal design")
     ids = [t.id for t in tasks]
     if len(ids) != len(set(ids)):
         errors.append("duplicate task ids")
@@ -102,6 +116,14 @@ def load_open_source_tasks(path: str | Path | None = None) -> tuple[dict, list[O
         errors.append("duplicate repository PRs")
     for task in tasks:
         errors.extend(f"{task.id}: {msg}" for msg in task.validate())
+    repositories = set((document.get("repositories") or {}).keys())
+    if {t.repo for t in tasks} - repositories:
+        errors.append("task refers to a repository absent from repository metadata")
+    audit = document.get("audit") or {}
+    for repo, record in audit.items():
+        actual = sum(t.repo == repo for t in tasks)
+        if record.get("selected") != actual:
+            errors.append(f"{repo}: audit selected count does not match tasks")
     canonical = json.dumps(document.get("tasks", []), sort_keys=True,
                            ensure_ascii=False, separators=(",", ":")).encode()
     expected = document.get("tasks_sha256")

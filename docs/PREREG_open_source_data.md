@@ -76,3 +76,28 @@ py -3 experiments/open_source_data.py validate bench/open_source_tasks.json
 ```
 
 重新运行 `select` 只用于审计选择过程；已冻结 manifest 不因 GitHub 后续变化自动覆写。
+
+## 生成结果（选择后记录，不改规则）
+
+选择器生成 **26 个候选任务 / 6 个仓库**：Click、HTTPX、pytest、Pydantic、Rich 各 5 个，
+Requests 只有 1 个满足规则。按预注册没有替换仓库或扩大时间窗。
+
+```text
+tasks_sha256 = dfb9238b321ec68049ae28730a39bcd9842225825bad2c282b9aed0869f9b7b2
+earliest created_at = 2024-07-22T11:57:36Z
+latest merged_at    = 2025-06-05T14:55:33Z
+```
+
+这 26 个仍是候选集。物化冒烟发现第一题的新增测试在 base 上已经全过，证明“PR 修改了测试”
+不等于“测试能区分修复”。因此 `validate-all` 会机械执行 base-red / gold-green 检查，并把
+`BASELINE_ALREADY_PASSES`、`GOLD_DOES_NOT_PASS` 和 `INFRASTRUCTURE_ERROR` 全部保留，只有
+`VALIDATED` 子集能进入模型实验。
+
+物化与验证命令：
+
+```bash
+py -3 experiments/open_source_data.py materialize TASK_ID \
+  --workspace results/_oss_workspace --grader results/_oss_grader
+py -3 experiments/open_source_data.py validate-all \
+  --out bench/open_source_validation.json
+```
