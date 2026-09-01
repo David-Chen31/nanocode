@@ -9,7 +9,7 @@ https://github.com/David-Chen31/nanocode
   pip install -r requirements.txt
   export OPENAI_API_KEY=...   NANOCODE_BACKEND=openai:claude-sonnet-5
   python -m agent.cli "任务描述" --workspace ./ws
-离线 fixture 后端无需 key 即可复现；97 个测试确定性、不花钱。
+离线 fixture 后端无需 key 即可复现；127 个测试确定性、不花钱。
 
 题目要求手写的五项：对话历史与上下文管理 agent/context.py；工具定义与本地执行
 tools.py + search.py + workspace.py；模型输出解析 llm.py；循环终止条件 loop.py；

@@ -92,7 +92,7 @@ python -m agent.cli "..." --workspace ./demo_ws
 `NANOCODE_BACKEND` 也接受 `anthropic:claude-sonnet-5`；OpenAI 那支认
 `OPENAI_BASE_URL`，可指向兼容端点。
 
-测试：`python -m pytest tests/ -q` → **74 passed**，全部离线、确定性、不花钱。
+测试：`python -m pytest tests/ -q` → **127 passed**，全部离线、确定性、不花钱。
 其中大部分钉的是**会安静出错**的地方：路径逃逸、edit 锚点不唯一、工具结果配对不变量、
 截断的 JSON、失控的打印循环。
 

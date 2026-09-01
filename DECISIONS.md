@@ -83,7 +83,7 @@
 ## 怎么核对
 
 ```bash
-python -m pytest tests/ -q                                        # 103 passed
+python -m pytest tests/ -q                                        # 127 passed
 python experiments/analyse.py results/ablation.json --baseline full
 python experiments/analyse.py results/termination.json --baseline old_env_no_budget
 python experiments/analyse.py results/architecture.json --baseline react
