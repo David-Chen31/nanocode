@@ -13,7 +13,7 @@ from typing import Any, Callable, Protocol
 from .context import ContextPolicy, Conversation, clip_tool_output
 from .llm import LLMBackend, ToolCall, Usage
 from .tools import AskUser, Finish, Tool, build_toolset, check_arguments
-from .trace import Trace
+from .trace import Step, Trace
 from .workspace import Workspace
 
 SYSTEM = """You are a coding agent working inside a sandboxed workspace.
@@ -134,12 +134,14 @@ class Agent:
         config: AgentConfig | None = None,
         responder: UserResponder | None = None,
         tools: dict[str, Tool] | None = None,
+        trace_observer: Callable[[Step], None] | None = None,
     ) -> None:
         self.backend = backend
         self.ws = workspace
         self.cfg = config or AgentConfig()
         self.responder = responder or cli_responder
         self.tools = tools or build_toolset(workspace, allow_ask=self.cfg.allow_ask)
+        self.trace_observer = trace_observer
         # Available even if run() raises, so experiment harnesses can persist a
         # partial trace instead of fabricating zero calls and zero cost.
         self.last_trace: Trace | None = None
@@ -150,6 +152,7 @@ class Agent:
             task_id=task_id,
             model=self.backend.model,
             backend=self.backend.name,
+            observer=self.trace_observer,
             config={"max_steps": self.cfg.max_steps, "temperature": self.cfg.temperature,
                     "max_asks": self.cfg.max_asks, "allow_ask": self.cfg.allow_ask,
                     "seed": self.cfg.seed, "show_budget": self.cfg.show_budget,

@@ -30,7 +30,9 @@ def test_agent_writes_file_and_finishes(tmp_path):
          "input_tokens": 160, "output_tokens": 10},
     ])
     ws = Workspace(tmp_path / "ws")
-    res = Agent(backend, ws, config=AgentConfig(max_steps=6)).run("write add()", task_id="t")
+    observed = []
+    res = Agent(backend, ws, config=AgentConfig(max_steps=6),
+                trace_observer=observed.append).run("write add()", task_id="t")
 
     assert res.outcome == "finished"
     assert res.summary == "added add()"
@@ -41,6 +43,7 @@ def test_agent_writes_file_and_finishes(tmp_path):
     assert res.trace.cost_usd == 0.0007
     kinds = [s.kind for s in res.trace.steps]
     assert kinds.count("model") == 3 and "end" in kinds
+    assert observed == res.trace.steps, "the live observer missed or reordered trace steps"
 
 
 def test_ask_user_is_routed_to_the_responder(tmp_path):

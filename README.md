@@ -95,6 +95,9 @@ export NANOCODE_BACKEND=openai:gpt-4o-mini
 python -m agent.cli "..." --workspace ./demo_ws
 ```
 
+演示或排障时加 `--verbose`，CLI 会在动作发生时打印精简的模型/工具轨迹；完整内容仍只写入
+`--trace` 指定的 JSONL，终端不会倾倒整份文件内容。
+
 `NANOCODE_BACKEND` 也接受 `anthropic:claude-sonnet-5`；OpenAI 那支认
 `OPENAI_BASE_URL`，可指向兼容端点。
 

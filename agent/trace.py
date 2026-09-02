@@ -10,7 +10,7 @@ import json
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from .llm import Usage
 
@@ -37,18 +37,28 @@ class Trace:
     started: float = field(default_factory=time.time)
     outcome: str = "incomplete"
     n_asks: int = 0
+    observer: Callable[[Step], None] | None = field(
+        default=None, repr=False, compare=False)
 
     def record(self, kind: str, payload: dict[str, Any], usage: Usage | None = None) -> None:
-        self.steps.append(Step(
+        step = Step(
             index=len(self.steps),
             kind=kind,
             payload=payload,
             t_wall=round(time.time() - self.started, 3),
             input_tokens=usage.input_tokens if usage else 0,
             output_tokens=usage.output_tokens if usage else 0,
-        ))
+        )
+        self.steps.append(step)
         if usage:
             self.usage.add(usage)
+        if self.observer:
+            try:
+                self.observer(step)
+            except Exception:
+                # A display/progress hook must never turn a successful agent
+                # action into a failed run. The durable trace above is intact.
+                pass
 
     @property
     def cost_usd(self) -> float:

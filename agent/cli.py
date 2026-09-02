@@ -8,10 +8,12 @@ tell you plainly that it has no recorded response rather than pretending.
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 
 from .llm import make_backend
 from .loop import Agent, AgentConfig, cli_responder
+from .trace import Step
 from .workspace import Workspace
 
 
@@ -36,6 +38,32 @@ def _survivable_console() -> None:
             pass          # not a reconfigurable stream; nothing to do
 
 
+def _short(value: object, limit: int = 100) -> str:
+    text = str(value).replace("\r", " ").replace("\n", " ")
+    return text if len(text) <= limit else text[:limit - 3] + "..."
+
+
+def _print_live_step(step: Step) -> None:
+    """Show a compact, truthful live view without dumping file contents."""
+    tag = f"[{step.index + 1:02d}]"
+    if step.kind == "model":
+        calls = step.payload.get("tool_calls") or []
+        print(f"{tag} model -> {', '.join(calls) if calls else 'text'}", flush=True)
+        return
+    if step.kind == "tool":
+        name = step.payload.get("name", "?")
+        args = dict(step.payload.get("args") or {})
+        if "content" in args:
+            args["content"] = f"<{len(str(args['content']))} chars>"
+        shown = {key: _short(value) for key, value in args.items()}
+        print(f"{tag} tool  {name} {json.dumps(shown, ensure_ascii=False)}", flush=True)
+        first = str(step.payload.get("result", "")).splitlines()
+        if first:
+            print("     " + _short(first[0], 120), flush=True)
+        return
+    print(f"{tag} {step.kind} {_short(step.payload)}", flush=True)
+
+
 def main(argv: list[str] | None = None) -> int:
     _survivable_console()
     ap = argparse.ArgumentParser(prog="agent", description="Run the coding agent on one task.")
@@ -51,6 +79,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--no-ask", action="store_true", help="Remove the ask_user tool entirely.")
     ap.add_argument("--temperature", type=float, default=0.0)
     ap.add_argument("--trace", default="results/traces/cli.jsonl")
+    ap.add_argument("--verbose", action="store_true",
+                    help="Print each model/tool trace step as it happens.")
     args = ap.parse_args(argv)
 
     backend = make_backend(args.backend)
@@ -59,7 +89,8 @@ def main(argv: list[str] | None = None) -> int:
                       allow_ask=not args.no_ask, temperature=args.temperature,
                       max_total_tokens=args.max_tokens_total,
                       max_tool_calls=args.max_tool_calls)
-    agent = Agent(backend, ws, config=cfg, responder=cli_responder)
+    agent = Agent(backend, ws, config=cfg, responder=cli_responder,
+                  trace_observer=_print_live_step if args.verbose else None)
 
     print(f"workspace: {ws.root}")
     print(f"backend:   {backend.name}:{backend.model}\n")
