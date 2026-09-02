@@ -152,6 +152,12 @@ py -3 experiments/open_source_adapter.py grade \
 `stage` 会拒绝未通过 v6 的候选；`grade` 校验 manifest、validation、环境文件哈希与 Docker image ID，
 再在断网容器中应用隐藏测试。未执行断言、全 skip、收集错误和超时都不会被算成通过。
 
+一条端到端描述性 smoke 已经走完这条边界：`gpt-5.5` 在 snapshot 后创建的 Rich PR 3454
+任务上从 base `FAIL` 做到隐藏评分 `PASS`（83 tests），完整模型调用数、token、镜像 ID、
+patch 与原始 artifact 哈希见
+[`results/open_source_rich_pr3454_smoke.json`](results/open_source_rich_pr3454_smoke.json)。
+这是预先挑定的一题，**只证明管线闭环，不是通过率或外部效度估计**。
+
 ## 已知限制
 
 - **搜索是最近才加的**，此前的轨迹实验里「智能体不去探索」这个结论因此有混淆变量：
