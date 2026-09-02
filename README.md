@@ -97,7 +97,7 @@ python -m agent.cli "..." --workspace ./demo_ws
 `NANOCODE_BACKEND` 也接受 `anthropic:claude-sonnet-5`；OpenAI 那支认
 `OPENAI_BASE_URL`，可指向兼容端点。
 
-测试：`python -m pytest tests/ -q` → **174 passed**，全部离线、确定性、不花钱。
+测试：`python -m pytest tests/ -q` → **191 passed**，全部离线、确定性、不花钱。
 其中大部分钉的是**会安静出错**的地方：路径逃逸、edit 锚点不唯一、工具结果配对不变量、
 截断的 JSON、失控的打印循环。
 
@@ -131,10 +131,22 @@ ground truth，所以不只能测最终成功率，还能测「它有没有问�
 按提前提交的规则机械选出 26 个在固定模型 snapshot 之后创建并合并的真实 PR。每题冻结 base
 SHA、PR、许可证、代码/测试文件和 patch SHA-256；gold 与隐藏测试保存在 agent 工作区之外。
 选择规则和不足见 [docs/PREREG_open_source_data.md](docs/PREREG_open_source_data.md)，候选数据在
-[bench/open_source_tasks.json](bench/open_source_tasks.json)。当前主机审计确认 **7 题**严格满足
-base-red / gold-green；另有 3 题基线已通过、1 题 gold 未通过、15 题因仓库依赖或平台问题暂不可判。
-完整的初次审计与修正后审计分别保存在 `bench/open_source_validation_host_v1.json` 和
-`bench/open_source_validation_host_v2.json`，模型实验只能通过 fail-closed loader 取得 7 题子集。
+[bench/open_source_tasks.json](bench/open_source_tasks.json)。冻结的 Linux 仓库级镜像审计确认
+**19 题**严格满足 base-red / gold-green，覆盖 Click、HTTPX、pytest、Pydantic、Rich；另有 4 题
+基线已通过、2 题 gold 未通过、1 题缺独立 mypy runner。最终记录在
+`bench/open_source_validation_linux_v6.json`，模型实验只能通过 fail-closed loader 取得 19 题子集。
+
+任意 agent 都可复用同一个隐藏评分边界：
+
+```bash
+py -3 experiments/open_source_adapter.py stage TASK_ID --out results/oss_TASK_ID
+# 只把 task.md 和 workspace/ 交给 agent
+py -3 experiments/open_source_adapter.py grade \
+  --run-dir results/oss_TASK_ID --out results/oss_TASK_ID/grade.json
+```
+
+`stage` 会拒绝未通过 v6 的候选；`grade` 校验 manifest、validation、环境文件哈希与 Docker image ID，
+再在断网容器中应用隐藏测试。未执行断言、全 skip、收集错误和超时都不会被算成通过。
 
 ## 已知限制
 

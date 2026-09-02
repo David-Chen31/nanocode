@@ -64,7 +64,7 @@ manifest 还保存查询字符串、候选池大小、排除原因计数和生�
 ## 评分边界
 
 - agent 只看到 base SHA 的仓库与 PR 标题/正文，不看到 gold patch。
-- agent 停止后才把 gold patch 中的测试文件变更应用到 grader 副本。
+- agent 停止后才把冻结 head 树中的测试文件覆盖到 grader 副本；gold 源码始终在工作区外。
 - 行为测试与原回归测试都通过才算正确；基础设施/依赖安装失败单列。
 - 在每题基线可复现、测试确实先红后绿之前，这 30 题只能叫“候选外部集”，不能报告模型分数。
 
@@ -121,3 +121,31 @@ INFRASTRUCTURE_ERROR      15
 7 个有效任务来自 Click（4）和 Rich（3）。15 个环境错误主要来自 HTTPX 的 Trio 依赖、pytest 的
 构建期版本文件和 Pydantic/Core 版本配对；在统一冻结环境重验前，不计入成功或失败。任何模型实验
 必须用 `load_validated_open_source_tasks` 读取 v2，不能直接把 26 个候选当作评分分母。
+
+### Linux 冻结环境复核
+
+随后按六个仓库各自的 `pyproject.toml`、requirements、锁文件和 tox 配置构建独立镜像。共同基础
+镜像固定为 `python:3.11.9-slim-bookworm@sha256:8fb099...c60c317`；环境记录保存 Dockerfile
+SHA-256、每仓库 image ID、bootstrap base SHA 与完整 `pip freeze`。base/head 使用相同镜像，正式
+测试加 `--network none`，每题 pytest 上限 180 秒。
+
+基础设施修订没有改候选、顺序或纳入标准，所有中间记录均保留：
+
+- 环境 v1 缺断网构建后端；v2 补 Flit/Hatch/setuptools-scm/Poetry；
+- v3 补 Hatch editable 与 pytest 的 SCM 版本；v4 按 Pydantic 的 PDM testing 组安装依赖；
+- 环境 v5 尝试加入历史 mypy 后发生原生段错误，标为 `v5_rejected`，没有成为默认环境；
+- validation v3–v5 暴露并保留了这些错误；v6 增加 pytest 入口角色和 runner 依赖 preflight。
+
+最终 `bench/open_source_validation_linux_v6.json`：
+
+```text
+VALIDATED                19
+BASELINE_ALREADY_PASSES   4
+GOLD_DOES_NOT_PASS         2
+INFRASTRUCTURE_ERROR       1
+```
+
+19 个有效任务分布为 Click 5、HTTPX 4、pytest 4、Pydantic 3、Rich 3。唯一基础设施错误是 Pydantic
+#9935：它需要独立 mypy runner；普通 pytest 环境会全 skip，按历史 mypy 重建则发生原生崩溃。
+Click #2775 的 base 会挂起而 gold 通过，因此结构化超时也属于 red；gold 超时仍不通过。所有 agent
+实验必须通过 `load_validated_open_source_tasks` 读取 v6，或使用 `open_source_adapter.py stage/grade`。

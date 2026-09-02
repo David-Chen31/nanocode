@@ -5,7 +5,8 @@ from zipfile import ZipFile
 
 import pytest
 
-from bench.open_source_schema import (OpenSourceTask, load_open_source_tasks,
+from bench.open_source_schema import (OpenSourceTask, is_pytest_entrypoint,
+                                      load_open_source_tasks,
                                       load_validated_open_source_tasks)
 from experiments.open_source_data import (_eligible_preview, _patch_chunks, _paths,
                                           _safe_extract_zip, prepare_grader)
@@ -79,10 +80,25 @@ def test_validated_loader_returns_only_audited_red_green_tasks(tmp_path):
     assert [task.id for task in tasks] == ["oss_owner_repo_pr1"]
 
 
-def test_committed_validation_exposes_seven_tasks_from_two_repositories():
+def test_committed_validation_exposes_nineteen_tasks_from_five_repositories():
     _, tasks = load_validated_open_source_tasks()
-    assert len(tasks) == 7
-    assert {task.repo for task in tasks} == {"pallets/click", "Textualize/rich"}
+    assert len(tasks) == 19
+    assert {task.repo for task in tasks} == {
+        "pallets/click", "encode/httpx", "pytest-dev/pytest",
+        "pydantic/pydantic", "Textualize/rich",
+    }
+
+
+def test_validated_loader_accepts_a_red_timeout_when_gold_passes(tmp_path):
+    manifest = _document(_row())
+    validation = _validation(manifest)
+    validation["rows"][0]["baseline"] = {"returncode": 124, "timed_out": True}
+    tasks_path = tmp_path / "tasks.json"
+    validation_path = tmp_path / "validation.json"
+    tasks_path.write_text(json.dumps(manifest), encoding="utf-8")
+    validation_path.write_text(json.dumps(validation), encoding="utf-8")
+    _, tasks = load_validated_open_source_tasks(tasks_path, validation_path)
+    assert len(tasks) == 1
 
 
 @pytest.mark.parametrize("change", ["manifest_hash", "missing_row", "false_green"])
@@ -117,6 +133,14 @@ def test_patch_preview_excludes_bots_and_docs_only_changes():
     patch = b"diff --git a/docs/index.md b/docs/index.md\n"
     bot = {"user": {"login": "dependabot[bot]"}, "title": "Update package"}
     assert _eligible_preview(bot, patch)[1] == "bot author"
+
+
+def test_pytest_entrypoint_excludes_fixture_and_expected_output_modules():
+    paths = ["tests/mypy/modules/frozen_field.py",
+             "tests/mypy/outputs/1.0.1/frozen_field.py",
+             "tests/mypy/test_mypy.py"]
+    assert [path for path in paths if is_pytest_entrypoint(path)] == [
+        "tests/mypy/test_mypy.py"]
 
 
 def test_patch_chunks_can_hide_test_changes_from_the_agent():

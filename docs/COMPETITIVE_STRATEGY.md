@@ -61,9 +61,10 @@ nanocode 不该和其他项目比“谁用更少行代码写出 ReAct 循环”�
 | P4 | 再做 agent 功能 | 只有新功能对应的机制指标、反事实和停止规则写定后才加入 |
 
 P1 的外部数据入口已经建立：6 个第三方仓库、26 个 snapshot 后候选 PR，带冻结 SHA、许可证、
-patch 哈希和隐藏测试物化器。首轮修正后审计得到 7 个 base-red / gold-green 有效任务；其余 19 个
-连同失败原因保留，而不是事后换题。下一门槛是在冻结的 Linux/依赖镜像中裁决 15 个环境错误，
-并扩大有效仓库覆盖面；当前 7 题只来自 Click 与 Rich，不能包装成广泛外部效度。
+patch 哈希和隐藏测试物化器。最终 Linux v6 审计得到 19 个 base-red / gold-green 有效任务，覆盖
+Click、HTTPX、pytest、Pydantic、Rich；其余 7 个连同原因保留，而不是事后换题。通用 adapter
+允许外部 agent 只接触 prompt/workspace，并用同一冻结镜像和隐藏测试评分。下一门槛不再是修环境，
+而是预注册仓库规模分层与 search/no-search 配对设计；Requests 仍没有有效题，不能声称六仓库覆盖。
 
 ## 明确不做什么
 

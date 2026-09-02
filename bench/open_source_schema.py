@@ -35,6 +35,12 @@ def is_test_path(path: str) -> bool:
             or p.name.startswith("test_") or p.name.endswith("_test.py"))
 
 
+def is_pytest_entrypoint(path: str) -> bool:
+    """Return whether a test-tree Python file should be collected directly."""
+    name = PurePosixPath(path.lower()).name
+    return name.startswith("test_") or name.endswith("_test.py")
+
+
 @dataclass(frozen=True)
 class OpenSourceTask:
     id: str
@@ -146,7 +152,7 @@ def load_validated_open_source_tasks(
     """Return only red-to-green tasks after validating the complete audit record."""
     manifest, tasks = load_open_source_tasks(manifest_path)
     validation_path = (Path(validation_path) if validation_path else
-                       Path(__file__).with_name("open_source_validation_host_v2.json"))
+                       Path(__file__).with_name("open_source_validation_linux_v6.json"))
     validation = json.loads(validation_path.read_text(encoding="utf-8"))
     rows = validation.get("rows")
     errors = []
@@ -172,7 +178,8 @@ def load_validated_open_source_tasks(
     for row in rows:
         if not isinstance(row, dict) or row.get("status") != "VALIDATED":
             continue
-        if (row.get("baseline") or {}).get("returncode") != 1:
+        baseline = row.get("baseline") or {}
+        if baseline.get("returncode") != 1 and not baseline.get("timed_out", False):
             errors.append(f"{row.get('task_id')}: validated baseline was not red")
         if (row.get("gold") or {}).get("returncode") != 0:
             errors.append(f"{row.get('task_id')}: validated gold was not green")

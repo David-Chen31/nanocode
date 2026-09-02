@@ -985,5 +985,5 @@ python experiments/pilot_settled_oracle.py               # 第七轮 L11 conflic
 python askoract/mine_conventions.py --limit 4000         # 第七轮 L12 基率，$0
 python experiments/make_figure_final.py
 
-python -m pytest tests/ -q              # 155 passed
+python -m pytest tests/ -q              # 191 passed
 ```

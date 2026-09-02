@@ -27,7 +27,7 @@ from zipfile import ZipFile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from bench.open_source_schema import (ALLOWED_LICENSES, is_test_path,
+from bench.open_source_schema import (ALLOWED_LICENSES, is_pytest_entrypoint, is_test_path,
                                       load_open_source_tasks)
 
 VERSION = 1
@@ -251,6 +251,9 @@ def validate_red_green(manifest_path: str | Path, task_id: str,
     try:
         record = materialize(manifest_path, task_id, workspace, grader)
         test_files = prepare_grader(workspace, grader, baseline)
+        pytest_files = [path for path in test_files if is_pytest_entrypoint(path)]
+        if not pytest_files:
+            raise ValueError("task has no directly collectable pytest file")
         shutil.copytree(grader / "gold_source", gold)
 
         def run(root: Path) -> dict[str, Any]:
@@ -259,7 +262,7 @@ def validate_red_green(manifest_path: str | Path, task_id: str,
             # the validation host.  Include both common src-layout and flat-layout
             # roots; ordering is significant.
             env["PYTHONPATH"] = os.pathsep.join((str(root / "src"), str(root)))
-            proc = subprocess.run([sys.executable, "-m", "pytest", "-q", *test_files],
+            proc = subprocess.run([sys.executable, "-m", "pytest", "-q", *pytest_files],
                                   cwd=root, capture_output=True, text=True,
                                   encoding="utf-8", errors="replace", timeout=timeout,
                                   env=env)
@@ -280,6 +283,7 @@ def validate_red_green(manifest_path: str | Path, task_id: str,
             status = "VALIDATED"
         return {"task_id": task_id, "repo": record["task"]["repo"],
                 "status": status, "test_files": test_files,
+                "pytest_files": pytest_files,
                 "baseline": before, "gold": after}
     finally:
         shutil.rmtree(scratch, ignore_errors=True)
