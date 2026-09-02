@@ -41,7 +41,19 @@ EXCLUDE = {".git", "results", "__pycache__", ".pytest_cache", "docs",
 # they would error on import and make the staged repository's own suite red
 # before the agent had touched anything. A red baseline would poison the
 # regression half of the score.
-EXCLUDE_FILES = {"tests/test_askoract.py", "tests/test_ablation_patches.py"}
+EXCLUDE_FILES = {
+    # These import packages deliberately omitted from the compact demo copy.
+    # Keep this list explicit: the recording baseline must be green, but the
+    # agent should still see every test for the core coding-agent package.
+    "tests/test_askoract.py",
+    "tests/test_ablation_patches.py",
+    "tests/test_analyse_direction.py",
+    "tests/test_open_source_adapter.py",
+    "tests/test_open_source_container.py",
+    "tests/test_open_source_data.py",
+    "tests/test_power.py",
+    "tests/test_provenance.py",
+}
 
 
 @dataclass

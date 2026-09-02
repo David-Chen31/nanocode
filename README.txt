@@ -7,15 +7,15 @@ https://github.com/David-Chen31/nanocode
 
 运行：
   pip install -r requirements.txt
-  export OPENAI_API_KEY=...   NANOCODE_BACKEND=openai:claude-sonnet-5
+  export OPENAI_API_KEY=...   NANOCODE_BACKEND=openai:gpt-4o-mini
   python -m agent.cli "任务描述" --workspace ./ws
-离线 fixture 后端无需 key 即可复现；127 个测试确定性、不花钱。
+离线 fixture 后端无需 key 即可复现；191 个测试确定性、不花钱。
 
 题目要求手写的五项：对话历史与上下文管理 agent/context.py；工具定义与本地执行
 tools.py + search.py + workspace.py；模型输出解析 llm.py；循环终止条件 loop.py；
 错误处理散见以上各处。
 
-四个设计决定，每个都有实测支撑：
+四个重点决定，每个都有实测支撑：
 
 一、上下文驱逐时改写消息内容，不删除消息。两种 wire format 都把工具结果与请求它的
 assistant 消息配对，删掉一条得到的是畸形请求，而不是更短的请求。
